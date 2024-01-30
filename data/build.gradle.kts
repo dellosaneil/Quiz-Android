@@ -1,6 +1,8 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -33,5 +35,17 @@ android {
 }
 
 dependencies {
+    implementation(project(":domain"))
     testImplementation(libs.junit)
+    implementation(libs.retrofit)
+    implementation(libs.gson)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+}
+
+
+kapt {
+    correctErrorTypes = true
 }
