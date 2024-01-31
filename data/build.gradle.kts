@@ -36,6 +36,7 @@ android {
 
 dependencies {
     implementation(project(":domain"))
+    implementation(project(":common"))
     testImplementation(libs.junit)
     implementation(libs.retrofit)
     implementation(libs.gson)

@@ -1,5 +1,6 @@
 package com.thelazybattley.domain.network
 
+import com.thelazybattley.common.enums.QuestionType
 import com.thelazybattley.domain.model.Question
 
 interface QuizRepository {
@@ -9,7 +10,8 @@ interface QuizRepository {
     suspend fun addQuestion(
         question: String,
         answer: String,
-        choices: List<String>
+        choices: List<String>,
+        type: QuestionType
     ): Result<Question>
 
 }
