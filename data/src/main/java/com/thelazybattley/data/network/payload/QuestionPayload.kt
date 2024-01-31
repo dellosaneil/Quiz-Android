@@ -1,7 +1,6 @@
-package com.thelazybattley.domain.model
+package com.thelazybattley.data.network.payload
 
-data class Question(
-    val id: Int,
+data class QuestionPayload(
     val question: String,
     val answer: String,
     val choices: List<String>

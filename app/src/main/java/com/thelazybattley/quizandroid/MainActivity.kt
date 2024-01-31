@@ -3,15 +3,8 @@ package com.thelazybattley.quizandroid
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
-import com.thelazybattley.domain.network.usecase.FetchQuestionsUseCase
+import com.thelazybattley.domain.network.usecase.AddQuestionUseCase
 import com.thelazybattley.quizandroid.ui.theme.QuizAndroidTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -21,39 +14,25 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
-    lateinit var useCase: FetchQuestionsUseCase
+    lateinit var useCase: AddQuestionUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
-            println("Test: ${useCase()}")
+            println(
+                "Test: ${
+                    useCase(
+                        question = "Testing?",
+                        answer = "yes",
+                        choices = listOf("1", "2", "3", "4")
+                    )
+                }"
+            )
         }
         setContent {
             QuizAndroidTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
+
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    QuizAndroidTheme {
-        Greeting("Android")
     }
 }

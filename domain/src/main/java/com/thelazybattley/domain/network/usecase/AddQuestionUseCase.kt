@@ -1,15 +1,12 @@
-package com.thelazybattley.domain.network
+package com.thelazybattley.domain.network.usecase
 
 import com.thelazybattley.domain.model.Question
 
-interface QuizRepository {
+interface AddQuestionUseCase {
 
-    suspend fun fetchQuestions(): Result<List<Question>>
-
-    suspend fun addQuestion(
+    suspend operator fun invoke(
         question: String,
         answer: String,
         choices: List<String>
     ): Result<Question>
-
 }
