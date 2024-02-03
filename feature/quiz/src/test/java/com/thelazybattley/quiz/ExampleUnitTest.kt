@@ -1,4 +1,4 @@
-package com.thelazybattley.feature
+package com.thelazybattley.quiz
 
 import org.junit.Test
 
