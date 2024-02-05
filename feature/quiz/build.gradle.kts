@@ -35,6 +35,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -57,6 +58,7 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.navigation)
+    debugImplementation(libs.timber)
 }
 
 kapt {
