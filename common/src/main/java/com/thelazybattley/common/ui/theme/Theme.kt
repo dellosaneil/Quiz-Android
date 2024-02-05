@@ -23,13 +23,11 @@ fun QuizAndroidTheme(
         }
     }
     CompositionLocalProvider(
-        LocalColors provides LightColors()
+        LocalColors provides LightColors(),
+        LocalTypography provides QuizTypography()
     ) {
         MaterialTheme(
-            typography = Typography,
             content = content
         )
     }
-
-
 }

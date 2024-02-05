@@ -1,5 +1,7 @@
 package com.thelazybattley.common.ui.theme
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
@@ -13,5 +15,10 @@ data class LightColors(
 )
 
 val LocalColors = staticCompositionLocalOf<LightColors> { error("No color provided") }
+
+val colors : LightColors
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalColors.current
 
 
