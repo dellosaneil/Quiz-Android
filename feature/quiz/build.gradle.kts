@@ -42,11 +42,11 @@ android {
 }
 
 dependencies {
+    implementation(project(":common"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(project(":common"))
     testImplementation(libs.junit)
 
     implementation(libs.hilt.android)
@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.bundles.compose)
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.hilt.navigation)
 }
 
 kapt {

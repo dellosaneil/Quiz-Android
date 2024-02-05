@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.thelazybattley.quizandroid"
+    namespace = "com.thelazybattley.joserizalquiz"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.thelazybattley.quizandroid"
+        applicationId = "com.thelazybattley.joserizalquiz"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -55,6 +55,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":common"))
+    implementation(project(":feature:quiz"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

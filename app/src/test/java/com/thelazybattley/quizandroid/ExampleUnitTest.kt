@@ -1,4 +1,4 @@
-package com.thelazybattley.quizandroid
+package com.thelazybattley.joserizalquiz
 
 import org.junit.Test
 

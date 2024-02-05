@@ -16,6 +16,7 @@ retrofit = "2.9.0"
 agp = "8.2.1"
 kotlin = "1.9.0"
 espresso-core = "3.5.1"
+hilt-navigation = "1.1.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
@@ -39,6 +40,8 @@ compose-material3 = { module = "androidx.compose.material3:material3" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+hilt-navigation = {module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation"}
+
 
 [bundles]
 compose = ["compose-ui", "compose-ui-tooling-preview", "compose-ui-graphics", "compose-material3"]
