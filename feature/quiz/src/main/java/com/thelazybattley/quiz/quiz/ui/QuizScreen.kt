@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -92,43 +94,52 @@ private fun QuizScreen(
                         modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
                     )
                     if (uiState.question != null) {
-                        Text(
-                            modifier = Modifier
-                                .padding(top = 16.dp),
-                            text = uiState.question.question,
-                            style = textStyle.large.copy(
-                                color = colors.black50,
-                                fontWeight = FontWeight.ExtraBold
-                            )
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        uiState.question.choices.forEach { choice ->
-                            QuizChoice(
-                                modifier = Modifier
-                                    .padding(vertical = 8.dp),
-                                choice = choice,
-                                isSelected = uiState.currentChosenAnswer == choice
-                            ) {
-                                callbacks.selectAnswer(chosenAnswer = choice)
+                        LazyColumn {
+                            item {
+                                Text(
+                                    modifier = Modifier
+                                        .padding(top = 16.dp),
+                                    text = uiState.question.question,
+                                    style = textStyle.large.copy(
+                                        color = colors.black50,
+                                        fontWeight = FontWeight.ExtraBold
+                                    )
+                                )
+                                Spacer(modifier = Modifier.height(16.dp))
+                            }
+
+
+                            items(items = uiState.question.choices, key = { it }) { choice ->
+                                QuizChoice(
+                                    modifier = Modifier
+                                        .padding(vertical = 8.dp),
+                                    choice = choice,
+                                    isSelected = uiState.currentChosenAnswer == choice
+                                ) {
+                                    callbacks.selectAnswer(chosenAnswer = choice)
+                                }
+                            }
+                            item {
+                                Button(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    onClick = { callbacks.nextQuestion() },
+                                    shape = RoundedCornerShape(size = 8.dp),
+                                    enabled = uiState.currentChosenAnswer != null
+                                ) {
+                                    Text(
+                                        text = if (uiState.isEndOfQuiz) {
+                                            stringResource(id = R.string.submit)
+                                        } else {
+                                            stringResource(
+                                                R.string.next
+                                            )
+                                        },
+                                        style = textStyle.medium
+                                    )
+                                }
                             }
                         }
-                    }
-
-                    Button(
-                        onClick = { callbacks.nextQuestion() },
-                        shape = RoundedCornerShape(size = 8.dp),
-                        enabled = uiState.currentChosenAnswer != null
-                    ) {
-                        Text(
-                            text = if (uiState.isEndOfQuiz) {
-                                stringResource(id = R.string.submit)
-                            } else {
-                                stringResource(
-                                    R.string.next
-                                )
-                            },
-                            style = textStyle.medium
-                        )
                     }
                 }
             }
