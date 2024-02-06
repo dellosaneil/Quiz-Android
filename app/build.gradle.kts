@@ -69,6 +69,7 @@ dependencies {
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.navigation.compose)
     debugImplementation(libs.timber)
+    implementation(libs.gson)
 }
 
 kapt {

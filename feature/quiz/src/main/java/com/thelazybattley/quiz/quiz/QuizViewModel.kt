@@ -40,9 +40,12 @@ class QuizViewModel @Inject constructor(
                     onSuccess = { questions ->
                         updateState { state ->
                             state.copy(
-                                questions = questions,
+                                quizDetailsState = state.quizDetailsState.copy(
+                                    questions = questions,
+                                    question = questions.first(),
+                                    answers = questions.map { it.answer }
+                                ),
                                 currentNumber = 1,
-                                question = questions[0]
                             )
                         }
                     },
@@ -83,8 +86,43 @@ class QuizViewModel @Inject constructor(
 
     override fun nextQuestion() {
         timerJob?.cancel()
+        inputAnswer()
+        observeTimer()
+    }
+
+    override fun checkQuiz() {
+        timerJob?.cancel()
+        inputAnswer()
+        viewModelScope.launch {
+            emitEvent(
+                event = QuizEvents.FinishedQuizEvent(
+                    quizDetailsState = getCurrentState().quizDetailsState
+                )
+            )
+        }
+    }
+
+    override fun selectAnswer(chosenAnswer: String) {
         updateState { state ->
-            val updatedChosenAnswers = state.chosenAnswers.toMutableList()
+            state.copy(
+                currentChosenAnswer = chosenAnswer
+            )
+        }
+    }
+
+    override fun inputAnswer() {
+        if(!getCurrentState().isLastQuestion) {
+            updateState { state ->
+                state.copy(
+                    quizDetailsState = state.quizDetailsState.copy(
+                        question = state.quizDetailsState.questions[state.currentNumber]
+                    )
+                )
+            }
+        }
+
+        updateState { state ->
+            val updatedChosenAnswers = state.quizDetailsState.chosenAnswers.toMutableList()
             updatedChosenAnswers.add(state.currentChosenAnswer)
             val updatedCurrentNumber = state.currentNumber.inc()
             state.copy(
@@ -93,27 +131,10 @@ class QuizViewModel @Inject constructor(
                 ),
                 currentChosenAnswer = null,
                 currentNumber = updatedCurrentNumber,
-                chosenAnswers = updatedChosenAnswers,
-                isEndOfQuiz = updatedCurrentNumber == state.questions.size
-            )
-        }
-        if (getCurrentState().questions.size == getCurrentState().currentNumber) {
-            checkQuiz()
-            return
-        }
-        observeTimer()
-    }
-
-    override fun checkQuiz() {
-        viewModelScope.launch {
-            emitEvent(event = QuizEvents.CheckQuizEvent)
-        }
-    }
-
-    override fun selectAnswer(chosenAnswer: String) {
-        updateState { state ->
-            state.copy(
-                currentChosenAnswer = chosenAnswer
+                quizDetailsState = state.quizDetailsState.copy(
+                    chosenAnswers = updatedChosenAnswers
+                ),
+                isLastQuestion = updatedCurrentNumber == state.quizDetailsState.questions.size
             )
         }
     }

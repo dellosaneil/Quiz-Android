@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.androidx.ui.text.google.fonts)
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+    implementation(libs.gson)
 }
 
 kapt {

@@ -11,4 +11,6 @@ interface QuizCallbacks {
     fun fetchQuestions()
 
     fun checkQuiz()
+
+    fun inputAnswer()
 }

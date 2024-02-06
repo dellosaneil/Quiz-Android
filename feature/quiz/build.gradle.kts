@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -60,6 +61,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.navigation)
     debugImplementation(libs.timber)
+    implementation(libs.gson)
 }
 
 kapt {
