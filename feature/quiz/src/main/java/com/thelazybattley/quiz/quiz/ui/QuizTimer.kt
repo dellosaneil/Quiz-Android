@@ -25,15 +25,16 @@ fun QuizTimer(
     modifier: Modifier = Modifier,
     timerState: TimerState,
 ) {
-    val color = colors.pink30
-    val degrees by animateFloatAsState(targetValue = (timerState.remainingTime / timerState.totalTime) * -360f,
+    val color = colors.purple50
+    val degrees by animateFloatAsState(
+        targetValue = (timerState.remainingTime / timerState.totalTime) * -360f,
         label = ""
     )
     Box(
         modifier = modifier
             .clip(shape = CircleShape)
             .size(size = 56.dp)
-            .background(color = colors.pink10)
+            .background(color = colors.purple20)
             .drawWithContent {
                 drawArc(
                     color = color,

@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,7 +33,7 @@ fun QuizChoice(
 ) {
 
     val (background, style) = if (isSelected) {
-        colors.purple10 to textStyle.medium.copy(
+        colors.purple20 to textStyle.medium.copy(
             fontWeight = FontWeight.Bold
         )
     } else {
@@ -41,22 +42,23 @@ fun QuizChoice(
 
     Box(
         modifier = modifier
-            .clickable {
-                onSelected()
-            }
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .border(
                 border = BorderStroke(
                     width = 2.dp,
-                    color = colors.purple10
+                    color = colors.purple20
                 ),
                 shape = RoundedCornerShape(size = 8.dp)
             )
             .background(
                 color = background,
                 shape = RoundedCornerShape(size = 8.dp)
-            ),
+            )
+            .clip(shape = RoundedCornerShape(size = 8.dp))
+            .clickable {
+                onSelected()
+            },
     ) {
         Text(
             text = choice,

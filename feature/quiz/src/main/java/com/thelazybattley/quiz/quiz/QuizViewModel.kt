@@ -16,7 +16,7 @@ class QuizViewModel @Inject constructor(
     QuizCallbacks {
 
     companion object {
-        const val TOTAL_TIME = 10f
+        const val TOTAL_TIME = 60f
 
     }
 
@@ -50,7 +50,16 @@ class QuizViewModel @Inject constructor(
             state.copy(
                 timerState = state.timerState.copy(
                     remainingTime = TOTAL_TIME
-                )
+                ),
+                selectedIndex = null
+            )
+        }
+    }
+
+    override fun selectAnswer(index: Int) {
+        updateState { state ->
+            state.copy(
+                selectedIndex = index
             )
         }
     }

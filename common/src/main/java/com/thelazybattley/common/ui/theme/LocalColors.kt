@@ -7,11 +7,13 @@ import androidx.compose.ui.graphics.Color
 
 data class LightColors(
     val purple10: Color = Purple10,
+    val purple20: Color = Purple20,
     val purple50: Color = Purple50,
     val white50: Color = White50,
     val pink30: Color = Pink30,
     val gray30: Color = Gray30,
-    val pink10: Color = Pink10
+    val pink10: Color = Pink10,
+    val black50: Color = Black50
 )
 
 val LocalColors = staticCompositionLocalOf<LightColors> { error("No color provided") }

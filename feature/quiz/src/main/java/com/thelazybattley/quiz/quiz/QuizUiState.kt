@@ -5,7 +5,8 @@ import com.thelazybattley.quiz.quiz.QuizViewModel.Companion.TOTAL_TIME
 
 data class QuizUiState(
     val throwable: Throwable? = null,
-    val timerState: TimerState = TimerState()
+    val timerState: TimerState = TimerState(),
+    val selectedIndex: Int? = null
 ) : BaseUiState
 
 
