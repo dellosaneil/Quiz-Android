@@ -6,5 +6,9 @@ interface QuizCallbacks {
 
     fun nextQuestion()
 
-    fun selectAnswer(index: Int)
+    fun selectAnswer(chosenAnswer: String)
+
+    fun fetchQuestions()
+
+    fun checkQuiz()
 }

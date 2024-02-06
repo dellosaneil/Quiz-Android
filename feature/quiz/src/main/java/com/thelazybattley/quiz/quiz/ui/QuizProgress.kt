@@ -1,5 +1,6 @@
 package com.thelazybattley.quiz.quiz.ui
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
@@ -25,8 +27,10 @@ fun QuizProgress(
     currentQuestionNumber: Int,
     totalQuestions: Int
 ) {
-    val progress = currentQuestionNumber.toFloat() / totalQuestions
-
+    val animatedProgress by animateFloatAsState(targetValue = currentQuestionNumber.toFloat() / totalQuestions,
+        label = ""
+    )
+    
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
@@ -35,7 +39,7 @@ fun QuizProgress(
         LinearProgressIndicator(
             modifier = Modifier
                 .padding(horizontal = 32.dp),
-            progress = progress,
+            progress = animatedProgress,
             color = colors.white50,
             trackColor = colors.purple10,
             strokeCap = StrokeCap.Round

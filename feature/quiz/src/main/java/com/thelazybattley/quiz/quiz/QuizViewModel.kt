@@ -3,17 +3,23 @@ package com.thelazybattley.quiz.quiz
 import androidx.lifecycle.viewModelScope
 import com.thelazybattley.common.base.BaseViewModel
 import com.thelazybattley.common.di.IoDispatcher
+import com.thelazybattley.domain.network.usecase.FetchQuestionsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class QuizViewModel @Inject constructor(
-    @IoDispatcher private val dispatcher: CoroutineDispatcher
+    @IoDispatcher private val dispatcher: CoroutineDispatcher,
+    private val fetchQuestionsUseCase: FetchQuestionsUseCase
 ) : BaseViewModel<QuizEvents, QuizUiState>(),
     QuizCallbacks {
+
+    private var timerJob: Job? = Job(SupervisorJob())
 
     companion object {
         const val TOTAL_TIME = 60f
@@ -24,11 +30,41 @@ class QuizViewModel @Inject constructor(
 
     init {
         observeTimer()
+        fetchQuestions()
+    }
+
+    override fun fetchQuestions() {
+        viewModelScope.launch(context = dispatcher) {
+            fetchQuestionsUseCase()
+                .fold(
+                    onSuccess = { questions ->
+                        updateState { state ->
+                            state.copy(
+                                questions = questions,
+                                currentNumber = 1,
+                                question = questions[0]
+                            )
+                        }
+                    },
+                    onFailure = { throwable ->
+                        updateState { state ->
+                            state.copy(
+                                throwable = throwable
+                            )
+                        }
+                    }
+                )
+            updateState { state ->
+                state.copy(
+                    isLoading = false
+                )
+            }
+        }
     }
 
 
     override fun observeTimer() {
-        viewModelScope.launch(dispatcher) {
+        timerJob = viewModelScope.launch(dispatcher) {
             var remainingTime = getCurrentState().timerState.totalTime
             do {
                 delay(1000L)
@@ -46,20 +82,38 @@ class QuizViewModel @Inject constructor(
     }
 
     override fun nextQuestion() {
+        timerJob?.cancel()
         updateState { state ->
+            val updatedChosenAnswers = state.chosenAnswers.toMutableList()
+            updatedChosenAnswers.add(state.currentChosenAnswer)
+            val updatedCurrentNumber = state.currentNumber.inc()
             state.copy(
                 timerState = state.timerState.copy(
                     remainingTime = TOTAL_TIME
                 ),
-                selectedIndex = null
+                currentChosenAnswer = null,
+                currentNumber = updatedCurrentNumber,
+                chosenAnswers = updatedChosenAnswers,
+                isEndOfQuiz = updatedCurrentNumber == state.questions.size
             )
+        }
+        if (getCurrentState().questions.size == getCurrentState().currentNumber) {
+            checkQuiz()
+            return
+        }
+        observeTimer()
+    }
+
+    override fun checkQuiz() {
+        viewModelScope.launch {
+            emitEvent(event = QuizEvents.CheckQuizEvent)
         }
     }
 
-    override fun selectAnswer(index: Int) {
+    override fun selectAnswer(chosenAnswer: String) {
         updateState { state ->
             state.copy(
-                selectedIndex = index
+                currentChosenAnswer = chosenAnswer
             )
         }
     }

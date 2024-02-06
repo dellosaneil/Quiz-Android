@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="question_of">Question %1$s of %2$s</string>
+    <string name="next">Next</string>
+    <string name="submit">Submit</string>
 </resources>
