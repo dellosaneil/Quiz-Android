@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.hilt.navigation)
     debugImplementation(libs.timber)
     implementation(libs.gson)
+    implementation(libs.constraintlayout.compose)
 }
 
 kapt {

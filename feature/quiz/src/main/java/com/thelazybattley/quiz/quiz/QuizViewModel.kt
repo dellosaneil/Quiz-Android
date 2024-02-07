@@ -80,6 +80,10 @@ class QuizViewModel @Inject constructor(
                     )
                 }
             } while (remainingTime != 0f)
+            if (getCurrentState().isLastQuestion) {
+                checkQuiz()
+                return@launch
+            }
             nextQuestion()
         }
     }
@@ -111,7 +115,7 @@ class QuizViewModel @Inject constructor(
     }
 
     override fun inputAnswer() {
-        if(!getCurrentState().isLastQuestion) {
+        if (!getCurrentState().isLastQuestion) {
             updateState { state ->
                 state.copy(
                     quizDetailsState = state.quizDetailsState.copy(

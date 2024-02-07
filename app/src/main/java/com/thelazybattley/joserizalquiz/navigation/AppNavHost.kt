@@ -8,7 +8,6 @@ import androidx.navigation.navArgument
 import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.model.AppScreens.Companion.QUIZ_RESULT_STATE
 import com.thelazybattley.quiz.quiz.AssetParamType
-import com.thelazybattley.quiz.quiz.QuizDetailsState
 import com.thelazybattley.quiz.quiz.ui.QuizScreen
 import com.thelazybattley.quiz.quizresult.ui.QuizResultScreen
 
@@ -32,8 +31,6 @@ fun AppNavHost() {
                 }
             )
         ) {
-            val details = it.arguments?.getParcelable<QuizDetailsState>(QUIZ_RESULT_STATE)
-                ?: return@composable
             QuizResultScreen()
         }
     }
