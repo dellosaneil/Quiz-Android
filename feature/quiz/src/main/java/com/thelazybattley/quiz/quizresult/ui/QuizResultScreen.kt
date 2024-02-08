@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.thelazybattley.common.presets.KonfettiPreset
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
 import com.thelazybattley.common.ui.theme.colors
 import com.thelazybattley.common.ui.theme.textStyle
@@ -30,6 +31,7 @@ import com.thelazybattley.quiz.quizresult.QuizResultCallbacks
 import com.thelazybattley.quiz.quizresult.QuizResultEvents
 import com.thelazybattley.quiz.quizresult.QuizResultUiState
 import com.thelazybattley.quiz.quizresult.QuizResultViewModel
+import nl.dionsegijn.konfetti.compose.KonfettiView
 
 @Composable
 fun QuizResultScreen(
@@ -74,6 +76,10 @@ fun QuizResultScreen(
             }
         }
     }
+    KonfettiView(
+        parties = KonfettiPreset.explode,
+        modifier = Modifier.fillMaxSize()
+    )
 }
 
 @Composable

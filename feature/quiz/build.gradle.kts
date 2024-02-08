@@ -63,6 +63,7 @@ dependencies {
     debugImplementation(libs.timber)
     implementation(libs.gson)
     implementation(libs.constraintlayout.compose)
+    implementation(libs.konfetti.compose)
 }
 
 kapt {
