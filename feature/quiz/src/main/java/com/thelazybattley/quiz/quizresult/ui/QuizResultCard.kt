@@ -30,7 +30,8 @@ import com.thelazybattley.quiz.R
 fun QuizResultCard(
     modifier: Modifier = Modifier,
     score: Int,
-    totalQuestions: Int
+    totalQuestions: Int,
+    onReviewQuizButtonClicked : () -> Unit
 ) {
     Card(
         modifier = modifier,
@@ -60,7 +61,7 @@ fun QuizResultCard(
             )
             Button(
                 onClick = {
-
+                    onReviewQuizButtonClicked()
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colors.purple10
@@ -83,7 +84,9 @@ fun QuizResultCard(
 @Composable
 private fun PreviewQuizResultCard() {
     QuizAndroidTheme {
-        QuizResultCard(score = 3, totalQuestions = 5)
+        QuizResultCard(score = 3, totalQuestions = 5) {
+
+        }
     }
 
 }

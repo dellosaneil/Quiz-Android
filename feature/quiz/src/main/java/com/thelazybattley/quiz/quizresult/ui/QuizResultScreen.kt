@@ -1,5 +1,6 @@
 package com.thelazybattley.quiz.quizresult.ui
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -23,6 +24,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavOptions
+import androidx.navigation.navOptions
+import com.google.gson.Gson
+import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.presets.KonfettiPreset
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
 import com.thelazybattley.common.ui.theme.colors
@@ -37,13 +42,16 @@ import nl.dionsegijn.konfetti.compose.KonfettiView
 @Composable
 fun QuizResultScreen(
     viewModel: QuizResultViewModel = hiltViewModel(),
-    onPopBackStack: () -> Unit
+    onPopBackStack: () -> Unit,
+    navigate: (String, NavOptions?) -> Unit
 ) {
     val uiState by viewModel.state.collectAsState()
     val events by viewModel.events.collectAsState(initial = null)
-    HandleEvents(event = events) {
-        onPopBackStack()
-    }
+    HandleEvents(
+        event = events,
+        navigate = navigate,
+        onPopBackStack = onPopBackStack
+    )
     QuizResultScreen(uiState = uiState, events = events, callbacks = viewModel)
 }
 
@@ -68,7 +76,9 @@ fun QuizResultScreen(
                     QuizResultCard(
                         totalQuestions = uiState.questionDetailsState?.questions?.size ?: 0,
                         score = uiState.correctAnswers
-                    )
+                    ) {
+                        callbacks.onReviewQuestionsClicked()
+                    }
                     Spacer(modifier = Modifier.height(16.dp))
                     QuizResultSummary(uiState = uiState)
                 }
@@ -114,16 +124,26 @@ private fun QuizResultButton(
 @Composable
 private fun HandleEvents(
     event: QuizResultEvents?,
-    onPopBackStack: () -> Unit
+    onPopBackStack: () -> Unit,
+    navigate: (String, NavOptions?) -> Unit
 ) {
     LaunchedEffect(key1 = event) {
         when (event) {
             is QuizResultEvents.OnCloseButtonClickedEvent -> {
                 onPopBackStack()
             }
+            is QuizResultEvents.OnReviewQuestionsClicked -> {
+                val json = Uri.encode(Gson().toJson(event.quizDetailsState))
+                navigate(
+                    AppScreens.ReviewScreen.args(json = json), navOptions {
+                        popUpTo(AppScreens.DashboardScreen.route)
+                    }
+                )
+            }
             null -> {
                 // do nothing
             }
+
         }
     }
 }
@@ -137,6 +157,10 @@ private fun PreviewQuizResultScreen() {
             events = null,
             callbacks = object : QuizResultCallbacks {
                 override fun onCloseButtonClicked() {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onReviewQuestionsClicked() {
                     TODO("Not yet implemented")
                 }
 

@@ -46,4 +46,8 @@ class QuizResultViewModel @Inject constructor(
         emitEvent(event = QuizResultEvents.OnCloseButtonClickedEvent)
     }
 
+    override fun onReviewQuestionsClicked() {
+        emitEvent(event = QuizResultEvents.OnReviewQuestionsClicked(quizDetailsState = getCurrentState().questionDetailsState!!))
+    }
+
 }

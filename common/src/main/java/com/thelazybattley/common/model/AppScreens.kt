@@ -19,5 +19,13 @@ sealed class AppScreens(val route: String, val routeWithArgs: String = route) {
 
     data object DashboardScreen : AppScreens(route = "dashboard_screen")
 
+    data object ReviewScreen : AppScreens(
+        route = "review_screen",
+        routeWithArgs = "review_screen/{$QUIZ_RESULT_STATE}"
+    ) {
+        fun args(json: String): String {
+            return ReviewScreen.route + "/{$json}"
+        }
+    }
 
 }
