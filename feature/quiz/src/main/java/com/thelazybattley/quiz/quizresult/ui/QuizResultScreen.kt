@@ -66,7 +66,8 @@ fun QuizResultScreen(
             LazyColumn(modifier = Modifier.weight(1f)) {
                 item {
                     QuizResultCard(
-                        percentage = uiState.percentage
+                        totalQuestions = uiState.questionDetailsState?.questions?.size ?: 0,
+                        score = uiState.correctAnswers
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     QuizResultSummary(uiState = uiState)

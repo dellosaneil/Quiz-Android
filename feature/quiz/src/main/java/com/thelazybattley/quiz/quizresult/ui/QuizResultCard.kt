@@ -29,7 +29,8 @@ import com.thelazybattley.quiz.R
 @Composable
 fun QuizResultCard(
     modifier: Modifier = Modifier,
-    percentage: Int
+    score: Int,
+    totalQuestions: Int
 ) {
     Card(
         modifier = modifier,
@@ -50,7 +51,7 @@ fun QuizResultCard(
                 modifier = Modifier.size(size = 126.dp)
             )
             Text(
-                text = stringResource(R.string.congratulations_you_got, percentage),
+                text = stringResource(R.string.congratulations_you_got, score, totalQuestions),
                 style = textStyle.medium.copy(
                     color = colors.white50,
                     fontWeight = FontWeight.Medium,
@@ -82,7 +83,7 @@ fun QuizResultCard(
 @Composable
 private fun PreviewQuizResultCard() {
     QuizAndroidTheme {
-        QuizResultCard(percentage = 87)
+        QuizResultCard(score = 3, totalQuestions = 5)
     }
 
 }

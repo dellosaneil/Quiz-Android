@@ -79,7 +79,7 @@ private fun QuizScreen(
         ) {
             QuizProgress(
                 modifier = Modifier
-                    .padding(top = 16.dp)
+                    .padding(vertical = 16.dp)
                     .fillMaxWidth(),
                 currentQuestionNumber = uiState.currentNumber,
                 totalQuestions = uiState.quizDetailsState.questions.size
@@ -120,7 +120,6 @@ private fun QuizScreen(
                                 Spacer(modifier = Modifier.height(16.dp))
                             }
 
-
                             items(
                                 items = uiState.quizDetailsState.question.choices,
                                 key = { it }
@@ -134,6 +133,7 @@ private fun QuizScreen(
                                     callbacks.selectAnswer(chosenAnswer = choice)
                                 }
                             }
+
                             item {
                                 Button(
                                     modifier = Modifier
@@ -149,13 +149,7 @@ private fun QuizScreen(
                                     enabled = uiState.currentChosenAnswer != null
                                 ) {
                                     Text(
-                                        text = if (uiState.isLastQuestion) {
-                                            stringResource(id = R.string.submit)
-                                        } else {
-                                            stringResource(
-                                                R.string.next
-                                            )
-                                        },
+                                        text = stringResource(id = R.string.submit),
                                         style = textStyle.medium
                                     )
                                 }

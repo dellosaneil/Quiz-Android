@@ -4,6 +4,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
@@ -38,7 +39,8 @@ fun QuizProgress(
     ) {
         LinearProgressIndicator(
             modifier = Modifier
-                .padding(horizontal = 32.dp),
+                .padding(horizontal = 32.dp)
+                .height(height = 16.dp),
             progress = animatedProgress,
             color = colors.white50,
             trackColor = colors.purple10,
