@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavOptions
+import androidx.navigation.navOptions
 import com.google.gson.Gson
 import com.thelazybattley.common.enums.QuestionType
 import com.thelazybattley.common.model.AppScreens
@@ -174,7 +175,9 @@ private fun HandleEvents(event: QuizEvents?, navigate: (String, NavOptions?) -> 
             is QuizEvents.FinishedQuizEvent -> {
                 val json = Uri.encode(Gson().toJson(event.quizDetailsState))
                 navigate(
-                    AppScreens.QuizResultScreen.args(json = json), null
+                    AppScreens.QuizResultScreen.args(json = json), navOptions {
+                        popUpTo(AppScreens.DashboardScreen.route)
+                    }
                 )
             }
 

@@ -14,6 +14,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -35,10 +36,14 @@ import nl.dionsegijn.konfetti.compose.KonfettiView
 
 @Composable
 fun QuizResultScreen(
-    viewModel: QuizResultViewModel = hiltViewModel()
+    viewModel: QuizResultViewModel = hiltViewModel(),
+    onPopBackStack: () -> Unit
 ) {
     val uiState by viewModel.state.collectAsState()
     val events by viewModel.events.collectAsState(initial = null)
+    HandleEvents(event = events) {
+        onPopBackStack()
+    }
     QuizResultScreen(uiState = uiState, events = events, callbacks = viewModel)
 }
 
@@ -72,7 +77,7 @@ fun QuizResultScreen(
                     .fillMaxWidth()
                     .padding(top = 16.dp)
             ) {
-
+                callbacks.onCloseButtonClicked()
             }
         }
     }
@@ -105,6 +110,22 @@ private fun QuizResultButton(
     }
 }
 
+@Composable
+private fun HandleEvents(
+    event: QuizResultEvents?,
+    onPopBackStack: () -> Unit
+) {
+    LaunchedEffect(key1 = event) {
+        when (event) {
+            is QuizResultEvents.OnCloseButtonClickedEvent -> {
+                onPopBackStack()
+            }
+            null -> {
+                // do nothing
+            }
+        }
+    }
+}
 
 @Preview(showBackground = true, device = "id:pixel_2")
 @Composable
@@ -114,6 +135,9 @@ private fun PreviewQuizResultScreen() {
             uiState = QuizResultUiState(),
             events = null,
             callbacks = object : QuizResultCallbacks {
+                override fun onCloseButtonClicked() {
+                    TODO("Not yet implemented")
+                }
 
             }
         )

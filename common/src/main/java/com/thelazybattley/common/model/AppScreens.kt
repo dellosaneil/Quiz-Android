@@ -17,5 +17,7 @@ sealed class AppScreens(val route: String, val routeWithArgs: String = route) {
         }
     }
 
+    data object DashboardScreen : AppScreens(route = "dashboard_screen")
+
 
 }

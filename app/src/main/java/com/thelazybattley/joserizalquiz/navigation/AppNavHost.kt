@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.model.AppScreens.Companion.QUIZ_RESULT_STATE
+import com.thelazybattley.dashboard.dashboard.ui.DashboardScreen
 import com.thelazybattley.quiz.quiz.AssetParamType
 import com.thelazybattley.quiz.quiz.ui.QuizScreen
 import com.thelazybattley.quiz.quizresult.ui.QuizResultScreen
@@ -16,7 +17,7 @@ fun AppNavHost() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = AppScreens.QuizScreen.route
+        startDestination = AppScreens.DashboardScreen.route
     ) {
         composable(route = AppScreens.QuizScreen.route) {
             QuizScreen { route, navOptions ->
@@ -31,7 +32,14 @@ fun AppNavHost() {
                 }
             )
         ) {
-            QuizResultScreen()
+            QuizResultScreen {
+                navController.popBackStack()
+            }
+        }
+        composable(route = AppScreens.DashboardScreen.route) {
+            DashboardScreen { route, navOptions ->
+                navController.navigate(route = route, navOptions = navOptions)
+            }
         }
     }
 }

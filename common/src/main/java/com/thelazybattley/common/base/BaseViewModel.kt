@@ -1,11 +1,13 @@
 package com.thelazybattley.common.base
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<Event : BaseEvents, ViewState : BaseUiState> : ViewModel() {
 
@@ -22,8 +24,10 @@ abstract class BaseViewModel<Event : BaseEvents, ViewState : BaseUiState> : View
 
     val state: StateFlow<ViewState> = _state
 
-    suspend fun emitEvent(event: Event) {
-        _events.send(element = event)
+    fun emitEvent(event: Event) {
+        viewModelScope.launch {
+            _events.send(element = event)
+        }
     }
 
     fun updateState(newState: (ViewState) -> ViewState) {

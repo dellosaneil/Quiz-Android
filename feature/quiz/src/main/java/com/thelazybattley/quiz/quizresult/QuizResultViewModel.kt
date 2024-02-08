@@ -42,4 +42,8 @@ class QuizResultViewModel @Inject constructor(
         }
     }
 
+    override fun onCloseButtonClicked() {
+        emitEvent(event = QuizResultEvents.OnCloseButtonClickedEvent)
+    }
+
 }

@@ -97,13 +97,11 @@ class QuizViewModel @Inject constructor(
     override fun checkQuiz() {
         timerJob?.cancel()
         inputAnswer()
-        viewModelScope.launch {
-            emitEvent(
-                event = QuizEvents.FinishedQuizEvent(
-                    quizDetailsState = getCurrentState().quizDetailsState
-                )
+        emitEvent(
+            event = QuizEvents.FinishedQuizEvent(
+                quizDetailsState = getCurrentState().quizDetailsState
             )
-        }
+        )
     }
 
     override fun selectAnswer(chosenAnswer: String) {
