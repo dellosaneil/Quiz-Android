@@ -29,7 +29,7 @@ class QuizResultViewModel @Inject constructor(
                     questionDetailsState.answers.zip(questionDetailsState.chosenAnswers).count {
                         it.first == it.second
                     }
-                val incorrectAnswers = questionDetailsState.questions.size - correctAnswers
+                val incorrectAnswers = questionDetailsState.questions.size - correctAnswers - skippedQuestions
                 val percentage = ((correctAnswers).toFloat() / questionDetailsState.questions.size) * 100
                 state.copy(
                     questionDetailsState = questionDetailsState,

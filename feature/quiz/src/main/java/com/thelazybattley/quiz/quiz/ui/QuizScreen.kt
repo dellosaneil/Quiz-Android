@@ -112,7 +112,7 @@ private fun QuizScreen(
                                     modifier = Modifier
                                         .padding(top = 16.dp),
                                     text = uiState.quizDetailsState.question.question,
-                                    style = textStyle.large.copy(
+                                    style = textStyle.medium.copy(
                                         color = colors.black50,
                                         fontWeight = FontWeight.ExtraBold
                                     )

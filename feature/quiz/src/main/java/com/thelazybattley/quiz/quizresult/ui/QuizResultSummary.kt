@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,7 +32,7 @@ fun QuizResultSummary(
                     start.linkTo(anchor = parent.start, margin = 16.dp)
                 },
             label = R.string.correct_answers,
-            value = stringResource(R.string.questions, uiState.correctAnswers)
+            value = pluralStringResource(R.plurals.x_question, uiState.correctAnswers, uiState.correctAnswers)
         )
 
         Details(
@@ -50,7 +51,7 @@ fun QuizResultSummary(
                 start.linkTo(anchor = correctAnswersRefs.start)
             },
             label = R.string.skipped,
-            value = stringResource(R.string.questions, uiState.skippedQuestions)
+            value =  pluralStringResource(R.plurals.x_question, uiState.skippedQuestions, uiState.skippedQuestions)
         )
 
         Details(
@@ -60,7 +61,7 @@ fun QuizResultSummary(
                     start.linkTo(anchor = percentageRef.start)
                 },
             label = R.string.incorrect,
-            value = stringResource(R.string.questions, uiState.incorrectAnswers)
+            value = pluralStringResource(R.plurals.x_question, uiState.incorrectAnswers, uiState.incorrectAnswers)
         )
     }
 }
