@@ -68,7 +68,7 @@ fun QuizResultCard(
                 shape = RoundedCornerShape(size = 8.dp)
             ) {
                 Text(
-                    text = "Check Correct Answers",
+                    text = stringResource(R.string.review_questions),
                     style = textStyle.medium.copy(
                         color = colors.white50,
                         fontWeight = FontWeight.Medium

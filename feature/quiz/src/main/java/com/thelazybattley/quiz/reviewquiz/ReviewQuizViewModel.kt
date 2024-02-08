@@ -1,4 +1,4 @@
-package com.thelazybattley.quiz.checkquiz
+package com.thelazybattley.quiz.reviewquiz
 
 import com.thelazybattley.common.base.BaseViewModel
 import com.thelazybattley.common.di.IoDispatcher
@@ -7,8 +7,8 @@ import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
 @HiltViewModel
-class CheckQuizViewModel @Inject constructor(
+class ReviewQuizViewModel @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher
-) : BaseViewModel<CheckQuizEvent, CheckQuizUiState>(), CheckQuizCallbacks {
-    override fun initialState() = CheckQuizUiState()
+) : BaseViewModel<ReviewQuizEvents, ReviewQuizUiState>(), ReviewQuizCallbacks {
+    override fun initialState() = ReviewQuizUiState()
 }

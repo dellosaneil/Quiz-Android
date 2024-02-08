@@ -1,7 +1,7 @@
-package com.thelazybattley.quiz.checkquiz
+package com.thelazybattley.quiz.reviewquiz
 
 import com.thelazybattley.common.base.BaseUiState
 
-data class CheckQuizUiState(
+data class ReviewQuizUiState(
     val throwable: Throwable? = null
 ) : BaseUiState
