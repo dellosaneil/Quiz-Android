@@ -22,14 +22,13 @@ class QuizViewModel @Inject constructor(
     private var timerJob: Job? = Job(SupervisorJob())
 
     companion object {
-        const val TIME_PER_QUESTION = 60f
+        const val TIME_PER_QUESTION = 60
 
     }
 
     override fun initialState() = QuizUiState()
 
     init {
-        observeTimer()
         fetchQuestions()
     }
 
@@ -48,11 +47,11 @@ class QuizViewModel @Inject constructor(
                                 ),
                                 currentIndex = 0,
                                 timerState = state.timerState.copy(
-                                    remainingTime = TIME_PER_QUESTION * questions.size,
-                                    totalTime = TIME_PER_QUESTION * questions.size
+                                    remainingTime = TIME_PER_QUESTION * questions.size
                                 )
                             )
                         }
+                        observeTimer()
                     },
                     onFailure = { throwable ->
                         updateState { state ->
@@ -71,9 +70,9 @@ class QuizViewModel @Inject constructor(
     }
 
 
-    override fun observeTimer() {
+    override suspend fun observeTimer() {
         timerJob = viewModelScope.launch(dispatcher) {
-            var remainingTime = getCurrentState().timerState.totalTime
+            var remainingTime = TIME_PER_QUESTION * getCurrentState().quizDetailsState.questions.size
             do {
                 delay(1000L)
                 remainingTime--
@@ -84,7 +83,7 @@ class QuizViewModel @Inject constructor(
                         )
                     )
                 }
-            } while (remainingTime != 0f)
+            } while (remainingTime != 0)
             submitQuiz()
         }
     }

@@ -42,6 +42,8 @@ import com.thelazybattley.quiz.quiz.QuizDetailsState
 import com.thelazybattley.quiz.quiz.QuizEvents
 import com.thelazybattley.quiz.quiz.QuizUiState
 import com.thelazybattley.quiz.quiz.QuizViewModel
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 @Composable
 fun QuizScreen(
@@ -50,23 +52,19 @@ fun QuizScreen(
 ) {
     val uiState by viewModel.state.collectAsState()
     val events by viewModel.events.collectAsState(initial = null)
+
+    HandleEvents(event = events, navigate = navigate)
     QuizScreen(
         uiState = uiState,
-        events = events,
         callbacks = viewModel,
-        navigate = navigate
     )
 }
 
 @Composable
 private fun QuizScreen(
     uiState: QuizUiState,
-    events: QuizEvents?,
     callbacks: QuizCallbacks,
-    navigate: (String, NavOptions?) -> Unit
 ) {
-
-    HandleEvents(event = events, navigate = navigate)
 
     Scaffold(
         modifier = Modifier
@@ -75,7 +73,13 @@ private fun QuizScreen(
         topBar = {
             CommonTopBar(
                 titleRes = R.string.quiz,
-                navigationIconRes = com.thelazybattley.common.R.drawable.ic_back_arrow
+                navigationIconRes = com.thelazybattley.common.R.drawable.ic_back_arrow,
+                actions = {
+                    QuizTimer(
+                        remainingTime = uiState.timerState.remainingTime.toDuration(unit = DurationUnit.SECONDS)
+                            .toString()
+                    )
+                }
             ) {
 
             }
@@ -223,9 +227,8 @@ private fun PreviewQuizScreen() {
                 currentIndex = 3,
                 progress = 26f
             ),
-            events = null,
             callbacks = object : QuizCallbacks {
-                override fun observeTimer() {
+                override suspend fun observeTimer() {
                     TODO("Not yet implemented")
                 }
 
@@ -241,17 +244,10 @@ private fun PreviewQuizScreen() {
                     TODO("Not yet implemented")
                 }
 
-                override fun checkQuiz() {
-                    TODO("Not yet implemented")
-                }
-
                 override fun goToQuestion(index: Int) {
                     TODO("Not yet implemented")
                 }
             },
-            navigate = { _, _ ->
-
-            }
         )
     }
 }

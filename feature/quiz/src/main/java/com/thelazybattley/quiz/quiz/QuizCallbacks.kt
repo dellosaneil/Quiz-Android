@@ -2,7 +2,7 @@ package com.thelazybattley.quiz.quiz
 
 interface QuizCallbacks {
 
-    fun observeTimer()
+    suspend fun observeTimer()
 
     fun submitQuiz()
 

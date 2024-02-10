@@ -6,7 +6,6 @@ import androidx.navigation.NavType
 import com.google.gson.Gson
 import com.thelazybattley.common.base.BaseUiState
 import com.thelazybattley.domain.model.Question
-import com.thelazybattley.quiz.quiz.QuizViewModel.Companion.TIME_PER_QUESTION
 import kotlinx.parcelize.Parcelize
 
 data class QuizUiState(
@@ -20,8 +19,7 @@ data class QuizUiState(
 ) : BaseUiState
 
 data class TimerState(
-    val remainingTime: Float = TIME_PER_QUESTION,
-    val totalTime: Float = TIME_PER_QUESTION
+    val remainingTime: Int = 0
 )
 
 @Parcelize
