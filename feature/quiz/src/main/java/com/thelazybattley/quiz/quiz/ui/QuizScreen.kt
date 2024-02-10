@@ -48,6 +48,7 @@ import kotlin.time.toDuration
 @Composable
 fun QuizScreen(
     viewModel: QuizViewModel = hiltViewModel(),
+    onPopBackStack: () -> Unit,
     navigate: (String, NavOptions?) -> Unit
 ) {
     val uiState by viewModel.state.collectAsState()
@@ -57,6 +58,7 @@ fun QuizScreen(
     QuizScreen(
         uiState = uiState,
         callbacks = viewModel,
+        onPopBackStack = onPopBackStack
     )
 }
 
@@ -64,6 +66,7 @@ fun QuizScreen(
 private fun QuizScreen(
     uiState: QuizUiState,
     callbacks: QuizCallbacks,
+    onPopBackStack: () -> Unit
 ) {
 
     Scaffold(
@@ -76,12 +79,15 @@ private fun QuizScreen(
                 navigationIconRes = com.thelazybattley.common.R.drawable.ic_back_arrow,
                 actions = {
                     QuizTimer(
-                        remainingTime = uiState.timerState.remainingTime.toDuration(unit = DurationUnit.SECONDS)
+                        remainingTime = uiState
+                            .timerState
+                            .remainingTime
+                            .toDuration(unit = DurationUnit.SECONDS)
                             .toString()
                     )
                 }
             ) {
-
+                onPopBackStack()
             }
         }
     ) { paddingValues ->
@@ -248,6 +254,7 @@ private fun PreviewQuizScreen() {
                     TODO("Not yet implemented")
                 }
             },
+            onPopBackStack = {},
         )
     }
 }

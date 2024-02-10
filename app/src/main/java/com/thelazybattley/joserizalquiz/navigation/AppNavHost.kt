@@ -21,7 +21,11 @@ fun AppNavHost() {
         startDestination = AppScreens.DashboardScreen.route
     ) {
         composable(route = AppScreens.QuizScreen.route) {
-            QuizScreen { route, navOptions ->
+            QuizScreen(
+                onPopBackStack = {
+                    navController.popBackStack()
+                }
+            ) { route, navOptions ->
                 navController.navigate(route = route, navOptions = navOptions)
             }
         }

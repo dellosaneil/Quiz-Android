@@ -2,7 +2,6 @@ package com.thelazybattley.common.components
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -11,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -51,17 +51,20 @@ fun CommonTopBar(
             },
             navigationIcon = {
                 if (navigationIconRes != null) {
-                    Icon(
-                        painter = painterResource(navigationIconRes),
-                        contentDescription = "",
+                    IconButton(
                         modifier = Modifier
                             .padding(start = 16.dp)
-                            .size(24.dp)
-                            .clickable {
-                                onNavClick()
-                            }
+                            .size(24.dp),
+                        onClick = {
+                            onNavClick()
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = navigationIconRes),
+                            contentDescription = ""
 
-                    )
+                        )
+                    }
                 }
             },
             actions = {
