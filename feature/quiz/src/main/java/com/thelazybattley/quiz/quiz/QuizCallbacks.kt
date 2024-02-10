@@ -4,7 +4,7 @@ interface QuizCallbacks {
 
     fun observeTimer()
 
-    fun nextQuestion()
+    fun submitQuiz()
 
     fun selectAnswer(chosenAnswer: String)
 
@@ -12,5 +12,9 @@ interface QuizCallbacks {
 
     fun checkQuiz()
 
-    fun inputAnswer()
+    fun goToNextQuestion()
+
+    fun goToPreviousQuestion()
+
+    fun jumpToQuestion(index: Int)
 }

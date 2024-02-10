@@ -22,7 +22,7 @@ class QuizViewModel @Inject constructor(
     private var timerJob: Job? = Job(SupervisorJob())
 
     companion object {
-        const val TOTAL_TIME = 60f
+        const val TIME_PER_QUESTION = 60f
 
     }
 
@@ -43,9 +43,14 @@ class QuizViewModel @Inject constructor(
                                 quizDetailsState = state.quizDetailsState.copy(
                                     questions = questions,
                                     question = questions.first(),
-                                    answers = questions.map { it.answer }
+                                    answers = questions.map { it.answer },
+                                    chosenAnswers = questions.map { null }
                                 ),
-                                currentNumber = 1,
+                                currentIndex = 0,
+                                timerState = state.timerState.copy(
+                                    remainingTime = TIME_PER_QUESTION * questions.size,
+                                    totalTime = TIME_PER_QUESTION * questions.size
+                                )
                             )
                         }
                     },
@@ -80,23 +85,16 @@ class QuizViewModel @Inject constructor(
                     )
                 }
             } while (remainingTime != 0f)
-            if (getCurrentState().isLastQuestion) {
-                checkQuiz()
-                return@launch
-            }
-            nextQuestion()
+            submitQuiz()
         }
     }
 
-    override fun nextQuestion() {
+    override fun submitQuiz() {
         timerJob?.cancel()
-        inputAnswer()
-        observeTimer()
     }
 
     override fun checkQuiz() {
         timerJob?.cancel()
-        inputAnswer()
         emitEvent(
             event = QuizEvents.FinishedQuizEvent(
                 quizDetailsState = getCurrentState().quizDetailsState
@@ -106,37 +104,56 @@ class QuizViewModel @Inject constructor(
 
     override fun selectAnswer(chosenAnswer: String) {
         updateState { state ->
+            val updatedChosenAnswers = state.quizDetailsState.chosenAnswers.toMutableList()
+            updatedChosenAnswers[state.currentIndex] = chosenAnswer
             state.copy(
-                currentChosenAnswer = chosenAnswer
+                quizDetailsState = state.quizDetailsState.copy(
+                    chosenAnswers = updatedChosenAnswers
+                )
             )
         }
     }
 
-    override fun inputAnswer() {
-        if (!getCurrentState().isLastQuestion) {
-            updateState { state ->
-                state.copy(
-                    quizDetailsState = state.quizDetailsState.copy(
-                        question = state.quizDetailsState.questions[state.currentNumber]
-                    )
-                )
-            }
-        }
-
+    override fun goToNextQuestion() {
         updateState { state ->
-            val updatedChosenAnswers = state.quizDetailsState.chosenAnswers.toMutableList()
-            updatedChosenAnswers.add(state.currentChosenAnswer)
-            val updatedCurrentNumber = state.currentNumber.inc()
+            val newIndex = state.currentIndex.inc()
+            val updatedProgress = (newIndex.toFloat() / state.quizDetailsState.questions.size.dec())
             state.copy(
-                timerState = state.timerState.copy(
-                    remainingTime = TOTAL_TIME
-                ),
-                currentChosenAnswer = null,
-                currentNumber = updatedCurrentNumber,
+                currentIndex = newIndex,
+                progress = updatedProgress,
                 quizDetailsState = state.quizDetailsState.copy(
-                    chosenAnswers = updatedChosenAnswers
-                ),
-                isLastQuestion = updatedCurrentNumber == state.quizDetailsState.questions.size
+                    question = state.quizDetailsState.questions[newIndex]
+                )
+            )
+        }
+    }
+
+    override fun goToPreviousQuestion() {
+        updateState { state ->
+            val newIndex = state.currentIndex.dec()
+            val updatedProgress = (newIndex.toFloat() / state.quizDetailsState.questions.size.dec())
+
+            state.copy(
+                currentIndex = newIndex,
+                progress = updatedProgress,
+                quizDetailsState = state.quizDetailsState.copy(
+                    question = state.quizDetailsState.questions[newIndex]
+                )
+            )
+        }
+    }
+
+    override fun jumpToQuestion(
+        index: Int
+    ) {
+        updateState { state ->
+            val updatedProgress = (index.toFloat() / state.quizDetailsState.questions.size.dec())
+            state.copy(
+                currentIndex = index,
+                progress = updatedProgress,
+                quizDetailsState = state.quizDetailsState.copy(
+                    question = state.quizDetailsState.questions[index]
+                )
             )
         }
     }

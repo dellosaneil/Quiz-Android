@@ -10,7 +10,7 @@ import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.unit.sp
 import com.thelazybattley.common.R
 
-val fontName = GoogleFont("Open Sans")
+val fontName = GoogleFont("Poppins")
 
 val provider = GoogleFont.Provider(
     providerAuthority = "com.google.android.gms.fonts",
@@ -48,6 +48,10 @@ data class QuizTypography(
     val xLarge: TextStyle = TextStyle(
         fontFamily = fontFamily,
         fontSize = 36.sp
+    ),
+    val poppins : TextStyle = TextStyle(
+        fontFamily = fontFamily,
+        fontSize = 18.sp
     )
 )
 

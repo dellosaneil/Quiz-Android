@@ -1,34 +1,27 @@
 package com.thelazybattley.quiz.quiz.ui
 
 import android.net.Uri
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
 import com.google.gson.Gson
+import com.thelazybattley.common.components.CommonTopBar
 import com.thelazybattley.common.enums.QuestionType
 import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
@@ -70,91 +63,44 @@ private fun QuizScreen(
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
-        containerColor = colors.purple50
+        containerColor = colors.white50,
+        topBar = {
+            CommonTopBar(
+                titleRes = R.string.quiz,
+                navigationIconRes = com.thelazybattley.common.R.drawable.ic_back_arrow
+            ) {
+
+            }
+        }
     ) { paddingValues ->
         Column(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(paddingValues = paddingValues)
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(space = 8.dp)
         ) {
-            QuizProgress(
-                modifier = Modifier
-                    .padding(vertical = 16.dp)
-                    .fillMaxWidth(),
-                currentQuestionNumber = uiState.currentNumber,
-                totalQuestions = uiState.quizDetailsState.questions.size
+            QuizQuestionPicker(
+                modifier = Modifier.padding(top = 16.dp),
+                currentIndex = uiState.currentIndex,
+                chosenAnswers = uiState.quizDetailsState.chosenAnswers,
+                onQuestionSelected = { index ->
+                    callbacks.jumpToQuestion(index = index)
+                },
+                progress = uiState.progress
             )
-            Card(
-                modifier = Modifier
-                    .weight(weight = 1f)
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(
-                        bottom = 16.dp,
-                        top = 8.dp
-                    ),
-                colors = CardDefaults.cardColors(
-                    containerColor = colors.white50
-                )
-            ) {
-                Column(
-                    modifier = Modifier.padding(all = 32.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    QuizTimer(
-                        timerState = uiState.timerState,
-                        modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+            if (uiState.quizDetailsState.question != null) {
+                Text(
+                    modifier = Modifier.padding(top = 16.dp),
+                    text = uiState.quizDetailsState.question.question,
+                    style = textStyle.poppins.copy(
+                        fontSize = 16.sp,
+                        lineHeight = 32.sp
                     )
-                    if (uiState.quizDetailsState.question != null) {
-                        LazyColumn {
-                            item {
-                                Text(
-                                    modifier = Modifier
-                                        .padding(top = 16.dp),
-                                    text = uiState.quizDetailsState.question.question,
-                                    style = textStyle.medium.copy(
-                                        color = colors.black50,
-                                        fontWeight = FontWeight.ExtraBold
-                                    )
-                                )
-                                Spacer(modifier = Modifier.height(16.dp))
-                            }
-
-                            items(
-                                items = uiState.quizDetailsState.question.choices,
-                                key = { it }
-                            ) { choice ->
-                                QuizChoice(
-                                    modifier = Modifier
-                                        .padding(vertical = 8.dp),
-                                    choice = choice,
-                                    isSelected = uiState.currentChosenAnswer == choice
-                                ) {
-                                    callbacks.selectAnswer(chosenAnswer = choice)
-                                }
-                            }
-
-                            item {
-                                Button(
-                                    modifier = Modifier
-                                        .fillMaxWidth(),
-                                    onClick = {
-                                        if (uiState.isLastQuestion) {
-                                            callbacks.checkQuiz()
-                                        } else {
-                                            callbacks.nextQuestion()
-                                        }
-                                    },
-                                    shape = RoundedCornerShape(size = 8.dp),
-                                    enabled = uiState.currentChosenAnswer != null
-                                ) {
-                                    Text(
-                                        text = stringResource(id = R.string.submit),
-                                        style = textStyle.medium
-                                    )
-                                }
-                            }
-                        }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                uiState.quizDetailsState.question.choices.forEach { choice ->
+                    QuizChoice(choice = choice, isSelected = choice == uiState.quizDetailsState.chosenAnswers[uiState.currentIndex]) {
+                        callbacks.selectAnswer(chosenAnswer = choice)
                     }
                 }
             }
@@ -191,7 +137,7 @@ private fun PreviewQuizScreen() {
                 quizDetailsState = QuizDetailsState(
                     question = Question(
                         id = 1,
-                        question = "This is a test",
+                        question = "Which of the following are true for objects of Python’s set type:",
                         choices = listOf(
                             "Choice 1",
                             "Choice 2",
@@ -200,8 +146,18 @@ private fun PreviewQuizScreen() {
                         ),
                         answer = "Choice 3",
                         type = QuestionType.RELATIONSHIP
-                    )
-                )
+                    ),
+                    chosenAnswers = listOf(
+                        null, "",
+                        "", null,
+                        null, "",
+                        null, "",
+                        null, "",
+                        null, "",
+                    ),
+                ),
+                currentIndex = 3,
+                progress = 26f
             ),
             events = null,
             callbacks = object : QuizCallbacks {
@@ -209,7 +165,7 @@ private fun PreviewQuizScreen() {
                     TODO("Not yet implemented")
                 }
 
-                override fun nextQuestion() {
+                override fun submitQuiz() {
                     TODO("Not yet implemented")
                 }
 
@@ -225,7 +181,15 @@ private fun PreviewQuizScreen() {
                     TODO("Not yet implemented")
                 }
 
-                override fun inputAnswer() {
+                override fun goToNextQuestion() {
+                    TODO("Not yet implemented")
+                }
+
+                override fun goToPreviousQuestion() {
+                    TODO("Not yet implemented")
+                }
+
+                override fun jumpToQuestion(index: Int) {
                     TODO("Not yet implemented")
                 }
             },
