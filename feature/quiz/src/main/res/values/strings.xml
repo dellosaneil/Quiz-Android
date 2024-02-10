@@ -13,6 +13,7 @@
     <string name="check_correct_answers">Check Correct Answers</string>
     <string name="review_questions">Review Questions</string>
     <string name="quiz">Quiz</string>
+    <string name="previous">Previous</string>
 
     <plurals name="x_question">
         <item quantity="one">%1$d question</item>

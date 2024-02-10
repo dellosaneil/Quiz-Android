@@ -12,6 +12,7 @@ data class LightColors(
     val purple40: Color = Purple40,
     val purple50: Color = Purple50,
     val white10 : Color = White10,
+    val white20 : Color = White20,
     val white30 : Color = White30,
     val white50: Color = White50,
     val pink30: Color = Pink30,

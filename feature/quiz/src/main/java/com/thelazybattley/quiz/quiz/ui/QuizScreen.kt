@@ -3,10 +3,16 @@ package com.thelazybattley.quiz.quiz.ui
 import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,6 +20,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -99,9 +107,63 @@ private fun QuizScreen(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 uiState.quizDetailsState.question.choices.forEach { choice ->
-                    QuizChoice(choice = choice, isSelected = choice == uiState.quizDetailsState.chosenAnswers[uiState.currentIndex]) {
+                    QuizChoice(
+                        choice = choice,
+                        isSelected = choice == uiState.quizDetailsState.chosenAnswers[uiState.currentIndex]
+                    ) {
                         callbacks.selectAnswer(chosenAnswer = choice)
                     }
+                }
+            }
+            Spacer(modifier = Modifier.weight(weight = 1f))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(space = 16.dp),
+            ) {
+                ElevatedButton(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(bottom = 32.dp),
+                    onClick = {
+                        callbacks.goToPreviousQuestion()
+                    },
+                    shape = RoundedCornerShape(size = 8.dp),
+                    colors = ButtonDefaults.elevatedButtonColors(
+                        containerColor = colors.white30
+                    ),
+                    contentPadding = PaddingValues(all = 16.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.previous),
+                        style = textStyle.poppins.copy(
+                            color = colors.purple50,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.SemiBold
+                        ),
+                    )
+                }
+
+                ElevatedButton(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(bottom = 32.dp),
+                    onClick = {
+                        callbacks.goToNextQuestion()
+                    },
+                    shape = RoundedCornerShape(size = 8.dp),
+                    colors = ButtonDefaults.elevatedButtonColors(
+                        containerColor = colors.purple50
+                    ),
+                    contentPadding = PaddingValues(all = 16.dp)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.next),
+                        style = textStyle.poppins.copy(
+                            color = colors.white20,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    )
                 }
             }
         }

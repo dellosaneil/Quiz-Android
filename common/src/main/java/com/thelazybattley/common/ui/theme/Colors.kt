@@ -9,6 +9,7 @@ val Purple40 = Color(0xff7B61FF)
 val Purple50 = Color(0xff841FFD)
 
 val White10 = Color(0xffF3F5F8)
+val White20 = Color(0xffF9F9F9)
 val White30 = Color(0xffF5F7FB)
 val White50 = Color(0xffffffff)
 

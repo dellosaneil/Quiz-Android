@@ -52,7 +52,6 @@ fun QuizChoice(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
             .border(
                 border = BorderStroke(
                     width = 1.dp,
