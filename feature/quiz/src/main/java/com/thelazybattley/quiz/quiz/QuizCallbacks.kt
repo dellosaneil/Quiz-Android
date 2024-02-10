@@ -12,9 +12,5 @@ interface QuizCallbacks {
 
     fun checkQuiz()
 
-    fun goToNextQuestion()
-
-    fun goToPreviousQuestion()
-
-    fun jumpToQuestion(index: Int)
+    fun goToQuestion(index: Int)
 }

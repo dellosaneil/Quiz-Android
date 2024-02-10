@@ -114,36 +114,7 @@ class QuizViewModel @Inject constructor(
         }
     }
 
-    override fun goToNextQuestion() {
-        updateState { state ->
-            val newIndex = state.currentIndex.inc()
-            val updatedProgress = (newIndex.toFloat() / state.quizDetailsState.questions.size.dec())
-            state.copy(
-                currentIndex = newIndex,
-                progress = updatedProgress,
-                quizDetailsState = state.quizDetailsState.copy(
-                    question = state.quizDetailsState.questions[newIndex]
-                )
-            )
-        }
-    }
-
-    override fun goToPreviousQuestion() {
-        updateState { state ->
-            val newIndex = state.currentIndex.dec()
-            val updatedProgress = (newIndex.toFloat() / state.quizDetailsState.questions.size.dec())
-
-            state.copy(
-                currentIndex = newIndex,
-                progress = updatedProgress,
-                quizDetailsState = state.quizDetailsState.copy(
-                    question = state.quizDetailsState.questions[newIndex]
-                )
-            )
-        }
-    }
-
-    override fun jumpToQuestion(
+    override fun goToQuestion(
         index: Int
     ) {
         updateState { state ->

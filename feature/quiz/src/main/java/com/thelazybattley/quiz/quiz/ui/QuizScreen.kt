@@ -92,7 +92,7 @@ private fun QuizScreen(
                 currentIndex = uiState.currentIndex,
                 chosenAnswers = uiState.quizDetailsState.chosenAnswers,
                 onQuestionSelected = { index ->
-                    callbacks.jumpToQuestion(index = index)
+                    callbacks.goToQuestion(index = index)
                 },
                 progress = uiState.progress
             )
@@ -125,7 +125,7 @@ private fun QuizScreen(
                         .weight(1f)
                         .padding(bottom = 32.dp),
                     onClick = {
-                        callbacks.goToPreviousQuestion()
+                        callbacks.goToQuestion(index = uiState.currentIndex.dec())
                     },
                     shape = RoundedCornerShape(size = 8.dp),
                     colors = ButtonDefaults.elevatedButtonColors(
@@ -149,7 +149,7 @@ private fun QuizScreen(
                         .weight(1f)
                         .padding(bottom = 32.dp),
                     onClick = {
-                        callbacks.goToNextQuestion()
+                        callbacks.goToQuestion(index = uiState.currentIndex.inc())
                     },
                     shape = RoundedCornerShape(size = 8.dp),
                     colors = ButtonDefaults.elevatedButtonColors(
@@ -245,15 +245,7 @@ private fun PreviewQuizScreen() {
                     TODO("Not yet implemented")
                 }
 
-                override fun goToNextQuestion() {
-                    TODO("Not yet implemented")
-                }
-
-                override fun goToPreviousQuestion() {
-                    TODO("Not yet implemented")
-                }
-
-                override fun jumpToQuestion(index: Int) {
+                override fun goToQuestion(index: Int) {
                     TODO("Not yet implemented")
                 }
             },

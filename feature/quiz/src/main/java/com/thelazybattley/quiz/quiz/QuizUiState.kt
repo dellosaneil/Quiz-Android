@@ -15,7 +15,8 @@ data class QuizUiState(
     val currentIndex: Int = -1,
     val isLoading: Boolean = true,
     val quizDetailsState: QuizDetailsState = QuizDetailsState(),
-    val progress: Float = 0f
+    val progress: Float = 0f,
+    val isCompleted: Boolean = false
 ) : BaseUiState
 
 data class TimerState(
