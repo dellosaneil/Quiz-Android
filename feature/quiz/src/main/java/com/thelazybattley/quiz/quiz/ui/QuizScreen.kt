@@ -80,7 +80,6 @@ private fun QuizScreen(
                 actions = {
                     QuizTimer(
                         remainingTime = uiState
-                            .timerState
                             .remainingTime
                             .toDuration(unit = DurationUnit.SECONDS)
                             .toString()
@@ -159,7 +158,11 @@ private fun QuizScreen(
                         .weight(1f)
                         .padding(bottom = 32.dp),
                     onClick = {
-                        callbacks.goToQuestion(index = uiState.currentIndex.inc())
+                        if (uiState.isComplete) {
+                            callbacks.updateSubmitDialog(showDialog = true)
+                        } else {
+                            callbacks.goToQuestion(index = uiState.currentIndex.inc())
+                        }
                     },
                     shape = RoundedCornerShape(size = 8.dp),
                     colors = ButtonDefaults.elevatedButtonColors(
@@ -167,10 +170,16 @@ private fun QuizScreen(
                         contentColor = colors.white20
                     ),
                     contentPadding = PaddingValues(all = 16.dp),
-                    enabled = uiState.currentIndex != uiState.quizDetailsState.questions.size.dec()
+                    enabled = uiState.currentIndex != uiState.quizDetailsState.questions.size.dec() || uiState.isComplete
                 ) {
+                    val textRes = if (uiState.isComplete) {
+                        R.string.submit
+                    } else {
+                        R.string.next
+                    }
+
                     Text(
-                        text = stringResource(id = R.string.next),
+                        text = stringResource(id = textRes),
                         style = textStyle.poppins.copy(
                             fontSize = 16.sp,
                             fontWeight = FontWeight.SemiBold
@@ -178,6 +187,12 @@ private fun QuizScreen(
                     )
                 }
             }
+            QuizSubmitDialog(showDialog = uiState.showSubmitButtonDialog,
+                onSubmitButtonClicked = { callbacks.submitQuiz() },
+                onContinueQuizClicked = {
+                    callbacks.updateSubmitDialog(showDialog = false)
+                }
+            )
         }
     }
 }
@@ -251,6 +266,10 @@ private fun PreviewQuizScreen() {
                 }
 
                 override fun goToQuestion(index: Int) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun updateSubmitDialog(showDialog: Boolean) {
                     TODO("Not yet implemented")
                 }
             },

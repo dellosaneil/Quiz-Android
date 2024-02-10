@@ -11,4 +11,6 @@ interface QuizCallbacks {
     fun fetchQuestions()
 
     fun goToQuestion(index: Int)
+
+    fun updateSubmitDialog(showDialog: Boolean)
 }

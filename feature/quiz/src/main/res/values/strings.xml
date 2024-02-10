@@ -14,6 +14,8 @@
     <string name="review_questions">Review Questions</string>
     <string name="quiz">Quiz</string>
     <string name="previous">Previous</string>
+    <string name="congratulations_on_completing_the_quiz_would_you_like_to_submit_your_answers_now">Congratulations on completing the quiz! Would you like to submit your answers now?</string>
+    <string name="are_you_sure_you_want_to_submit">Are you sure you want to Submit?</string>
 
     <plurals name="x_question">
         <item quantity="one">%1$d question</item>

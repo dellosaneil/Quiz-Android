@@ -10,17 +10,14 @@ import kotlinx.parcelize.Parcelize
 
 data class QuizUiState(
     val throwable: Throwable? = null,
-    val timerState: TimerState = TimerState(),
     val currentIndex: Int = -1,
     val isLoading: Boolean = true,
     val quizDetailsState: QuizDetailsState = QuizDetailsState(),
     val progress: Float = 0f,
-    val isCompleted: Boolean = false
+    val isComplete: Boolean = false,
+    val remainingTime: Int = 0,
+    val showSubmitButtonDialog: Boolean = false
 ) : BaseUiState
-
-data class TimerState(
-    val remainingTime: Int = 0
-)
 
 @Parcelize
 data class QuizDetailsState(

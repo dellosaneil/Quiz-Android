@@ -46,9 +46,7 @@ class QuizViewModel @Inject constructor(
                                     chosenAnswers = questions.map { null }
                                 ),
                                 currentIndex = 0,
-                                timerState = state.timerState.copy(
-                                    remainingTime = TIME_PER_QUESTION * questions.size
-                                )
+                                remainingTime = TIME_PER_QUESTION * questions.size
                             )
                         }
                         observeTimer()
@@ -72,15 +70,14 @@ class QuizViewModel @Inject constructor(
 
     override suspend fun observeTimer() {
         timerJob = viewModelScope.launch(dispatcher) {
-            var remainingTime = TIME_PER_QUESTION * getCurrentState().quizDetailsState.questions.size
+            var remainingTime =
+                TIME_PER_QUESTION * getCurrentState().quizDetailsState.questions.size
             do {
                 delay(1000L)
                 remainingTime--
                 updateState { state ->
                     state.copy(
-                        timerState = state.timerState.copy(
-                            remainingTime = remainingTime
-                        )
+                        remainingTime = remainingTime
                     )
                 }
             } while (remainingTime != 0)
@@ -90,6 +87,11 @@ class QuizViewModel @Inject constructor(
 
     override fun submitQuiz() {
         timerJob?.cancel()
+        updateState { state ->
+            state.copy(
+                showSubmitButtonDialog = false
+            )
+        }
         emitEvent(
             event = QuizEvents.FinishedQuizEvent(
                 quizDetailsState = getCurrentState().quizDetailsState
@@ -104,7 +106,8 @@ class QuizViewModel @Inject constructor(
             state.copy(
                 quizDetailsState = state.quizDetailsState.copy(
                     chosenAnswers = updatedChosenAnswers
-                )
+                ),
+                isComplete = !updatedChosenAnswers.contains(null)
             )
         }
     }
@@ -120,6 +123,14 @@ class QuizViewModel @Inject constructor(
                 quizDetailsState = state.quizDetailsState.copy(
                     question = state.quizDetailsState.questions[index]
                 )
+            )
+        }
+    }
+
+    override fun updateSubmitDialog(showDialog: Boolean) {
+        updateState { state ->
+            state.copy(
+                showSubmitButtonDialog = showDialog
             )
         }
     }

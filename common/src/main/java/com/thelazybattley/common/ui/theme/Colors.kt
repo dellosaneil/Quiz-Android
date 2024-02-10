@@ -22,6 +22,7 @@ val Gray30 = Color(0xff9998a5)
 
 val Black20 = Color(0xff2E2E2E)
 val Black30 = Color(0xff180033)
+val Black40 = Color(0xff333333)
 val Black50 = Color(0xff000000)
 
 val Transparent = Color(0x0000ffff)
