@@ -10,7 +10,5 @@ interface QuizCallbacks {
 
     fun fetchQuestions()
 
-    fun checkQuiz()
-
     fun goToQuestion(index: Int)
 }

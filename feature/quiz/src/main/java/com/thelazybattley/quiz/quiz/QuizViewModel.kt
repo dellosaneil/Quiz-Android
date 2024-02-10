@@ -91,10 +91,6 @@ class QuizViewModel @Inject constructor(
 
     override fun submitQuiz() {
         timerJob?.cancel()
-    }
-
-    override fun checkQuiz() {
-        timerJob?.cancel()
         emitEvent(
             event = QuizEvents.FinishedQuizEvent(
                 quizDetailsState = getCurrentState().quizDetailsState
