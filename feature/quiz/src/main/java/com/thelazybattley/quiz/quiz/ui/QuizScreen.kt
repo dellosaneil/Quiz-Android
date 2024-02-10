@@ -129,14 +129,15 @@ private fun QuizScreen(
                     },
                     shape = RoundedCornerShape(size = 8.dp),
                     colors = ButtonDefaults.elevatedButtonColors(
-                        containerColor = colors.white30
+                        containerColor = colors.white30,
+                        contentColor = colors.purple50
                     ),
-                    contentPadding = PaddingValues(all = 16.dp)
+                    contentPadding = PaddingValues(all = 16.dp),
+                    enabled = uiState.currentIndex != 0
                 ) {
                     Text(
                         text = stringResource(R.string.previous),
                         style = textStyle.poppins.copy(
-                            color = colors.purple50,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.SemiBold
                         ),
@@ -152,14 +153,15 @@ private fun QuizScreen(
                     },
                     shape = RoundedCornerShape(size = 8.dp),
                     colors = ButtonDefaults.elevatedButtonColors(
-                        containerColor = colors.purple50
+                        containerColor = colors.purple50,
+                        contentColor = colors.white20
                     ),
-                    contentPadding = PaddingValues(all = 16.dp)
+                    contentPadding = PaddingValues(all = 16.dp),
+                    enabled = uiState.currentIndex != uiState.quizDetailsState.questions.size.dec()
                 ) {
                     Text(
                         text = stringResource(id = R.string.next),
                         style = textStyle.poppins.copy(
-                            color = colors.white20,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.SemiBold
                         )
