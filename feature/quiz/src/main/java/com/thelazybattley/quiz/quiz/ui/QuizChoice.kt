@@ -14,6 +14,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,30 +27,13 @@ import com.thelazybattley.common.ui.theme.textStyle
 fun QuizChoice(
     modifier: Modifier = Modifier,
     choice: String,
-    isSelected: Boolean,
+    background: Color,
+    style: TextStyle,
+    borderColor: Color,
+    onClickEnabled: Boolean = true,
     onSelected: () -> Unit
 ) {
 
-    val (background, style, borderColor) = if (isSelected) {
-        Triple(
-            first = colors.purple30,
-            second = textStyle.poppins.copy(
-                fontSize = 14.sp,
-                color = colors.purple50
-            ),
-            third = colors.purple50
-        )
-    } else {
-        Triple(
-            first = colors.white10,
-            second = textStyle.poppins.copy(
-                fontSize = 14.sp,
-                color = colors.black20
-            ),
-            third = colors.gray20
-        )
-
-    }
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -64,7 +49,7 @@ fun QuizChoice(
                 shape = RoundedCornerShape(size = 8.dp)
             )
             .clip(shape = RoundedCornerShape(size = 8.dp))
-            .clickable {
+            .clickable(enabled = onClickEnabled) {
                 onSelected()
             }
     ) {
@@ -82,25 +67,51 @@ fun QuizChoice(
 @Composable
 private fun PreviewQuizChoice() {
     QuizAndroidTheme {
+        val (background, style, borderColor) =
+            Triple(
+                first = colors.purple30,
+                second = textStyle.poppins.copy(
+                    fontSize = 14.sp,
+                    color = colors.purple50
+                ),
+                third = colors.purple50
+            )
         Column(
             verticalArrangement = Arrangement.spacedBy(space = 16.dp),
             modifier = Modifier.padding(16.dp)
         ) {
-            QuizChoice(choice = "Test", isSelected = false) {
+            QuizChoice(
+                choice = "Test", background = background,
+                style = style,
+                borderColor = borderColor
+            ) {
 
             }
 
 
-            QuizChoice(choice = "Selected", isSelected = true) {
+            QuizChoice(
+                choice = "Selected", background = background,
+                style = style,
+                borderColor = borderColor
+            ) {
 
             }
 
-            QuizChoice(choice = "A Long text to test a test that is a testing a testakjsdbnlak sd adsa sd   ", isSelected = false) {
+            QuizChoice(
+                choice = "A Long text to test a test that is a testing a testakjsdbnlak sd adsa sd   ",
+                background = background,
+                style = style,
+                borderColor = borderColor
+            ) {
 
             }
 
 
-            QuizChoice(choice = "Selected", isSelected = true) {
+            QuizChoice(
+                choice = "Selected", background = background,
+                style = style,
+                borderColor = borderColor
+            ) {
 
             }
         }

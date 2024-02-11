@@ -112,9 +112,33 @@ private fun QuizScreen(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 uiState.quizDetailsState.question.choices.forEach { choice ->
+                    val isSelected =
+                        choice == uiState.quizDetailsState.chosenAnswers[uiState.currentIndex]
+                    val (background, style, borderColor) = if (isSelected) {
+                        Triple(
+                            first = colors.purple30,
+                            second = textStyle.poppins.copy(
+                                fontSize = 14.sp,
+                                color = colors.purple50
+                            ),
+                            third = colors.purple50
+                        )
+                    } else {
+                        Triple(
+                            first = colors.white10,
+                            second = textStyle.poppins.copy(
+                                fontSize = 14.sp,
+                                color = colors.black20
+                            ),
+                            third = colors.gray20
+                        )
+                    }
+
                     QuizChoice(
                         choice = choice,
-                        isSelected = choice == uiState.quizDetailsState.chosenAnswers[uiState.currentIndex]
+                        background = background,
+                        style = style,
+                        borderColor = borderColor
                     ) {
                         callbacks.selectAnswer(chosenAnswer = choice)
                     }

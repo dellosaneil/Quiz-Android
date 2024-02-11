@@ -29,4 +29,8 @@ val Black50 = Color(0xff000000)
 val Transparent = Color(0x0000ffff)
 
 val Green30 = Color(0xff22AC26)
+val Green50 = Color(0xff1D6656)
+
+val Red30 = Color(0xffFB5B3B)
+val Red40 = Color(0xffE04852)
 
