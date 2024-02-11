@@ -3,7 +3,6 @@ package com.thelazybattley.quiz.quizresult.ui
 import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -93,32 +92,41 @@ fun QuizResultScreen(
             ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = stringResource(R.string.quiz_result),
-                style = textStyle.poppins.copy(
-                    color = colors.blackOpacity50,
-                    fontSize = 16.sp
-                )
-            )
-            Text(
-                text = stringResource(id = R.string.x_percent, uiState.percentage),
-                style = textStyle.poppins.copy(
-                    fontSize = 36.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = colors.purple50
-                )
-            )
-            Text(
-                text = quizResultText(
-                    correctAnswers = uiState.correctAnswers,
-                    totalQuestions = uiState.totalQuestions
+            Column(
+                modifier = Modifier
+                    .weight(1f),
+                verticalArrangement = Arrangement.spacedBy(
+                    space = 16.dp,
+                    alignment = Alignment.CenterVertically
                 ),
-                style = textStyle.poppins.copy(
-                    fontSize = 16.sp,
-                    textAlign = TextAlign.Center
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = stringResource(R.string.quiz_result),
+                    style = textStyle.poppins.copy(
+                        color = colors.blackOpacity50,
+                        fontSize = 16.sp
+                    )
                 )
-            )
-            Spacer(modifier = Modifier.weight(weight = 1f))
+                Text(
+                    text = stringResource(id = R.string.x_percent, uiState.percentage),
+                    style = textStyle.poppins.copy(
+                        fontSize = 36.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = colors.purple50
+                    )
+                )
+                Text(
+                    text = quizResultText(
+                        correctAnswers = uiState.correctAnswers,
+                        totalQuestions = uiState.totalQuestions
+                    ),
+                    style = textStyle.poppins.copy(
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Center
+                    )
+                )
+            }
 
             CommonElevatedButton(
                 modifier = Modifier.fillMaxWidth(),
