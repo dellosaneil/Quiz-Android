@@ -4,13 +4,11 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.thelazybattley.common.components.CommonElevatedButton
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
 import com.thelazybattley.common.ui.theme.colors
 import com.thelazybattley.common.ui.theme.textStyle
@@ -72,7 +71,7 @@ fun QuizSubmitDialog(
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(space = 16.dp)
                 ) {
-                    ElevatedButton(
+                    CommonElevatedButton(
                         modifier = Modifier
                             .weight(1f),
                         onClick = {
@@ -82,20 +81,11 @@ fun QuizSubmitDialog(
                             containerColor = colors.white30,
                             contentColor = colors.purple50
                         ),
-                        shape = RoundedCornerShape(size = 8.dp),
-                        contentPadding = PaddingValues(all = 12.dp)
-                    ) {
-                        Text(
-                            text = stringResource(R.string.close),
-                            style = textStyle.poppins.copy(
-                                fontWeight = FontWeight.SemiBold,
-                                fontSize = 16.sp
-                            )
-                        )
-                    }
+                        textRes = R.string.close
+                    )
 
 
-                    ElevatedButton(
+                    CommonElevatedButton(
                         modifier = Modifier
                             .weight(1f),
                         onClick = {
@@ -105,17 +95,8 @@ fun QuizSubmitDialog(
                             containerColor = colors.purple50,
                             contentColor = colors.white20
                         ),
-                        shape = RoundedCornerShape(size = 8.dp),
-                        contentPadding = PaddingValues(all = 12.dp)
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.submit),
-                            style = textStyle.poppins.copy(
-                                fontWeight = FontWeight.SemiBold,
-                                fontSize = 16.sp
-                            )
-                        )
-                    }
+                        textRes = R.string.submit
+                    )
                 }
             }
         }

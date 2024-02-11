@@ -24,19 +24,18 @@ class QuizResultViewModel @Inject constructor(
         viewModelScope.launch(context = dispatcher) {
             val questionDetailsState: QuizDetailsState = savedStateHandle[QUIZ_RESULT_STATE] ?: return@launch
             updateState { state ->
-                val skippedQuestions = questionDetailsState.chosenAnswers.count { it == null }
                 val correctAnswers =
                     questionDetailsState.answers.zip(questionDetailsState.chosenAnswers).count {
                         it.first == it.second
                     }
-                val incorrectAnswers = questionDetailsState.questions.size - correctAnswers - skippedQuestions
+                val incorrectAnswers = questionDetailsState.questions.size - correctAnswers
                 val percentage = ((correctAnswers).toFloat() / questionDetailsState.questions.size) * 100
                 state.copy(
                     questionDetailsState = questionDetailsState,
-                    skippedQuestions =skippedQuestions ,
                     correctAnswers = correctAnswers,
                     incorrectAnswers = incorrectAnswers,
-                    percentage = percentage.roundToInt()
+                    percentage = percentage.roundToInt(),
+                    totalQuestions = questionDetailsState.questions.size
                 )
             }
         }

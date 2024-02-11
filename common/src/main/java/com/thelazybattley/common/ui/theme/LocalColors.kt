@@ -24,7 +24,9 @@ data class LightColors(
     val black40: Color = Black40,
     val black30: Color = Black30,
     val black20: Color = Black20,
-    val transparent: Color = Transparent
+    val blackOpacity50: Color = BlackOpacity50,
+    val transparent: Color = Transparent,
+    val green30: Color = Green30
 )
 
 val LocalColors = staticCompositionLocalOf<LightColors> { error("No color provided") }

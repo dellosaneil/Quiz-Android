@@ -3,16 +3,13 @@ package com.thelazybattley.quiz.quiz.ui
 import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,8 +17,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
 import com.google.gson.Gson
+import com.thelazybattley.common.components.CommonElevatedButton
 import com.thelazybattley.common.components.CommonTopBar
 import com.thelazybattley.common.enums.QuestionType
 import com.thelazybattley.common.model.AppScreens
@@ -126,37 +122,39 @@ private fun QuizScreen(
             }
             Spacer(modifier = Modifier.weight(weight = 1f))
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 32.dp),
                 horizontalArrangement = Arrangement.spacedBy(space = 16.dp),
             ) {
-                ElevatedButton(
+                CommonElevatedButton(
                     modifier = Modifier
-                        .weight(1f)
-                        .padding(bottom = 32.dp),
-                    onClick = {
-                        callbacks.goToQuestion(index = uiState.currentIndex.dec())
-                    },
-                    shape = RoundedCornerShape(size = 8.dp),
+                        .weight(1f),
+                    textRes = R.string.previous,
+                    isEnabled = uiState.currentIndex != 0,
                     colors = ButtonDefaults.elevatedButtonColors(
                         containerColor = colors.white30,
                         contentColor = colors.purple50
                     ),
-                    contentPadding = PaddingValues(all = 16.dp),
-                    enabled = uiState.currentIndex != 0
-                ) {
-                    Text(
-                        text = stringResource(R.string.previous),
-                        style = textStyle.poppins.copy(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold
-                        ),
-                    )
-                }
+                    onClick = {
+                        callbacks.goToQuestion(index = uiState.currentIndex.dec())
 
-                ElevatedButton(
+                    }
+                )
+
+                val textRes = if (uiState.isComplete) {
+                    R.string.submit
+                } else {
+                    R.string.next
+                }
+                CommonElevatedButton(
                     modifier = Modifier
-                        .weight(1f)
-                        .padding(bottom = 32.dp),
+                        .weight(1f),
+                    textRes = textRes,
+                    colors = ButtonDefaults.elevatedButtonColors(
+                        containerColor = colors.purple50,
+                        contentColor = colors.white20
+                    ),
                     onClick = {
                         if (uiState.isComplete) {
                             callbacks.updateSubmitDialog(showDialog = true)
@@ -164,28 +162,8 @@ private fun QuizScreen(
                             callbacks.goToQuestion(index = uiState.currentIndex.inc())
                         }
                     },
-                    shape = RoundedCornerShape(size = 8.dp),
-                    colors = ButtonDefaults.elevatedButtonColors(
-                        containerColor = colors.purple50,
-                        contentColor = colors.white20
-                    ),
-                    contentPadding = PaddingValues(all = 16.dp),
-                    enabled = uiState.currentIndex != uiState.quizDetailsState.questions.size.dec() || uiState.isComplete
-                ) {
-                    val textRes = if (uiState.isComplete) {
-                        R.string.submit
-                    } else {
-                        R.string.next
-                    }
-
-                    Text(
-                        text = stringResource(id = textRes),
-                        style = textStyle.poppins.copy(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    )
-                }
+                    isEnabled = uiState.currentIndex != uiState.quizDetailsState.questions.size.dec() || uiState.isComplete
+                )
             }
             QuizSubmitDialog(showDialog = uiState.showSubmitButtonDialog,
                 onSubmitButtonClicked = { callbacks.submitQuiz() },

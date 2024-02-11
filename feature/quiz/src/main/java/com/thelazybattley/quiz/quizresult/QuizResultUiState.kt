@@ -8,5 +8,5 @@ data class QuizResultUiState(
     val percentage: Int = 0,
     val correctAnswers: Int = 0,
     val incorrectAnswers: Int = 0,
-    val skippedQuestions: Int = 0
+    val totalQuestions : Int = 0
 ) : BaseUiState

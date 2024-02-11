@@ -16,6 +16,13 @@
     <string name="previous">Previous</string>
     <string name="congratulations_on_completing_the_quiz_would_you_like_to_submit_your_answers_now">Congratulations on completing the quiz! Would you like to submit your answers now?</string>
     <string name="are_you_sure_you_want_to_submit">Are you sure you want to Submit?</string>
+    <string name="show_result">Show Result</string>
+    <string name="quiz_result">Quiz Result</string>
+    <string name="congratulations">Congratulations</string>
+    <string name="you_have_answered">You have answered</string>
+    <string name="questions_correctly">questions correctly</string>
+    <string name="review_quiz">Review Quiz</string>
+    <string name="wrap_up_quiz">Wrap up Quiz</string>
 
     <plurals name="x_question">
         <item quantity="one">%1$d question</item>
