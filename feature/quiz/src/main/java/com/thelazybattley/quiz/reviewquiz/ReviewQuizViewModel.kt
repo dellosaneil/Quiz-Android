@@ -20,11 +20,13 @@ class ReviewQuizViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(dispatcher) {
-            val quizDetailsState: QuizDetailsState = savedStateHandle[AppScreens.QUIZ_RESULT_STATE] ?: return@launch
+            val quizDetailsState: QuizDetailsState =
+                savedStateHandle[AppScreens.QUIZ_RESULT_STATE] ?: return@launch
             updateState { state ->
-                val isAnswersCorrect = quizDetailsState.chosenAnswers.zip(quizDetailsState.answers).map {
-                    it.first == it.second
-                }
+                val isAnswersCorrect =
+                    quizDetailsState.chosenAnswers.zip(quizDetailsState.answers).map {
+                        it.first == it.second
+                    }
                 state.copy(
                     quizDetailsState = quizDetailsState.copy(
                         question = quizDetailsState.questions.first()
@@ -43,8 +45,29 @@ class ReviewQuizViewModel @Inject constructor(
                 progress = progress,
                 quizDetailsState = state.quizDetailsState.copy(
                     question = state.quizDetailsState.questions[index]
-                )
+                ),
+                reportAnswerState = ReportAnswerState()
 
+            )
+        }
+    }
+
+    override fun showReportAnswerDialog(showDialog: Boolean) {
+        updateState { state ->
+            state.copy(
+                reportAnswerState = ReportAnswerState(
+                    showReportDialog = showDialog
+                )
+            )
+        }
+    }
+
+    override fun updateTextField(text: String) {
+        updateState { state ->
+            state.copy(
+                reportAnswerState = state.reportAnswerState.copy(
+                    text = text
+                )
             )
         }
     }

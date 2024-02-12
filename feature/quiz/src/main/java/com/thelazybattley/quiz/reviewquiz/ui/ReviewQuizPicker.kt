@@ -41,7 +41,7 @@ fun ReviewQuizPicker(
                     else -> colors.red30
                 }
                 val background = if (isFocused) {
-                    colors.black20
+                    color.copy(alpha = 0.3f)
                 } else {
                     colors.white50
                 }

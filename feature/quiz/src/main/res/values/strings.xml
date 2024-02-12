@@ -23,6 +23,11 @@
     <string name="questions_correctly">questions correctly</string>
     <string name="review_quiz">Review Quiz</string>
     <string name="wrap_up_quiz">Wrap up Quiz</string>
+    <string name="report_answer">Report Answer</string>
+    <string name="report_incorrect_answer">Report Incorrect Answer</string>
+    <string name="enter_the_correct_answer">Enter the correct answer</string>
+    <string name="cancel">Cancel</string>
+    <string name="report">Report</string>
 
     <plurals name="x_question">
         <item quantity="one">%1$d question</item>

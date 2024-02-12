@@ -162,7 +162,6 @@ private fun QuizScreen(
                     ),
                     onClick = {
                         callbacks.goToQuestion(index = uiState.currentIndex.dec())
-
                     }
                 )
 
@@ -189,7 +188,8 @@ private fun QuizScreen(
                     isEnabled = uiState.currentIndex != uiState.quizDetailsState.questions.size.dec() || uiState.isComplete
                 )
             }
-            QuizSubmitDialog(showDialog = uiState.showSubmitButtonDialog,
+            QuizSubmitDialog(
+                showDialog = uiState.showSubmitButtonDialog,
                 onSubmitButtonClicked = { callbacks.submitQuiz() },
                 onContinueQuizClicked = {
                     callbacks.updateSubmitDialog(showDialog = false)

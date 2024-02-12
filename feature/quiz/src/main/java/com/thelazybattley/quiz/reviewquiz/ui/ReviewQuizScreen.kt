@@ -4,8 +4,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavOptions
+import com.thelazybattley.common.components.CommonElevatedButton
 import com.thelazybattley.common.components.CommonTopBar
 import com.thelazybattley.common.enums.QuestionType
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
@@ -149,6 +152,31 @@ private fun ReviewQuizScreen(
                     }
                 }
             }
+            Spacer(modifier = Modifier.weight(weight = 1f))
+            CommonElevatedButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                textRes = R.string.report_answer, colors = ButtonDefaults.elevatedButtonColors(
+                    containerColor = colors.purple50,
+                    contentColor = colors.white20
+                )
+            ) {
+                callbacks.showReportAnswerDialog(showDialog = true)
+            }
+
+            ReportAnswerDialog(
+                reportAnswerState = uiState.reportAnswerState,
+                onReportClicked = {
+                    callbacks.showReportAnswerDialog(showDialog = false)
+                },
+                onCancelClicked = {
+                    callbacks.showReportAnswerDialog(showDialog = false)
+                },
+                onValueChanged = { text ->
+                    callbacks.updateTextField(text = text)
+                }
+            )
         }
     }
 }
@@ -180,6 +208,14 @@ private fun PreviewReviewQuizScreen() {
             events = null,
             callbacks = object : ReviewQuizCallbacks {
                 override fun jumpToQuestion(index: Int) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun showReportAnswerDialog(showDialog: Boolean) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun updateTextField(text: String) {
                     TODO("Not yet implemented")
                 }
 
