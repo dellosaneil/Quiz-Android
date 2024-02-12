@@ -8,4 +8,6 @@ interface ReviewQuizCallbacks {
 
     fun updateTextField(text: String)
 
+    fun reportQuestion()
+
 }

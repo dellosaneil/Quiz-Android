@@ -2,8 +2,10 @@ package com.thelazybattley.data.di
 
 import com.thelazybattley.domain.network.usecase.AddQuestionUseCase
 import com.thelazybattley.domain.network.usecase.FetchQuestionsUseCase
+import com.thelazybattley.domain.network.usecase.InsertReportedQuestionUseCase
 import com.thelazybattley.domain.network.usecase.impl.AddQuestionUseCaseImpl
 import com.thelazybattley.domain.network.usecase.impl.FetchQuestionsUseCaseImpl
+import com.thelazybattley.domain.network.usecase.impl.InsertReportedQuestionUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -19,5 +21,8 @@ abstract class UseCaseModule {
 
     @Binds
     abstract fun bindsAddQuestionUseCase(impl: AddQuestionUseCaseImpl): AddQuestionUseCase
+
+    @Binds
+    abstract fun bindsInsertReportedQuestion(impl: InsertReportedQuestionUseCaseImpl): InsertReportedQuestionUseCase
 
 }

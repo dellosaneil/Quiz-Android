@@ -14,4 +14,10 @@ interface QuizRepository {
         type: QuestionType
     ): Result<Question>
 
+    suspend fun insertReportedQuestion(
+        suggestedAnswer: String,
+        questionId: Int,
+        question: String
+    ) : Result<Unit>
+
 }

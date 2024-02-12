@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.thelazybattley.common.base.BaseViewModel
 import com.thelazybattley.common.di.IoDispatcher
 import com.thelazybattley.common.model.AppScreens
+import com.thelazybattley.domain.network.usecase.InsertReportedQuestionUseCase
 import com.thelazybattley.quiz.quiz.QuizDetailsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -14,7 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ReviewQuizViewModel @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
+    private val insertReportedQuestionUseCase: InsertReportedQuestionUseCase
 ) : BaseViewModel<ReviewQuizEvents, ReviewQuizUiState>(), ReviewQuizCallbacks {
     override fun initialState() = ReviewQuizUiState()
 
@@ -68,6 +70,28 @@ class ReviewQuizViewModel @Inject constructor(
                 reportAnswerState = state.reportAnswerState.copy(
                     text = text
                 )
+            )
+        }
+    }
+
+    override fun reportQuestion() {
+        viewModelScope.launch(context = dispatcher) {
+            val currentQuestion = getCurrentState().quizDetailsState?.question ?: return@launch
+            insertReportedQuestionUseCase(
+                question = currentQuestion.question,
+                questionId = currentQuestion.id,
+                suggestedAnswer = getCurrentState().reportAnswerState.text
+            ).fold(
+                onSuccess = {
+                    updateState { state ->
+                        state.copy(
+                            reportAnswerState = ReportAnswerState()
+                        )
+                    }
+                },
+                onFailure = {
+
+                }
             )
         }
     }

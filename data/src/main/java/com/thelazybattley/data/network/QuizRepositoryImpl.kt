@@ -3,6 +3,7 @@ package com.thelazybattley.data.network
 import com.thelazybattley.common.enums.QuestionType
 import com.thelazybattley.common.enums.toQuestionType
 import com.thelazybattley.data.network.payload.QuestionPayload
+import com.thelazybattley.data.network.payload.ReportQuestionPayload
 import com.thelazybattley.data.network.service.QuizService
 import com.thelazybattley.domain.model.Question
 import com.thelazybattley.domain.network.QuizRepository
@@ -45,5 +46,19 @@ class QuizRepositoryImpl @Inject constructor(
                 type = this.type.toQuestionType
             )
         }
+    }
+
+    override suspend fun insertReportedQuestion(
+        suggestedAnswer: String,
+        questionId: Int,
+        question: String
+    ) = runCatching {
+        service.insertReportedQuestion(
+            payload = ReportQuestionPayload(
+                questionId = questionId,
+                suggestedAnswer = suggestedAnswer,
+                question = question
+            )
+        )
     }
 }

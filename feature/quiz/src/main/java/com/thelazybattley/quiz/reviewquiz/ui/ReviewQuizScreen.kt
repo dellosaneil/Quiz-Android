@@ -168,7 +168,7 @@ private fun ReviewQuizScreen(
             ReportAnswerDialog(
                 reportAnswerState = uiState.reportAnswerState,
                 onReportClicked = {
-                    callbacks.showReportAnswerDialog(showDialog = false)
+                    callbacks.reportQuestion()
                 },
                 onCancelClicked = {
                     callbacks.showReportAnswerDialog(showDialog = false)
@@ -216,6 +216,10 @@ private fun PreviewReviewQuizScreen() {
                 }
 
                 override fun updateTextField(text: String) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun reportQuestion() {
                     TODO("Not yet implemented")
                 }
 

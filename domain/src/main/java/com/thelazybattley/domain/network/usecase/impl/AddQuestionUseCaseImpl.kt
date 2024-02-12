@@ -14,7 +14,9 @@ class AddQuestionUseCaseImpl @Inject constructor(
         choices: List<String>,
         type: QuestionType
     ) = repository.addQuestion(
-            question = question, answer = answer, choices = choices,
-            type = type
-        )
+        question = question,
+        answer = answer,
+        choices = choices,
+        type = type
+    )
 }

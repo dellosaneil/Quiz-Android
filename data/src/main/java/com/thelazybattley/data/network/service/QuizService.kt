@@ -1,6 +1,7 @@
 package com.thelazybattley.data.network.service
 
 import com.thelazybattley.data.network.payload.QuestionPayload
+import com.thelazybattley.data.network.payload.ReportQuestionPayload
 import com.thelazybattley.data.network.response.question.QuestionResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -13,5 +14,8 @@ interface QuizService {
 
     @POST("question/insert")
     suspend fun addQuestion(@Body payload: QuestionPayload) : QuestionResponse
+
+    @POST("/report/insert")
+    suspend fun insertReportedQuestion(@Body payload: ReportQuestionPayload)
 
 }
