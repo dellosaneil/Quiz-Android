@@ -30,10 +30,10 @@ import com.thelazybattley.common.ui.theme.textStyle
 @Composable
 fun CommonTopBar(
     modifier: Modifier = Modifier,
-    @StringRes titleRes: Int,
-    @DrawableRes navigationIconRes: Int?,
+    @DrawableRes navigationIconRes: Int? = null,
     actions: @Composable (() -> Unit)? = null,
-    onNavClick: () -> Unit
+    @StringRes titleRes: Int,
+    onNavClick: (() -> Unit)? = null
 ) {
 
     Column {
@@ -57,7 +57,9 @@ fun CommonTopBar(
                             .padding(start = 16.dp)
                             .size(24.dp),
                         onClick = {
-                            onNavClick()
+                            if (onNavClick != null) {
+                                onNavClick()
+                            }
                         }
                     ) {
                         Icon(

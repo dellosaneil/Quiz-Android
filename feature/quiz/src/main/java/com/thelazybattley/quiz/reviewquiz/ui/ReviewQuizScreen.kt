@@ -1,5 +1,6 @@
 package com.thelazybattley.quiz.reviewquiz.ui
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -7,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -15,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -68,10 +72,29 @@ private fun ReviewQuizScreen(
         topBar = {
             CommonTopBar(
                 titleRes = R.string.review_quiz,
-                navigationIconRes = com.thelazybattley.common.R.drawable.ic_back_arrow
-            ) {
-                onPopBackStack()
-            }
+                actions = {
+                    Button(
+                        onClick = { onPopBackStack() },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = colors.transparent,
+                            contentColor = colors.black50
+                        ),
+                        shape = RoundedCornerShape(size = 8.dp),
+                        border = BorderStroke(
+                            width = 2.dp,
+                            color = colors.gray20
+                        )
+                    ) {
+                        Text(
+                            text = stringResource(R.string.close),
+                            style = textStyle.poppins.copy(
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Medium
+                            )
+                        )
+                    }
+                }
+            )
         }
     ) { paddingValues ->
         Column(
@@ -226,7 +249,11 @@ private fun PreviewReviewQuizScreen() {
                         ),
                         answer = "3",
                         type = QuestionType.RELATIONSHIP
-                    )
+                    ),
+                    answers = listOf(
+                        ""
+                    ),
+                    chosenAnswers = listOf("")
                 )
             ),
             events = null,
