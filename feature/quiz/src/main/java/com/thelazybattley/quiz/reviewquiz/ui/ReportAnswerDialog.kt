@@ -36,7 +36,11 @@ fun ReportAnswerDialog(
     onReportClicked: () -> Unit
 ) {
     if (reportAnswerState.showReportDialog) {
-        Dialog(onDismissRequest = {}) {
+        Dialog(
+            onDismissRequest = {
+
+            }
+        ) {
             Column(
                 modifier = modifier
                     .clip(shape = RoundedCornerShape(size = 16.dp))

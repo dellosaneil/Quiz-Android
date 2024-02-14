@@ -26,8 +26,10 @@ data class LightColors(
     val black20: Color = Black20,
     val blackOpacity50: Color = BlackOpacity50,
     val transparent: Color = Transparent,
+    val green10 : Color = Green10,
     val green30: Color = Green30,
     val green50: Color = Green50,
+    val red10: Color= Red10,
     val red30: Color = Red30,
     val red40: Color = Red40,
 )
