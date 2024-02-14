@@ -88,11 +88,18 @@ class ReviewQuizViewModel @Inject constructor(
                             reportAnswerState = ReportAnswerState()
                         )
                     }
+                    emitEvent(event = ReviewQuizEvents.ReportAnswer.Success)
                 },
                 onFailure = {
-
+                    emitEvent(event = ReviewQuizEvents.ReportAnswer.Error)
                 }
             )
+        }
+    }
+
+    override fun onResetEvent() {
+        viewModelScope.launch {
+            emitEvent(event = ReviewQuizEvents.Reset)
         }
     }
 }

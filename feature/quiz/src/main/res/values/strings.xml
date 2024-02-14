@@ -28,6 +28,8 @@
     <string name="enter_the_correct_answer">Enter the correct answer</string>
     <string name="cancel">Cancel</string>
     <string name="report">Report</string>
+    <string name="something_went_wrong">Something went wrong.</string>
+    <string name="answer_has_been_reported_and_will_be_reviewed_by_the_team">Answer has been reported and will be reviewed by the team.</string>
 
     <plurals name="x_question">
         <item quantity="one">%1$d question</item>

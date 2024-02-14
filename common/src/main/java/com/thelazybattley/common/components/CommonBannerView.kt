@@ -1,6 +1,7 @@
 package com.thelazybattley.common.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,19 +33,26 @@ fun CommonBannerView(
     val isVisible by produceState(initialValue = true) {
         delay(3_000L)
         value = false
+        delay(500L)
         onFinished()
     }
     AnimatedVisibility(
+        modifier = modifier.padding(
+            top = 16.dp,
+            start = 16.dp,
+            end = 16.dp
+        ),
         visible = isVisible,
         enter = slideInVertically(),
-        exit = slideOutVertically()
+        exit = slideOutVertically(
+            animationSpec = tween(durationMillis = 250)
+        )
     ) {
         BannerContent(
-            modifier = modifier,
+            modifier = Modifier,
             background = background,
             text = text
         )
-
     }
 }
 
@@ -56,8 +64,7 @@ private fun BannerContent(
 ) {
     Card(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = background,
             contentColor = colors.white10

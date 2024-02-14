@@ -14,11 +14,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavOptions
+import com.thelazybattley.common.components.CommonBannerView
 import com.thelazybattley.common.components.CommonElevatedButton
 import com.thelazybattley.common.components.CommonTopBar
 import com.thelazybattley.common.enums.QuestionType
@@ -179,6 +181,28 @@ private fun ReviewQuizScreen(
             )
         }
     }
+    HandleUiEvents(events = events, callbacks = callbacks)
+}
+
+
+@Composable
+private fun HandleUiEvents(events: ReviewQuizEvents?, callbacks: ReviewQuizCallbacks) {
+    when (events) {
+        is ReviewQuizEvents.ReportAnswer -> {
+            val (background, text) = when (events) {
+                is ReviewQuizEvents.ReportAnswer.Error -> colors.red10 to stringResource(R.string.something_went_wrong)
+                is ReviewQuizEvents.ReportAnswer.Success -> colors.green10 to stringResource(R.string.answer_has_been_reported_and_will_be_reviewed_by_the_team)
+            }
+
+            CommonBannerView(background = background, text = text) {
+                callbacks.onResetEvent()
+            }
+        }
+
+        else -> {
+            // do nothing
+        }
+    }
 }
 
 @Preview(showBackground = true)
@@ -206,24 +230,7 @@ private fun PreviewReviewQuizScreen() {
                 )
             ),
             events = null,
-            callbacks = object : ReviewQuizCallbacks {
-                override fun jumpToQuestion(index: Int) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun showReportAnswerDialog(showDialog: Boolean) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun updateTextField(text: String) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun reportQuestion() {
-                    TODO("Not yet implemented")
-                }
-
-            },
+            callbacks = ReviewQuizCallbacks.default(),
             onPopBackStack = {
 
             }
