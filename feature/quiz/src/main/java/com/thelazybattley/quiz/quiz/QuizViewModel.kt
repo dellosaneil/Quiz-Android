@@ -3,7 +3,7 @@ package com.thelazybattley.quiz.quiz
 import androidx.lifecycle.viewModelScope
 import com.thelazybattley.common.base.BaseViewModel
 import com.thelazybattley.common.di.IoDispatcher
-import com.thelazybattley.domain.network.usecase.FetchQuestionsUseCase
+import com.thelazybattley.domain.network.usecase.FetchAllQuestionsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class QuizViewModel @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
-    private val fetchQuestionsUseCase: FetchQuestionsUseCase
+    private val fetchAllQuestionsUseCase: FetchAllQuestionsUseCase
 ) : BaseViewModel<QuizEvents, QuizUiState>(),
     QuizCallbacks {
 
@@ -34,7 +34,7 @@ class QuizViewModel @Inject constructor(
 
     override fun fetchQuestions() {
         viewModelScope.launch(context = dispatcher) {
-            fetchQuestionsUseCase()
+            fetchAllQuestionsUseCase()
                 .fold(
                     onSuccess = { questions ->
                         updateState { state ->

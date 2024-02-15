@@ -2,7 +2,7 @@ package com.thelazybattley.domain.network.usecase
 
 import com.thelazybattley.domain.model.CategoryDetail
 
-interface FetchCategoryDetails {
+interface GetCategoryDetailsUseCase {
 
     suspend operator fun invoke() : Result<List<CategoryDetail>>
 }

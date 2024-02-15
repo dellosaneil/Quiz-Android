@@ -52,7 +52,8 @@ fun DashboardScreen(
     DashboardScreen(
         uiState = uiState,
         events = events,
-        navigate = navigate)
+        navigate = navigate
+    )
 }
 
 
@@ -99,6 +100,7 @@ fun DashboardScreen(
                             .rotate(degrees = 180f)
                             .size(size = 16.dp)
                     )
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
                 LazyRow {
                     items(

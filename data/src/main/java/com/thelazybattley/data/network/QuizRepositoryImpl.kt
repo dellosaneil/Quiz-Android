@@ -1,7 +1,9 @@
 package com.thelazybattley.data.network
 
 import com.thelazybattley.common.enums.QuestionCategory
-import com.thelazybattley.common.enums.toQuestionCategory
+import com.thelazybattley.data.local.dao.QuestionsDao
+import com.thelazybattley.data.mapper.toData
+import com.thelazybattley.data.mapper.toEntity
 import com.thelazybattley.data.network.payload.QuestionPayload
 import com.thelazybattley.data.network.payload.ReportQuestionPayload
 import com.thelazybattley.data.network.service.QuizService
@@ -10,17 +12,12 @@ import com.thelazybattley.domain.network.QuizRepository
 import javax.inject.Inject
 
 class QuizRepositoryImpl @Inject constructor(
-    private val service: QuizService
+    private val service: QuizService,
+    private val dao: QuestionsDao
 ) : QuizRepository {
-    override suspend fun fetchQuestions() = runCatching {
+    override suspend fun fetchAllQuestions() = runCatching {
         service.fetchQuestions().map { response ->
-            Question(
-                id = response.id,
-                answer = response.answer,
-                question = response.question,
-                choices = response.choices,
-                category = response.category.toQuestionCategory
-            )
+            response.toData
         }
     }
 
@@ -37,15 +34,7 @@ class QuizRepositoryImpl @Inject constructor(
                 choices = choices,
                 category = type.name
             )
-        ).run {
-            Question(
-                id = id,
-                answer = this.answer,
-                question = this.question,
-                choices = this.choices,
-                category = this.category.toQuestionCategory
-            )
-        }
+        ).toData
     }
 
     override suspend fun insertReportedQuestion(
@@ -66,5 +55,19 @@ class QuizRepositoryImpl @Inject constructor(
         service.fetchCategoriesDetails().map { response ->
             response.toData
         }
+    }
+
+    override suspend fun getAllQuestions() = runCatching {
+        dao.getAll().map { entity ->
+            entity
+                .toData
+                .copy(
+                    choices = entity.choices.shuffled()
+                )
+        }
+    }
+
+    override suspend fun insertAllQuestions(questions: List<Question>) = runCatching {
+        dao.insertAll(questions = questions.map { it.toEntity })
     }
 }
