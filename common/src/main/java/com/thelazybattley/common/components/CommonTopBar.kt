@@ -16,6 +16,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -33,6 +34,7 @@ fun CommonTopBar(
     @DrawableRes navigationIconRes: Int? = null,
     actions: @Composable (() -> Unit)? = null,
     @StringRes titleRes: Int,
+    background: Color = colors.transparent,
     onNavClick: (() -> Unit)? = null
 ) {
 
@@ -77,7 +79,7 @@ fun CommonTopBar(
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = colors.transparent
+                containerColor = background
             )
         )
         Divider(thickness = 1.dp)

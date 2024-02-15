@@ -1,6 +1,7 @@
 package com.thelazybattley.domain.network
 
 import com.thelazybattley.common.enums.QuestionType
+import com.thelazybattley.domain.model.CategoryDetail
 import com.thelazybattley.domain.model.Question
 
 interface QuizRepository {
@@ -19,5 +20,7 @@ interface QuizRepository {
         questionId: Int,
         question: String
     ) : Result<Unit>
+
+    suspend fun fetchCategoriesDetails() : Result<List<CategoryDetail>>
 
 }

@@ -248,7 +248,7 @@ private fun PreviewReviewQuizScreen() {
                             "1", "2", "3", "4"
                         ),
                         answer = "3",
-                        type = QuestionType.RELATIONSHIP
+                        category = QuestionType.RELATIONSHIP
                     ),
                     answers = listOf(
                         ""

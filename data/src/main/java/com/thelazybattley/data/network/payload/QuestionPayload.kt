@@ -4,5 +4,5 @@ data class QuestionPayload(
     val question: String,
     val answer: String,
     val choices: List<String>,
-    val type: String
+    val category: String
 )

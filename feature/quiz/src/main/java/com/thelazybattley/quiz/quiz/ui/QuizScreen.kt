@@ -236,7 +236,7 @@ private fun PreviewQuizScreen() {
                             "Choice 4",
                         ),
                         answer = "Choice 3",
-                        type = QuestionType.RELATIONSHIP
+                        category = QuestionType.RELATIONSHIP
                     ),
                     chosenAnswers = listOf(
                         null, "",

@@ -19,7 +19,7 @@ class QuizRepositoryImpl @Inject constructor(
                 answer = response.answer,
                 question = response.question,
                 choices = response.choices,
-                type = response.type.toQuestionType
+                category = response.category.toQuestionType
             )
         }
     }
@@ -35,7 +35,7 @@ class QuizRepositoryImpl @Inject constructor(
                 question = question,
                 answer = answer,
                 choices = choices,
-                type = type.name
+                category = type.name
             )
         ).run {
             Question(
@@ -43,7 +43,7 @@ class QuizRepositoryImpl @Inject constructor(
                 answer = this.answer,
                 question = this.question,
                 choices = this.choices,
-                type = this.type.toQuestionType
+                category = this.category.toQuestionType
             )
         }
     }
@@ -60,5 +60,11 @@ class QuizRepositoryImpl @Inject constructor(
                 question = question
             )
         )
+    }
+
+    override suspend fun fetchCategoriesDetails() = runCatching {
+        service.fetchCategoriesDetails().map { response ->
+            response.toData
+        }
     }
 }
