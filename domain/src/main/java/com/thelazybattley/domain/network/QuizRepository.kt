@@ -1,6 +1,6 @@
 package com.thelazybattley.domain.network
 
-import com.thelazybattley.common.enums.QuestionType
+import com.thelazybattley.common.enums.QuestionCategory
 import com.thelazybattley.domain.model.CategoryDetail
 import com.thelazybattley.domain.model.Question
 
@@ -12,7 +12,7 @@ interface QuizRepository {
         question: String,
         answer: String,
         choices: List<String>,
-        type: QuestionType
+        type: QuestionCategory
     ): Result<Question>
 
     suspend fun insertReportedQuestion(

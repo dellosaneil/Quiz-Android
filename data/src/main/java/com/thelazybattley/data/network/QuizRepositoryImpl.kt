@@ -1,7 +1,7 @@
 package com.thelazybattley.data.network
 
-import com.thelazybattley.common.enums.QuestionType
-import com.thelazybattley.common.enums.toQuestionType
+import com.thelazybattley.common.enums.QuestionCategory
+import com.thelazybattley.common.enums.toQuestionCategory
 import com.thelazybattley.data.network.payload.QuestionPayload
 import com.thelazybattley.data.network.payload.ReportQuestionPayload
 import com.thelazybattley.data.network.service.QuizService
@@ -19,7 +19,7 @@ class QuizRepositoryImpl @Inject constructor(
                 answer = response.answer,
                 question = response.question,
                 choices = response.choices,
-                category = response.category.toQuestionType
+                category = response.category.toQuestionCategory
             )
         }
     }
@@ -28,7 +28,7 @@ class QuizRepositoryImpl @Inject constructor(
         question: String,
         answer: String,
         choices: List<String>,
-        type: QuestionType
+        type: QuestionCategory
     ) = runCatching {
         service.addQuestion(
             payload = QuestionPayload(
@@ -43,7 +43,7 @@ class QuizRepositoryImpl @Inject constructor(
                 answer = this.answer,
                 question = this.question,
                 choices = this.choices,
-                category = this.category.toQuestionType
+                category = this.category.toQuestionCategory
             )
         }
     }

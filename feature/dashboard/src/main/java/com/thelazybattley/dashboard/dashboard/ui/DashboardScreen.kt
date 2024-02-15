@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavOptions
 import com.thelazybattley.common.components.CommonTopBar
+import com.thelazybattley.common.enums.QuestionCategory
 import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
 import com.thelazybattley.common.ui.theme.colors
@@ -48,7 +49,10 @@ fun DashboardScreen(
 ) {
     val uiState by viewModel.state.collectAsState()
     val events by viewModel.events.collectAsState(initial = null)
-    DashboardScreen(uiState = uiState, events = events, navigate = navigate)
+    DashboardScreen(
+        uiState = uiState,
+        events = events,
+        navigate = navigate)
 }
 
 
@@ -103,10 +107,11 @@ fun DashboardScreen(
                     ) { details ->
                         DashboardItem(
                             modifier = Modifier,
-                            title = details.category,
+                            title = details.category.toString(),
                             description = pluralStringResource(
                                 com.thelazybattley.common.R.plurals.questions,
-                                details.count
+                                details.count,
+                                details.count,
                             )
                         ) {
                             navigate(AppScreens.QuizScreen.route, null)
@@ -160,8 +165,10 @@ private fun PreviewDashboardScreen() {
         DashboardScreen(
             uiState = DashboardUiState().copy(
                 categoriesDetails = listOf(
-                    CategoryDetail(count = 3, category = "Relationship"),
-                    CategoryDetail(count = 5, category = "People"),
+                    CategoryDetail(count = 3, category = QuestionCategory.ADULTHOOD),
+                    CategoryDetail(count = 5, category =  QuestionCategory.IMPORTANT_PLACES),
+                    CategoryDetail(count = 5, category =  QuestionCategory.RELATIONSHIP),
+                    CategoryDetail(count = 5, category =  QuestionCategory.PEOPLE),
                 )
             ),
             events = null

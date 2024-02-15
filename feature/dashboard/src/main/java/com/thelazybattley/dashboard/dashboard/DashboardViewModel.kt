@@ -20,10 +20,10 @@ class DashboardViewModel @Inject constructor(
     init {
         viewModelScope.launch(context = dispatcher) {
             fetchCategoryDetails().fold(
-                onSuccess = {
+                onSuccess = { categories ->
                     updateState { state ->
                         state.copy(
-                            categoriesDetails = it
+                            categoriesDetails = categories.take(n = 4)
                         )
                     }
                 },

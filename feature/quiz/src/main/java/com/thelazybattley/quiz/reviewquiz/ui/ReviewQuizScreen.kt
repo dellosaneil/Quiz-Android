@@ -27,7 +27,7 @@ import androidx.navigation.NavOptions
 import com.thelazybattley.common.components.CommonBannerView
 import com.thelazybattley.common.components.CommonElevatedButton
 import com.thelazybattley.common.components.CommonTopBar
-import com.thelazybattley.common.enums.QuestionType
+import com.thelazybattley.common.enums.QuestionCategory
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
 import com.thelazybattley.common.ui.theme.colors
 import com.thelazybattley.common.ui.theme.textStyle
@@ -248,7 +248,7 @@ private fun PreviewReviewQuizScreen() {
                             "1", "2", "3", "4"
                         ),
                         answer = "3",
-                        category = QuestionType.RELATIONSHIP
+                        category = QuestionCategory.RELATIONSHIP
                     ),
                     answers = listOf(
                         ""

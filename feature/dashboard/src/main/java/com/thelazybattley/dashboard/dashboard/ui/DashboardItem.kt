@@ -49,7 +49,7 @@ fun DashboardItem(
     ) {
         Spacer(modifier = Modifier.height(8.dp))
         Image(
-            painter = painterResource(id = com.thelazybattley.common.R.drawable.img_quiz),
+            painter = painterResource(id = com.thelazybattley.common.R.drawable.img_timed_quiz),
             contentDescription = null,
             modifier = Modifier
                 .padding(bottom = 16.dp)

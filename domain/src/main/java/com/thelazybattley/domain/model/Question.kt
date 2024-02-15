@@ -1,7 +1,7 @@
 package com.thelazybattley.domain.model
 
 import android.os.Parcelable
-import com.thelazybattley.common.enums.QuestionType
+import com.thelazybattley.common.enums.QuestionCategory
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -10,5 +10,5 @@ data class Question(
     val question: String,
     val answer: String,
     val choices: List<String>,
-    val category: QuestionType
+    val category: QuestionCategory
 ) : Parcelable
