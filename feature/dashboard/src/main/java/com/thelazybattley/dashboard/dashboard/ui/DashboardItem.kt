@@ -58,7 +58,8 @@ fun DashboardItem(
         )
 
         Column(
-            modifier = Modifier.background(color = colors.white40)
+            modifier = Modifier
+                .background(color = colors.gray40.copy(alpha = 0.2f))
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(space = 4.dp)
         ) {
