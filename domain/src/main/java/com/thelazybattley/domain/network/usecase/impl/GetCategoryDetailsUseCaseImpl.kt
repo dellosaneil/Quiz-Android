@@ -19,7 +19,6 @@ class GetCategoryDetailsUseCaseImpl @Inject constructor(
                     category = category
                 )
             }
-
         }
     }
 }
