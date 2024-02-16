@@ -119,9 +119,8 @@ fun DashboardScreen(
                             )
                         ) {
                             navigate(
-                                AppScreens.QuizScreen.args(
-                                    category = details.category.name,
-                                    count = details.count
+                                AppScreens.QuizConfig.args(
+                                    categoryJson = details.category.name
                                 ), null
                             )
                         }

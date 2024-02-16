@@ -10,7 +10,7 @@ import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.unit.sp
 import com.thelazybattley.common.R
 
-val fontName = GoogleFont("Poppins")
+val poppinsFontName = GoogleFont("Poppins")
 
 val provider = GoogleFont.Provider(
     providerAuthority = "com.google.android.gms.fonts",
@@ -18,39 +18,16 @@ val provider = GoogleFont.Provider(
     certificates = R.array.com_google_android_gms_fonts_certs
 )
 
-val fontFamily = FontFamily(
+val poppinsFontFamily = FontFamily(
     Font(
-        googleFont = fontName,
+        googleFont = poppinsFontName,
         fontProvider = provider
     )
 )
 
 data class QuizTypography(
-    val xSmall: TextStyle = TextStyle(
-        fontFamily = fontFamily,
-        fontSize = 8.sp
-    ),
-    val small: TextStyle = TextStyle(
-        fontFamily = fontFamily,
-        fontSize = 12.sp
-
-    ),
-    val medium: TextStyle = TextStyle(
-        fontFamily = fontFamily,
-        fontSize = 16.sp
-
-    ),
-    val large: TextStyle = TextStyle(
-        fontFamily = fontFamily,
-        fontSize = 24.sp
-
-    ),
-    val xLarge: TextStyle = TextStyle(
-        fontFamily = fontFamily,
-        fontSize = 36.sp
-    ),
     val poppins : TextStyle = TextStyle(
-        fontFamily = fontFamily,
+        fontFamily = poppinsFontFamily,
         fontSize = 18.sp
     )
 )

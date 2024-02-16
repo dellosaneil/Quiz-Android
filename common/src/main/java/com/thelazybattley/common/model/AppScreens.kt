@@ -22,7 +22,7 @@ sealed class AppScreens(val route: String, val routeWithArgs: String = route) {
         routeWithArgs = "quiz_result_screen/{$QUIZ_RESULT_STATE}"
     ) {
         fun args(json: String): String {
-            return QuizResultScreen.route + "/{$json}"
+            return QuizResultScreen.route + "/$json"
         }
     }
 
@@ -33,7 +33,16 @@ sealed class AppScreens(val route: String, val routeWithArgs: String = route) {
         routeWithArgs = "review_screen/{$QUIZ_RESULT_STATE}"
     ) {
         fun args(json: String): String {
-            return ReviewScreen.route + "/{$json}"
+            return ReviewScreen.route + "/$json"
+        }
+    }
+
+    data object QuizConfig : AppScreens(
+        route = "quiz_config",
+        routeWithArgs = "quiz_config?$QUIZ_CATEGORY={$QUIZ_CATEGORY}"
+    ) {
+        fun args(categoryJson: String) : String {
+            return QuizConfig.route + "?$QUIZ_CATEGORY=$categoryJson"
         }
     }
 }

@@ -11,8 +11,9 @@ import com.thelazybattley.common.model.AppScreens.Companion.QUESTIONS_COUNT
 import com.thelazybattley.common.model.AppScreens.Companion.QUIZ_CATEGORY
 import com.thelazybattley.common.model.AppScreens.Companion.QUIZ_RESULT_STATE
 import com.thelazybattley.dashboard.dashboard.ui.DashboardScreen
-import com.thelazybattley.quiz.quiz.AssetParamType
+import com.thelazybattley.quiz.quiz.QuizDetailsStateParamType
 import com.thelazybattley.quiz.quiz.ui.QuizScreen
+import com.thelazybattley.quiz.quizconfig.ui.QuizConfigScreen
 import com.thelazybattley.quiz.quizresult.ui.QuizResultScreen
 import com.thelazybattley.quiz.reviewquiz.ui.ReviewQuizScreen
 
@@ -46,7 +47,7 @@ fun AppNavHost() {
             route = AppScreens.QuizResultScreen.routeWithArgs,
             arguments = listOf(
                 navArgument(name = QUIZ_RESULT_STATE) {
-                    type = AssetParamType()
+                    type = QuizDetailsStateParamType()
                 }
             )
         ) {
@@ -69,11 +70,29 @@ fun AppNavHost() {
             route = AppScreens.ReviewScreen.routeWithArgs,
             arguments = listOf(
                 navArgument(name = QUIZ_RESULT_STATE) {
-                    type = AssetParamType()
+                    type = QuizDetailsStateParamType()
                 }
             )
         ) {
             ReviewQuizScreen(
+                onPopBackStack = {
+                    navController.popBackStack()
+                }
+            ) { route, navOptions ->
+                navController.navigate(route = route, navOptions = navOptions)
+            }
+        }
+
+        composable(
+            route = AppScreens.QuizConfig.routeWithArgs,
+            arguments = listOf(
+                navArgument(name = QUIZ_CATEGORY) {
+                    type = NavType.StringType
+                    nullable = true
+                }
+            )
+        ) {
+            QuizConfigScreen(
                 onPopBackStack = {
                     navController.popBackStack()
                 }

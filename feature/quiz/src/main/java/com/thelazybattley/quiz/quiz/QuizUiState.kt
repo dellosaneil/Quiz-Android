@@ -29,14 +29,13 @@ data class QuizDetailsState(
     val question : Question? = null
 ) : Parcelable
 
-class AssetParamType : NavType<QuizDetailsState>(isNullableAllowed = false) {
+class QuizDetailsStateParamType : NavType<QuizDetailsState>(isNullableAllowed = false) {
     override fun get(bundle: Bundle, key: String): QuizDetailsState? {
         return bundle.getParcelable(key)
     }
 
     override fun parseValue(value: String): QuizDetailsState {
-        val clean = value.removeSurrounding(prefix = "{", suffix = "}")
-        return Gson().fromJson(clean, QuizDetailsState::class.java)
+        return Gson().fromJson(value, QuizDetailsState::class.java)
     }
 
     override fun put(bundle: Bundle, key: String, value: QuizDetailsState) {
