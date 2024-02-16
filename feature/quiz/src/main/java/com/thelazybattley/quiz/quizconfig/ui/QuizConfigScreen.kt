@@ -11,22 +11,30 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavOptions
+import androidx.navigation.navOptions
 import com.thelazybattley.common.components.CommonElevatedButton
 import com.thelazybattley.common.components.CommonTextField
 import com.thelazybattley.common.components.CommonTopBar
 import com.thelazybattley.common.enums.QuestionCategory
+import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
 import com.thelazybattley.common.ui.theme.colors
+import com.thelazybattley.common.ui.theme.textStyle
 import com.thelazybattley.domain.model.CategoryDetail
 import com.thelazybattley.quiz.R
 import com.thelazybattley.quiz.quizconfig.QuizConfigCallbacks
@@ -45,20 +53,17 @@ fun QuizConfigScreen(
 
     QuizConfigScreen(
         uiState = uiState,
-        events = events,
         callbacks = viewModel,
         onPopBackStack = onPopBackStack,
-        navigate = navigate
     )
+    HandleEvents(event = events, navigate = navigate)
 }
 
 @Composable
 private fun QuizConfigScreen(
     uiState: QuizConfigUiState,
-    events: QuizConfigEvents?,
     callbacks: QuizConfigCallbacks,
     onPopBackStack: () -> Unit,
-    navigate: (String, NavOptions?) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -70,11 +75,23 @@ private fun QuizConfigScreen(
             }
         }
     ) { paddingValues ->
-        Column(modifier = Modifier.padding(paddingValues = paddingValues)) {
+        Column(
+            modifier = Modifier
+                .padding(paddingValues = paddingValues)
+                .padding(all = 16.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.choose_quiz_category),
+                style = textStyle.poppins.copy(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            )
+
             LazyVerticalGrid(
                 modifier = Modifier
                     .fillMaxWidth(),
-                columns = GridCells.Fixed(count = 3),
+                columns = GridCells.Fixed(count = 2),
                 contentPadding = PaddingValues(all = 8.dp)
             ) {
                 items(
@@ -91,10 +108,18 @@ private fun QuizConfigScreen(
                 }
             }
             if (uiState.selectedCategory != null) {
+                Text(
+                    text = stringResource(R.string.input_question_count),
+                    style = textStyle.poppins.copy(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                )
+
                 val count = if (uiState.count == 0) "" else uiState.count.toString()
                 CommonTextField(
                     modifier = Modifier
-                        .padding(top = 32.dp)
+                        .padding(top = 8.dp)
                         .align(alignment = Alignment.CenterHorizontally),
                     text = count,
                     singleLine = true,
@@ -109,7 +134,7 @@ private fun QuizConfigScreen(
             }
             Spacer(modifier = Modifier.weight(1f))
             CommonElevatedButton(
-                modifier = Modifier.padding(all = 16.dp),
+                modifier = Modifier,
                 textRes = R.string.start_quiz,
                 isEnabled = uiState.selectedCategory != null && uiState.count != 0,
                 colors = ButtonDefaults.elevatedButtonColors(
@@ -120,6 +145,30 @@ private fun QuizConfigScreen(
                 callbacks.startQuiz()
             }
         }
+    }
+}
+
+@Composable
+private fun HandleEvents(event: QuizConfigEvents?, navigate: (String, NavOptions?) -> Unit) {
+    LaunchedEffect(key1 = event) {
+        when (event) {
+            is QuizConfigEvents.StartQuiz -> {
+                navigate(
+                    AppScreens.QuizScreen.args(
+                        category = event.category,
+                        count = event.count
+                    ),
+                    navOptions {
+
+                    }
+                )
+            }
+
+            else -> {
+                // do nothing
+            }
+        }
+
     }
 }
 
@@ -137,11 +186,8 @@ private fun PreviewQuizConfigScreen() {
                     CategoryDetail(count = 1, category = QuestionCategory.IMPORTANT_PLACES),
                 )
             ),
-            events = null,
             callbacks = QuizConfigCallbacks.default(),
             onPopBackStack = {},
-        ) { _, _ ->
-
-        }
+        )
     }
 }
