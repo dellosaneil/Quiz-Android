@@ -72,7 +72,7 @@ class QuizConfigViewModel @Inject constructor(
         emitEvent(
             event = QuizConfigEvents.StartQuiz(
                 category = selectedCategory.category.name,
-                count = selectedCategory.count
+                count = getCurrentState().count
             )
         )
     }

@@ -9,6 +9,7 @@ enum class QuestionCategory {
     OTHERS,
     ADULTHOOD,
     PEOPLE,
+    DATES,
     IMPORTANT_PLACES;
 
     override fun toString(): String {
@@ -24,6 +25,7 @@ val String.toQuestionCategory
             QuestionCategory.ADULTHOOD.name -> QuestionCategory.ADULTHOOD
             QuestionCategory.PEOPLE.name -> QuestionCategory.PEOPLE
             QuestionCategory.IMPORTANT_PLACES.name -> QuestionCategory.IMPORTANT_PLACES
+            QuestionCategory.DATES.name -> QuestionCategory.DATES
             else -> {
                 QuestionCategory.OTHERS
             }
