@@ -65,8 +65,10 @@ fun DashboardScreen(
 ) {
     Scaffold(
         topBar = {
-            CommonTopBar(titleRes = R.string.home,
-                background = colors.white50)
+            CommonTopBar(
+                titleRes = R.string.home,
+                background = colors.white50
+            )
         },
         containerColor = colors.white60
 
@@ -116,7 +118,12 @@ fun DashboardScreen(
                                 details.count,
                             )
                         ) {
-                            navigate(AppScreens.QuizScreen.route, null)
+                            navigate(
+                                AppScreens.QuizScreen.args(
+                                    category = details.category.name,
+                                    count = details.count
+                                ), null
+                            )
                         }
                     }
                 }
@@ -127,14 +134,14 @@ fun DashboardScreen(
                     modifier = Modifier
                         .clip(shape = RoundedCornerShape(size = 8.dp))
                         .clickable {
-                            navigate(AppScreens.QuizScreen.route, null)
+
                         }
                         .padding(all = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(space = 4.dp)
                 ) {
                     Text(
-                        text = "Review Previous Quiz",
+                        text = stringResource(R.string.review_previous_quiz_result),
                         style = textStyle.poppins.copy(
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Medium
@@ -168,9 +175,9 @@ private fun PreviewDashboardScreen() {
             uiState = DashboardUiState().copy(
                 categoriesDetails = listOf(
                     CategoryDetail(count = 3, category = QuestionCategory.ADULTHOOD),
-                    CategoryDetail(count = 5, category =  QuestionCategory.IMPORTANT_PLACES),
-                    CategoryDetail(count = 5, category =  QuestionCategory.RELATIONSHIP),
-                    CategoryDetail(count = 5, category =  QuestionCategory.PEOPLE),
+                    CategoryDetail(count = 5, category = QuestionCategory.IMPORTANT_PLACES),
+                    CategoryDetail(count = 5, category = QuestionCategory.RELATIONSHIP),
+                    CategoryDetail(count = 5, category = QuestionCategory.PEOPLE),
                 )
             ),
             events = null

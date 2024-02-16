@@ -5,4 +5,5 @@ import com.thelazybattley.domain.model.Question
 interface GetAllQuestionsUseCase {
 
     suspend operator fun invoke() : Result<List<Question>>
+
 }

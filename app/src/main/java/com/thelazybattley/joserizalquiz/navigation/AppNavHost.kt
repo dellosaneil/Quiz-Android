@@ -1,11 +1,14 @@
 package com.thelazybattley.joserizalquiz.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.thelazybattley.common.model.AppScreens
+import com.thelazybattley.common.model.AppScreens.Companion.QUESTIONS_COUNT
+import com.thelazybattley.common.model.AppScreens.Companion.QUIZ_CATEGORY
 import com.thelazybattley.common.model.AppScreens.Companion.QUIZ_RESULT_STATE
 import com.thelazybattley.dashboard.dashboard.ui.DashboardScreen
 import com.thelazybattley.quiz.quiz.AssetParamType
@@ -20,7 +23,17 @@ fun AppNavHost() {
         navController = navController,
         startDestination = AppScreens.DashboardScreen.route
     ) {
-        composable(route = AppScreens.QuizScreen.route) {
+        composable(
+            route = AppScreens.QuizScreen.routeWithArgs,
+            arguments = listOf(
+                navArgument(name = QUESTIONS_COUNT) {
+                    type = NavType.IntType
+                },
+                navArgument(name = QUIZ_CATEGORY) {
+                    type = NavType.StringType
+                }
+            )
+        ) {
             QuizScreen(
                 onPopBackStack = {
                     navController.popBackStack()
@@ -45,6 +58,7 @@ fun AppNavHost() {
                 navController.navigate(route = route, navOptions = navOptions)
             }
         }
+
         composable(route = AppScreens.DashboardScreen.route) {
             DashboardScreen { route, navOptions ->
                 navController.navigate(route = route, navOptions = navOptions)

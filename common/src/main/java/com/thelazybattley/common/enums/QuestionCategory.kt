@@ -6,7 +6,7 @@ import com.thelazybattley.common.ext.toTitleCase
 enum class QuestionCategory {
     RELATIONSHIP,
     CHILDHOOD,
-    UNKNOWN,
+    OTHERS,
     ADULTHOOD,
     PEOPLE,
     IMPORTANT_PLACES;
@@ -25,7 +25,7 @@ val String.toQuestionCategory
             QuestionCategory.PEOPLE.name -> QuestionCategory.PEOPLE
             QuestionCategory.IMPORTANT_PLACES.name -> QuestionCategory.IMPORTANT_PLACES
             else -> {
-                QuestionCategory.UNKNOWN
+                QuestionCategory.OTHERS
             }
         }
     }

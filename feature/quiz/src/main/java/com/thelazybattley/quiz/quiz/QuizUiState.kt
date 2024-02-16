@@ -5,6 +5,7 @@ import android.os.Parcelable
 import androidx.navigation.NavType
 import com.google.gson.Gson
 import com.thelazybattley.common.base.BaseUiState
+import com.thelazybattley.common.enums.QuestionCategory
 import com.thelazybattley.domain.model.Question
 import kotlinx.parcelize.Parcelize
 
@@ -16,7 +17,8 @@ data class QuizUiState(
     val progress: Float = 0f,
     val isComplete: Boolean = false,
     val remainingTime: Int = 0,
-    val showSubmitButtonDialog: Boolean = false
+    val showSubmitButtonDialog: Boolean = false,
+    val category: QuestionCategory? = null
 ) : BaseUiState
 
 @Parcelize

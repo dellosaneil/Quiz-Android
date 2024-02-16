@@ -4,9 +4,18 @@ sealed class AppScreens(val route: String, val routeWithArgs: String = route) {
 
     companion object {
         const val QUIZ_RESULT_STATE = "quiz-result"
+        const val QUIZ_CATEGORY = "quiz-category"
+        const val QUESTIONS_COUNT = "questions-count"
     }
 
-    data object QuizScreen : AppScreens(route = "quiz_screen")
+    data object QuizScreen : AppScreens(
+        route = "quiz_screen",
+        routeWithArgs = "quiz_screen/{$QUIZ_CATEGORY}/{$QUESTIONS_COUNT}"
+    ) {
+        fun args(category: String, count: Int): String {
+            return QuizScreen.route + "/$category/$count"
+        }
+    }
 
     data object QuizResultScreen : AppScreens(
         route = "quiz_result_screen",
@@ -27,5 +36,4 @@ sealed class AppScreens(val route: String, val routeWithArgs: String = route) {
             return ReviewScreen.route + "/{$json}"
         }
     }
-
 }

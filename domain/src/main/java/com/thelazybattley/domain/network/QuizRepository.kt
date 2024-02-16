@@ -19,12 +19,17 @@ interface QuizRepository {
         suggestedAnswer: String,
         questionId: Int,
         question: String
-    ) : Result<Unit>
+    ): Result<Unit>
 
-    suspend fun fetchCategoriesDetails() : Result<List<CategoryDetail>>
+    suspend fun fetchCategoriesDetails(): Result<List<CategoryDetail>>
 
-    suspend fun getAllQuestions() : Result<List<Question>>
+    suspend fun getAllQuestions(): Result<List<Question>>
 
-    suspend fun insertAllQuestions(questions: List<Question>) : Result<Unit>
+    suspend fun insertAllQuestions(questions: List<Question>): Result<Unit>
+
+    suspend fun getQuestionsByCategory(
+        category: QuestionCategory,
+        count: Int
+    ): Result<List<Question>>
 
 }

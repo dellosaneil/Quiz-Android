@@ -1,9 +1,12 @@
 package com.thelazybattley.quiz.quiz
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.thelazybattley.common.base.BaseViewModel
 import com.thelazybattley.common.di.IoDispatcher
-import com.thelazybattley.domain.network.usecase.FetchAllQuestionsUseCase
+import com.thelazybattley.common.enums.toQuestionCategory
+import com.thelazybattley.common.model.AppScreens
+import com.thelazybattley.domain.local.GetQuestionsByCategory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
@@ -15,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class QuizViewModel @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
-    private val fetchAllQuestionsUseCase: FetchAllQuestionsUseCase
+    private val getQuestionsByCategory: GetQuestionsByCategory,
+    private val savedStateHandle: SavedStateHandle
 ) : BaseViewModel<QuizEvents, QuizUiState>(),
     QuizCallbacks {
 
@@ -23,6 +27,7 @@ class QuizViewModel @Inject constructor(
 
     companion object {
         const val TIME_PER_QUESTION = 60
+        const val DEFAULT_QUESTION_COUNT = 10
 
     }
 
@@ -33,8 +38,12 @@ class QuizViewModel @Inject constructor(
     }
 
     override fun fetchQuestions() {
+        val category: String = savedStateHandle[AppScreens.QUIZ_CATEGORY] ?: ""
+        val questionCategory = category.toQuestionCategory
+        val count: Int = savedStateHandle[AppScreens.QUESTIONS_COUNT] ?: DEFAULT_QUESTION_COUNT
+
         viewModelScope.launch(context = dispatcher) {
-            fetchAllQuestionsUseCase()
+            getQuestionsByCategory(category = questionCategory, count = count)
                 .fold(
                     onSuccess = { questions ->
                         updateState { state ->

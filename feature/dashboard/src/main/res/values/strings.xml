@@ -2,4 +2,5 @@
 <resources>
     <string name="home">Home</string>
     <string name="take_quiz">Take Quiz</string>
+    <string name="review_previous_quiz_result">Review Previous Quiz Result</string>
 </resources>
