@@ -1,9 +1,9 @@
 package com.thelazybattley.data.mapper
 
 import com.thelazybattley.common.enums.toQuestionCategory
+import com.thelazybattley.common.model.Question
 import com.thelazybattley.data.local.entity.QuestionEntity
 import com.thelazybattley.data.network.response.question.QuestionResponse
-import com.thelazybattley.domain.model.Question
 
 val QuestionEntity.toData
     get() = run {

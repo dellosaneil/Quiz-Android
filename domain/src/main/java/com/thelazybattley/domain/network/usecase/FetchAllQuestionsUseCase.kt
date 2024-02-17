@@ -1,6 +1,6 @@
 package com.thelazybattley.domain.network.usecase
 
-import com.thelazybattley.domain.model.Question
+import com.thelazybattley.common.model.Question
 
 interface FetchAllQuestionsUseCase {
 

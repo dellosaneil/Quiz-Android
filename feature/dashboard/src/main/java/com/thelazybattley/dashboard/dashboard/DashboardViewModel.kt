@@ -3,6 +3,7 @@ package com.thelazybattley.dashboard.dashboard
 import androidx.lifecycle.viewModelScope
 import com.thelazybattley.common.base.BaseViewModel
 import com.thelazybattley.common.di.IoDispatcher
+import com.thelazybattley.domain.local.GetAllQuizResultsUseCase
 import com.thelazybattley.domain.local.InsertAllQuestionsUseCase
 import com.thelazybattley.domain.network.usecase.FetchAllQuestionsUseCase
 import com.thelazybattley.domain.network.usecase.GetCategoryDetailsUseCase
@@ -16,7 +17,8 @@ class DashboardViewModel @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
     private val getCategoryDetailsUseCase: GetCategoryDetailsUseCase,
     private val fetchAllQuestionsUseCase: FetchAllQuestionsUseCase,
-    private val insertAllQuestionsUseCase: InsertAllQuestionsUseCase
+    private val insertAllQuestionsUseCase: InsertAllQuestionsUseCase,
+    private val getAllQuizResultsUseCase: GetAllQuizResultsUseCase
 ) : BaseViewModel<DashboardEvents, DashboardUiState>() {
 
     override fun initialState() = DashboardUiState()
@@ -37,6 +39,16 @@ class DashboardViewModel @Inject constructor(
                 }
             )
         }
+        viewModelScope.launch(context = dispatcher) {
+            getAllQuizResultsUseCase()
+                .fold(
+                    onSuccess = { results ->
+                    },
+                    onFailure = {
+
+                    }
+                )
+        }
     }
 
     private suspend fun getCategoriesDetails(): Boolean {
@@ -49,7 +61,7 @@ class DashboardViewModel @Inject constructor(
                 }
             },
             onFailure = { _ ->
-               // do nothing
+                // do nothing
             }
         )
         return getCurrentState().categoriesDetails.isNotEmpty()

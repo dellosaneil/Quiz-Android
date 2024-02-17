@@ -28,12 +28,12 @@ import com.thelazybattley.common.components.CommonBannerView
 import com.thelazybattley.common.components.CommonElevatedButton
 import com.thelazybattley.common.components.CommonTopBar
 import com.thelazybattley.common.enums.QuestionCategory
+import com.thelazybattley.common.model.Question
+import com.thelazybattley.common.model.QuizDetailsState
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
 import com.thelazybattley.common.ui.theme.colors
 import com.thelazybattley.common.ui.theme.textStyle
-import com.thelazybattley.domain.model.Question
 import com.thelazybattley.quiz.R
-import com.thelazybattley.quiz.quiz.QuizDetailsState
 import com.thelazybattley.quiz.quiz.ui.QuizChoice
 import com.thelazybattley.quiz.reviewquiz.ReviewQuizCallbacks
 import com.thelazybattley.quiz.reviewquiz.ReviewQuizEvents
@@ -115,7 +115,7 @@ private fun ReviewQuizScreen(
             if (uiState.quizDetailsState?.question != null) {
                 Text(
                     modifier = Modifier.padding(top = 16.dp),
-                    text = uiState.quizDetailsState.question.question,
+                    text = uiState.quizDetailsState.question!!.question,
                     style = textStyle.poppins.copy(
                         fontSize = 16.sp,
                         lineHeight = 32.sp
@@ -126,7 +126,7 @@ private fun ReviewQuizScreen(
                 val correctAnswer = uiState.quizDetailsState.answers[index]
                 val selectedAnswer = uiState.quizDetailsState.chosenAnswers[index]
 
-                uiState.quizDetailsState.question.choices.forEach { choice ->
+                uiState.quizDetailsState.question!!.choices.forEach { choice ->
                     val isCorrect = correctAnswer == choice
                     val isChosen = selectedAnswer == choice
                     val (background, style, borderColor) = when {

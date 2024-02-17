@@ -28,13 +28,13 @@ import com.thelazybattley.common.components.CommonElevatedButton
 import com.thelazybattley.common.components.CommonTopBar
 import com.thelazybattley.common.enums.QuestionCategory
 import com.thelazybattley.common.model.AppScreens
+import com.thelazybattley.common.model.Question
+import com.thelazybattley.common.model.QuizDetailsState
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
 import com.thelazybattley.common.ui.theme.colors
 import com.thelazybattley.common.ui.theme.textStyle
-import com.thelazybattley.domain.model.Question
 import com.thelazybattley.quiz.R
 import com.thelazybattley.quiz.quiz.QuizCallbacks
-import com.thelazybattley.quiz.quiz.QuizDetailsState
 import com.thelazybattley.quiz.quiz.QuizEvents
 import com.thelazybattley.quiz.quiz.QuizUiState
 import com.thelazybattley.quiz.quiz.QuizViewModel
@@ -104,14 +104,14 @@ private fun QuizScreen(
             if (uiState.quizDetailsState.question != null) {
                 Text(
                     modifier = Modifier.padding(top = 16.dp),
-                    text = uiState.quizDetailsState.question.question,
+                    text = uiState.quizDetailsState.question!!.question,
                     style = textStyle.poppins.copy(
                         fontSize = 16.sp,
                         lineHeight = 32.sp
                     )
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                uiState.quizDetailsState.question.choices.forEach { choice ->
+                uiState.quizDetailsState.question!!.choices.forEach { choice ->
                     val isSelected =
                         choice == uiState.quizDetailsState.chosenAnswers[uiState.currentIndex]
                     val (background, style, borderColor) = if (isSelected) {
@@ -212,9 +212,7 @@ private fun HandleEvents(event: QuizEvents?, navigate: (String, NavOptions?) -> 
                 )
             }
 
-            null -> {
-                // do nothing
-            }
+            else -> {}
         }
     }
 }

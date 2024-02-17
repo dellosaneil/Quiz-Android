@@ -1,19 +1,24 @@
 package com.thelazybattley.data.network
 
 import com.thelazybattley.common.enums.QuestionCategory
+import com.thelazybattley.common.model.Question
+import com.thelazybattley.common.model.QuizDetailsState
 import com.thelazybattley.data.local.dao.QuestionsDao
+import com.thelazybattley.data.local.dao.QuizResultDao
+import com.thelazybattley.data.local.entity.QuizResultEntity
 import com.thelazybattley.data.mapper.toData
 import com.thelazybattley.data.mapper.toEntity
 import com.thelazybattley.data.network.payload.QuestionPayload
 import com.thelazybattley.data.network.payload.ReportQuestionPayload
 import com.thelazybattley.data.network.service.QuizService
-import com.thelazybattley.domain.model.Question
+import com.thelazybattley.domain.model.QuizResult
 import com.thelazybattley.domain.network.QuizRepository
 import javax.inject.Inject
 
 class QuizRepositoryImpl @Inject constructor(
     private val service: QuizService,
-    private val dao: QuestionsDao
+    private val questionsDao: QuestionsDao,
+    private val quizResultDao: QuizResultDao
 ) : QuizRepository {
 
     override suspend fun fetchAllQuestions() = runCatching {
@@ -59,7 +64,7 @@ class QuizRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAllQuestions() = runCatching {
-        dao.getAll().map { entity ->
+        questionsDao.getAll().map { entity ->
             entity.toData.copy(
                 choices = entity.choices.shuffled()
             )
@@ -67,12 +72,12 @@ class QuizRepositoryImpl @Inject constructor(
     }
 
     override suspend fun insertAllQuestions(questions: List<Question>) = runCatching {
-        dao.insertAll(questions = questions.map { it.toEntity })
+        questionsDao.insertAll(questions = questions.map { it.toEntity })
     }
 
     override suspend fun getQuestionsByCategory(category: QuestionCategory, count: Int) =
         runCatching {
-            dao.getQuestionsByCategory(category = category)
+            questionsDao.getQuestionsByCategory(category = category)
                 .map { entity ->
                     entity.toData.copy(
                         choices = entity.choices.shuffled()
@@ -81,4 +86,30 @@ class QuizRepositoryImpl @Inject constructor(
                 .shuffled()
                 .take(count)
         }
+
+    override suspend fun getAllQuizResult() = runCatching {
+        quizResultDao.getAll().map { entity ->
+            QuizResult(
+                questions = entity.questions.map { it.toData },
+                answers = entity.answers,
+                chosenAnswers = entity.chosenAnswers
+            )
+        }
+    }
+
+    override suspend fun clearAllQuizResult() = runCatching {
+        quizResultDao.clearAll()
+    }
+
+    override suspend fun insertQuizResult(
+        quizDetailsState: QuizDetailsState
+    ) = runCatching {
+        quizResultDao.insertResult(
+            quizResultEntity = QuizResultEntity(
+                questions = quizDetailsState.questions.map { it.toEntity },
+                chosenAnswers = quizDetailsState.chosenAnswers,
+                answers = quizDetailsState.answers
+            )
+        )
+    }
 }

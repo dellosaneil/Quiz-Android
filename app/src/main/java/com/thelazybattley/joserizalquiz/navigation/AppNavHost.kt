@@ -10,8 +10,8 @@ import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.model.AppScreens.Companion.QUESTIONS_COUNT
 import com.thelazybattley.common.model.AppScreens.Companion.QUIZ_CATEGORY
 import com.thelazybattley.common.model.AppScreens.Companion.QUIZ_RESULT_STATE
+import com.thelazybattley.common.model.QuizDetailsStateParamType
 import com.thelazybattley.dashboard.dashboard.ui.DashboardScreen
-import com.thelazybattley.quiz.quiz.QuizDetailsStateParamType
 import com.thelazybattley.quiz.quiz.ui.QuizScreen
 import com.thelazybattley.quiz.quizconfig.ui.QuizConfigScreen
 import com.thelazybattley.quiz.quizresult.ui.QuizResultScreen

@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.thelazybattley.common.base.BaseViewModel
 import com.thelazybattley.common.di.IoDispatcher
 import com.thelazybattley.common.model.AppScreens
+import com.thelazybattley.common.model.QuizDetailsState
 import com.thelazybattley.domain.network.usecase.InsertReportedQuestionUseCase
-import com.thelazybattley.quiz.quiz.QuizDetailsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch

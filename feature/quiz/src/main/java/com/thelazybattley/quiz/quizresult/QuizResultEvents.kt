@@ -1,7 +1,7 @@
 package com.thelazybattley.quiz.quizresult
 
 import com.thelazybattley.common.base.BaseEvents
-import com.thelazybattley.quiz.quiz.QuizDetailsState
+import com.thelazybattley.common.model.QuizDetailsState
 
 sealed class QuizResultEvents : BaseEvents {
 

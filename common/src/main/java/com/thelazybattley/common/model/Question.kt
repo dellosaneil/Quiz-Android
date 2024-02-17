@@ -1,4 +1,4 @@
-package com.thelazybattley.domain.model
+package com.thelazybattley.common.model
 
 import android.os.Parcelable
 import com.thelazybattley.common.enums.QuestionCategory

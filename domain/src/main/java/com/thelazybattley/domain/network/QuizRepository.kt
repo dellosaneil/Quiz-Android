@@ -1,8 +1,10 @@
 package com.thelazybattley.domain.network
 
 import com.thelazybattley.common.enums.QuestionCategory
+import com.thelazybattley.common.model.Question
+import com.thelazybattley.common.model.QuizDetailsState
 import com.thelazybattley.domain.model.CategoryDetail
-import com.thelazybattley.domain.model.Question
+import com.thelazybattley.domain.model.QuizResult
 
 interface QuizRepository {
 
@@ -32,4 +34,11 @@ interface QuizRepository {
         count: Int
     ): Result<List<Question>>
 
+    suspend fun getAllQuizResult() : Result<List<QuizResult>>
+
+    suspend fun clearAllQuizResult() : Result<Unit>
+
+    suspend fun insertQuizResult(
+        quizDetailsState: QuizDetailsState
+    ) : Result<Unit>
 }

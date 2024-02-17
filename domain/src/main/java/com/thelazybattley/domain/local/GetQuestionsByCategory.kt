@@ -1,7 +1,7 @@
 package com.thelazybattley.domain.local
 
 import com.thelazybattley.common.enums.QuestionCategory
-import com.thelazybattley.domain.model.Question
+import com.thelazybattley.common.model.Question
 
 interface GetQuestionsByCategory {
 

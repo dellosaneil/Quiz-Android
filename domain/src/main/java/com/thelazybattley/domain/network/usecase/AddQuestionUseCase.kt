@@ -1,7 +1,7 @@
 package com.thelazybattley.domain.network.usecase
 
 import com.thelazybattley.common.enums.QuestionCategory
-import com.thelazybattley.domain.model.Question
+import com.thelazybattley.common.model.Question
 
 interface AddQuestionUseCase {
 

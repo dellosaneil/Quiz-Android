@@ -28,4 +28,9 @@ object PersistenceModule {
     @Singleton
     fun provideQuestionsDao(db: QuizDatabase) = db.questionsDao()
 
+
+    @Provides
+    @Singleton
+    fun provideQuizResultDao(db: QuizDatabase) = db.quizResultDao()
+
 }
