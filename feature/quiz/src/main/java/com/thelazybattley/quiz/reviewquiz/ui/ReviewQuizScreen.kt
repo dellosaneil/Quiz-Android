@@ -81,7 +81,7 @@ private fun ReviewQuizScreen(
                         ),
                         shape = RoundedCornerShape(size = 8.dp),
                         border = BorderStroke(
-                            width = 2.dp,
+                            width = 1.dp,
                             color = colors.gray20
                         )
                     ) {
