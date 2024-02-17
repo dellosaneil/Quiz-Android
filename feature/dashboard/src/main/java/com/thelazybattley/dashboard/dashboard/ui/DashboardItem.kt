@@ -35,7 +35,7 @@ fun DashboardItem(
     modifier: Modifier,
     title: String,
     description: String,
-    content: @Composable (ColumnScope) -> Unit,
+    content: @Composable ColumnScope.() -> Unit,
     onClick: () -> Unit
 ) {
 
@@ -93,18 +93,18 @@ fun PreviewDashboardItem() {
             modifier = Modifier.padding(all = 16.dp),
             title = "I am a test",
             description = "A Description",
-            onClick = {},
+            onClick = {
+
+            },
             content = {
-                with(it) {
-                    Image(
-                        painter = painterResource(id = com.thelazybattley.common.R.drawable.img_timed_quiz),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(bottom = 16.dp)
-                            .size(56.dp)
-                            .align(alignment = Alignment.CenterHorizontally)
-                    )
-                }
+                Image(
+                    painter = painterResource(id = com.thelazybattley.common.R.drawable.img_timed_quiz),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(bottom = 16.dp)
+                        .size(56.dp)
+                        .align(alignment = Alignment.CenterHorizontally)
+                )
             }
         )
     }

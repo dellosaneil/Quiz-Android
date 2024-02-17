@@ -129,17 +129,15 @@ fun DashboardScreen(
                                 details.count,
                                 details.count,
                             ),
-                            content = { scope ->
-                                with(scope) {
-                                    Image(
-                                        painter = painterResource(id = com.thelazybattley.common.R.drawable.img_timed_quiz),
-                                        contentDescription = null,
-                                        modifier = Modifier
-                                            .padding(vertical = 8.dp)
-                                            .size(size = 56.dp)
-                                            .align(alignment = Alignment.CenterHorizontally)
-                                    )
-                                }
+                            content = {
+                                Image(
+                                    painter = painterResource(id = com.thelazybattley.common.R.drawable.img_timed_quiz),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .padding(vertical = 8.dp)
+                                        .size(size = 56.dp)
+                                        .align(alignment = Alignment.CenterHorizontally)
+                                )
                             }
                         ) {
                             navigate(

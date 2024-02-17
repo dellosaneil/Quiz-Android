@@ -1,18 +1,14 @@
 package com.thelazybattley.dashboard.dashboard.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -37,13 +33,6 @@ fun DashboardReviewItemContent(
         verticalArrangement = Arrangement.spacedBy(space = 4.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            painter = painterResource(id = percentageDisplay.drawRes),
-            contentDescription = "",
-            modifier = Modifier.size(size = 40.dp),
-            contentScale = ContentScale.FillWidth
-        )
-
         Text(
             text = stringResource(
                 id = R.string.x_percent,
@@ -52,7 +41,7 @@ fun DashboardReviewItemContent(
             style = textStyle.poppins.copy(
                 color = percentageDisplay.textColor,
                 fontWeight = FontWeight.Medium,
-                fontSize = 16.sp,
+                fontSize = 26.sp,
                 textAlign = TextAlign.Center
             ),
             modifier = Modifier

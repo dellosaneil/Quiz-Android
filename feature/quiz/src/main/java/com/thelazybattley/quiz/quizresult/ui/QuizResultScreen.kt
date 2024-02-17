@@ -33,6 +33,7 @@ import com.thelazybattley.common.components.CommonElevatedButton
 import com.thelazybattley.common.components.CommonTopBar
 import com.thelazybattley.common.ext.toPercentageDisplay
 import com.thelazybattley.common.model.AppScreens
+import com.thelazybattley.common.model.PercentageDisplay
 import com.thelazybattley.common.presets.KonfettiPreset
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
 import com.thelazybattley.common.ui.theme.colors
@@ -58,7 +59,8 @@ fun QuizResultScreen(
         onPopBackStack = onPopBackStack
     )
     QuizResultScreen(
-        uiState = uiState, events = events, callbacks = viewModel,
+        uiState = uiState,
+        callbacks = viewModel,
         onPopBackStack = onPopBackStack
     )
 }
@@ -66,7 +68,6 @@ fun QuizResultScreen(
 @Composable
 fun QuizResultScreen(
     uiState: QuizResultUiState,
-    events: QuizResultEvents?,
     callbacks: QuizResultCallbacks,
     onPopBackStack: () -> Unit
 ) {
@@ -82,6 +83,7 @@ fun QuizResultScreen(
             }
         }
     ) { paddingValues ->
+        val percentageDisplay = uiState.percentage.toPercentageDisplay
         Column(
             modifier = Modifier
                 .padding(paddingValues = paddingValues)
@@ -117,14 +119,14 @@ fun QuizResultScreen(
                     style = textStyle.poppins.copy(
                         fontSize = 36.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = colors.purple50
+                        color = percentageDisplay.textColor
                     )
                 )
                 Text(
                     text = quizResultText(
                         correctAnswers = uiState.correctAnswers,
                         totalQuestions = uiState.totalQuestions,
-                        percentage = uiState.percentage
+                        percentageDisplay = percentageDisplay
                     ),
                     style = textStyle.poppins.copy(
                         fontSize = 16.sp,
@@ -170,9 +172,8 @@ fun QuizResultScreen(
 private fun quizResultText(
     correctAnswers: Int,
     totalQuestions: Int,
-    percentage: Int
+    percentageDisplay: PercentageDisplay
 ): AnnotatedString {
-    val percentageDisplay = percentage.toPercentageDisplay
     return buildAnnotatedString {
         withStyle(
             style = SpanStyle(
@@ -193,7 +194,7 @@ private fun quizResultText(
         }
         withStyle(
             style = SpanStyle(
-                color = colors.purple50
+                color = percentageDisplay.textColor
             )
         ) {
             append(" ${correctAnswers}/${totalQuestions} ")
@@ -243,7 +244,6 @@ private fun PreviewQuizResultScreen() {
     QuizAndroidTheme {
         QuizResultScreen(
             uiState = QuizResultUiState(),
-            events = null,
             callbacks = object : QuizResultCallbacks {
                 override fun onCloseButtonClicked() {
                     TODO("Not yet implemented")
