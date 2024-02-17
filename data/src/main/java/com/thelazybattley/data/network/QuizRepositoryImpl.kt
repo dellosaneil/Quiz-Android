@@ -88,13 +88,15 @@ class QuizRepositoryImpl @Inject constructor(
         }
 
     override suspend fun getAllQuizResult() = runCatching {
-        quizResultDao.getAll().map { entity ->
-            QuizResult(
-                questions = entity.questions.map { it.toData },
-                answers = entity.answers,
-                chosenAnswers = entity.chosenAnswers
-            )
-        }
+        quizResultDao
+            .getAll().map { entity ->
+                QuizResult(
+                    questions = entity.questions.map { it.toData },
+                    answers = entity.answers,
+                    chosenAnswers = entity.chosenAnswers
+                )
+            }
+            .asReversed()
     }
 
     override suspend fun clearAllQuizResult() = runCatching {

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -29,7 +28,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -200,21 +198,9 @@ fun DashboardScreen(
                                 result.questions.size,
                             ),
                             content = {
-                                Text(
-                                    text = stringResource(
-                                        id = com.thelazybattley.common.R.string.x_percent,
-                                        result.percent
-                                    ),
-                                    style = textStyle.poppins.copy(
-                                        color = colors.black50,
-                                        fontWeight = FontWeight.Medium,
-                                        fontSize = 24.sp,
-                                        textAlign = TextAlign.Center
-                                    ),
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 16.dp)
-
+                                DashboardReviewItemContent(
+                                    modifier = Modifier.padding(vertical = 8.dp),
+                                    percentage = result.percent
                                 )
                             }
                         ) {

@@ -31,6 +31,7 @@ import androidx.navigation.navOptions
 import com.google.gson.Gson
 import com.thelazybattley.common.components.CommonElevatedButton
 import com.thelazybattley.common.components.CommonTopBar
+import com.thelazybattley.common.ext.toPercentageDisplay
 import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.presets.KonfettiPreset
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
@@ -109,7 +110,10 @@ fun QuizResultScreen(
                     )
                 )
                 Text(
-                    text = stringResource(id = com.thelazybattley.common.R.string.x_percent, uiState.percentage),
+                    text = stringResource(
+                        id = com.thelazybattley.common.R.string.x_percent,
+                        uiState.percentage
+                    ),
                     style = textStyle.poppins.copy(
                         fontSize = 36.sp,
                         fontWeight = FontWeight.SemiBold,
@@ -119,7 +123,8 @@ fun QuizResultScreen(
                 Text(
                     text = quizResultText(
                         correctAnswers = uiState.correctAnswers,
-                        totalQuestions = uiState.totalQuestions
+                        totalQuestions = uiState.totalQuestions,
+                        percentage = uiState.percentage
                     ),
                     style = textStyle.poppins.copy(
                         fontSize = 16.sp,
@@ -153,24 +158,28 @@ fun QuizResultScreen(
             )
         }
     }
-    KonfettiView(
-        parties = KonfettiPreset.explode,
-        modifier = Modifier.fillMaxSize()
-    )
+    if (uiState.percentage >= 90) {
+        KonfettiView(
+            parties = KonfettiPreset.explode,
+            modifier = Modifier.fillMaxSize()
+        )
+    }
 }
 
 @Composable
 private fun quizResultText(
     correctAnswers: Int,
-    totalQuestions: Int
+    totalQuestions: Int,
+    percentage: Int
 ): AnnotatedString {
+    val percentageDisplay = percentage.toPercentageDisplay
     return buildAnnotatedString {
         withStyle(
             style = SpanStyle(
-                color = colors.green30
+                color = percentageDisplay.textColor
             )
         ) {
-            append(stringResource(id = R.string.congratulations))
+            append(percentageDisplay.text)
             append("\n")
         }
         withStyle(
