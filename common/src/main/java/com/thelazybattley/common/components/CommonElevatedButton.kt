@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.thelazybattley.common.ui.theme.textStyle
@@ -22,6 +23,7 @@ fun CommonElevatedButton(
     @StringRes textRes: Int,
     colors : ButtonColors = ButtonDefaults.elevatedButtonColors(),
     isEnabled: Boolean = true,
+    maxLines: Int = Int.MAX_VALUE,
     onClick : () -> Unit
 ) {
 
@@ -40,7 +42,9 @@ fun CommonElevatedButton(
             style = textStyle.poppins.copy(
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold
-            )
+            ),
+            maxLines = maxLines,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }

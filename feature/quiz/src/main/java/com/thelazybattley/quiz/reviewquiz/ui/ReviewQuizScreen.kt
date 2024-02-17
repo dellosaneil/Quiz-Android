@@ -182,7 +182,8 @@ private fun ReviewQuizScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp),
-                textRes = R.string.report_answer, colors = ButtonDefaults.elevatedButtonColors(
+                textRes = R.string.report_incorrect_answer,
+                colors = ButtonDefaults.elevatedButtonColors(
                     containerColor = colors.purple50,
                     contentColor = colors.white20
                 )
