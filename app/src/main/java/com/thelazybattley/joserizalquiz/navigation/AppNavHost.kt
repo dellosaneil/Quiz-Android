@@ -15,6 +15,7 @@ import com.thelazybattley.dashboard.dashboard.ui.DashboardScreen
 import com.thelazybattley.quiz.quiz.ui.QuizScreen
 import com.thelazybattley.quiz.quizconfig.ui.QuizConfigScreen
 import com.thelazybattley.quiz.quizresult.ui.QuizResultScreen
+import com.thelazybattley.quiz.quizresultshistory.ui.QuizResultsHistoryScreen
 import com.thelazybattley.quiz.reviewquiz.ui.ReviewQuizScreen
 
 @Composable
@@ -84,7 +85,7 @@ fun AppNavHost() {
         }
 
         composable(
-            route = AppScreens.QuizConfig.routeWithArgs,
+            route = AppScreens.QuizConfigScreen.routeWithArgs,
             arguments = listOf(
                 navArgument(name = QUIZ_CATEGORY) {
                     type = NavType.StringType
@@ -93,6 +94,16 @@ fun AppNavHost() {
             )
         ) {
             QuizConfigScreen(
+                onPopBackStack = {
+                    navController.popBackStack()
+                }
+            ) { route, navOptions ->
+                navController.navigate(route = route, navOptions = navOptions)
+            }
+        }
+
+        composable(route = AppScreens.QuizResultsHistoryScreen.route) {
+            QuizResultsHistoryScreen(
                 onPopBackStack = {
                     navController.popBackStack()
                 }

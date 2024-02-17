@@ -69,7 +69,7 @@ private fun QuizConfigScreen(
         topBar = {
             CommonTopBar(
                 titleRes = R.string.quiz_configuration,
-                navigationIconRes = com.thelazybattley.common.R.drawable.ic_back
+                navigationIconRes = com.thelazybattley.common.R.drawable.ic_back_arrow
             ) {
                 onPopBackStack()
             }

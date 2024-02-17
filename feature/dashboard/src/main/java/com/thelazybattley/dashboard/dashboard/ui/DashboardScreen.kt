@@ -111,7 +111,7 @@ fun DashboardScreen(
                         modifier = Modifier
                             .clip(shape = RoundedCornerShape(size = 8.dp))
                             .clickable {
-                                navigate(AppScreens.QuizConfig.args(null), null)
+                                navigate(AppScreens.QuizConfigScreen.args(null), null)
                             }
                             .padding(all = 8.dp)
                     )
@@ -143,7 +143,7 @@ fun DashboardScreen(
                             }
                         ) {
                             navigate(
-                                AppScreens.QuizConfig.args(
+                                AppScreens.QuizConfigScreen.args(
                                     category = details.category.name
                                 ), null
                             )
@@ -181,7 +181,7 @@ fun DashboardScreen(
                         modifier = Modifier
                             .clip(shape = RoundedCornerShape(size = 8.dp))
                             .clickable {
-
+                                navigate(AppScreens.QuizResultsHistoryScreen.route, null)
                             }
                             .padding(all = 8.dp)
                     )

@@ -37,12 +37,16 @@ sealed class AppScreens(val route: String, val routeWithArgs: String = route) {
         }
     }
 
-    data object QuizConfig : AppScreens(
-        route = "quiz_config",
-        routeWithArgs = "quiz_config?$QUIZ_CATEGORY={$QUIZ_CATEGORY}"
+    data object QuizConfigScreen : AppScreens(
+        route = "quiz_config_screen",
+        routeWithArgs = "quiz_config_screen?$QUIZ_CATEGORY={$QUIZ_CATEGORY}"
     ) {
         fun args(category: String?) : String {
-            return QuizConfig.route + "?$QUIZ_CATEGORY=$category"
+            return QuizConfigScreen.route + "?$QUIZ_CATEGORY=$category"
         }
     }
+
+    data object QuizResultsHistoryScreen : AppScreens(
+        route = "quiz_results_history_screen"
+    )
 }
