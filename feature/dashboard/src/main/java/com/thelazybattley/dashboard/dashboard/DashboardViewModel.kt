@@ -11,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
@@ -19,11 +20,11 @@ class DashboardViewModel @Inject constructor(
     private val fetchAllQuestionsUseCase: FetchAllQuestionsUseCase,
     private val insertAllQuestionsUseCase: InsertAllQuestionsUseCase,
     private val getAllQuizResultsUseCase: GetAllQuizResultsUseCase
-) : BaseViewModel<DashboardEvents, DashboardUiState>() {
+) : BaseViewModel<DashboardEvents, DashboardUiState>(), DashboardCallbacks {
 
     override fun initialState() = DashboardUiState()
 
-    init {
+    override fun initialize() {
         viewModelScope.launch(context = dispatcher) {
             val isNotEmpty = getCategoriesDetails()
             if (isNotEmpty) {
@@ -40,15 +41,43 @@ class DashboardViewModel @Inject constructor(
             )
         }
         viewModelScope.launch(context = dispatcher) {
-            getAllQuizResultsUseCase()
-                .fold(
-                    onSuccess = { results ->
-                    },
-                    onFailure = {
-
-                    }
-                )
+            getAllQuizResults()
         }
+    }
+
+    private suspend fun getAllQuizResults() {
+        getAllQuizResultsUseCase()
+            .fold(
+                onSuccess = { results ->
+                    val resultsWithPercent = results
+                        .take(3)
+                        .map { result ->
+                            val correctAnswers = result
+                                .chosenAnswers
+                                .zip(result.answers)
+                                .filter {
+                                    it.first == it.second
+                                }.size
+                            val percentage =
+                                (correctAnswers.toFloat() / result.questions.size) * 100
+
+                            result.copy(
+                                percent = percentage.roundToInt(),
+                                category = result.questions.first().category.toString()
+                            )
+                        }
+
+                    updateState { state ->
+                        state.copy(
+                            quizResults = resultsWithPercent,
+                            quizResultExceeding = results.size - resultsWithPercent.size
+                        )
+                    }
+                },
+                onFailure = {
+
+                }
+            )
     }
 
     private suspend fun getCategoriesDetails(): Boolean {
@@ -56,7 +85,7 @@ class DashboardViewModel @Inject constructor(
             onSuccess = { categories ->
                 updateState { state ->
                     state.copy(
-                        categoriesDetails = categories.take(n = 4)
+                        categoriesDetails = categories.take(n = 3)
                     )
                 }
             },

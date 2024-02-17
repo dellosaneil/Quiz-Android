@@ -41,8 +41,8 @@ sealed class AppScreens(val route: String, val routeWithArgs: String = route) {
         route = "quiz_config",
         routeWithArgs = "quiz_config?$QUIZ_CATEGORY={$QUIZ_CATEGORY}"
     ) {
-        fun args(categoryJson: String) : String {
-            return QuizConfig.route + "?$QUIZ_CATEGORY=$categoryJson"
+        fun args(category: String?) : String {
+            return QuizConfig.route + "?$QUIZ_CATEGORY=$category"
         }
     }
 }

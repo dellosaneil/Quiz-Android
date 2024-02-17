@@ -109,7 +109,7 @@ fun QuizResultScreen(
                     )
                 )
                 Text(
-                    text = stringResource(id = R.string.x_percent, uiState.percentage),
+                    text = stringResource(id = com.thelazybattley.common.R.string.x_percent, uiState.percentage),
                     style = textStyle.poppins.copy(
                         fontSize = 36.sp,
                         fontWeight = FontWeight.SemiBold,

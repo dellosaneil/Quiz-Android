@@ -2,6 +2,8 @@
 <resources>
     <string name="quiz">Quiz</string>
 
+
+    <string name="x_percent">%1$d\%%</string>
     <plurals name="questions">
         <item quantity="other">%1$d questions</item>
         <item quantity="one">%1$d question</item>

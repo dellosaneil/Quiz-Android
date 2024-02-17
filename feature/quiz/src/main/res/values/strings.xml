@@ -5,7 +5,6 @@
     <string name="submit">Submit</string>
     <string name="correct_answers">CORRECT ANSWERS</string>
     <string name="percentage">PERCENTAGE</string>
-    <string name="x_percent">%1$d\%%</string>
     <string name="skipped">SKIPPED</string>
     <string name="incorrect">INCORRECT</string>
     <string name="close">Close</string>

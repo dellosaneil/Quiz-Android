@@ -3,4 +3,6 @@
     <string name="home">Home</string>
     <string name="take_quiz">Take Quiz</string>
     <string name="review_previous_quiz_result">Review Previous Quiz Result</string>
+    <string name="show_more">Show More\n+%1$d More</string>
+    <string name="see_all">See All</string>
 </resources>
