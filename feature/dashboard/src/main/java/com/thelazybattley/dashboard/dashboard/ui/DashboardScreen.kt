@@ -95,7 +95,7 @@ fun DashboardScreen(
                         text = stringResource(R.string.take_quiz),
                         style = textStyle.poppins.copy(
                             fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium
+                            fontWeight = FontWeight.SemiBold
                         )
                     )
                     Spacer(
@@ -162,7 +162,7 @@ fun DashboardScreen(
                         text = stringResource(R.string.review_previous_quiz_result),
                         style = textStyle.poppins.copy(
                             fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium
+                            fontWeight = FontWeight.SemiBold
                         )
                     )
 

@@ -59,7 +59,7 @@ fun DashboardItem(
             Text(
                 text = title,
                 style = textStyle.poppins.copy(
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.SemiBold,
                     fontSize = 14.sp,
                     color = colors.black50
                 ),

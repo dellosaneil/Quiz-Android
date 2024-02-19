@@ -109,7 +109,7 @@ fun QuizResultScreen(
                     style = textStyle.poppins.copy(
                         color = colors.blackOpacity50,
                         fontSize = 24.sp,
-                        fontWeight = FontWeight.Medium
+                        fontWeight = FontWeight.SemiBold
                     )
                 )
                 Text(

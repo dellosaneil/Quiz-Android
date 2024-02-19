@@ -89,7 +89,7 @@ private fun ReviewQuizScreen(
                             text = stringResource(R.string.close),
                             style = textStyle.poppins.copy(
                                 fontSize = 16.sp,
-                                fontWeight = FontWeight.Medium
+                                fontWeight = FontWeight.SemiBold
                             )
                         )
                     }

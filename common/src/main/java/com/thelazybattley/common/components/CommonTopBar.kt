@@ -47,7 +47,7 @@ fun CommonTopBar(
                     text = stringResource(id = titleRes),
                     style = textStyle.poppins.copy(
                         color = colors.black30,
-                        fontWeight = FontWeight.Medium,
+                        fontWeight = FontWeight.SemiBold,
                         fontSize = 18.sp
                     )
                 )

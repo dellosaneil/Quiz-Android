@@ -1,5 +1,6 @@
 package com.thelazybattley.quiz.quizresultshistory.ui
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,9 +22,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavOptions
+import com.google.gson.Gson
 import com.thelazybattley.common.components.CommonFilterChip
 import com.thelazybattley.common.components.CommonTopBar
 import com.thelazybattley.common.enums.QuestionCategory
+import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
 import com.thelazybattley.domain.model.QuizResult
 import com.thelazybattley.quiz.R
@@ -40,7 +43,8 @@ fun QuizResultsHistoryScreen(
     val uiState by viewModel.state.collectAsState()
     QuizResultsHistoryScreen(
         uiState = uiState, onPopBackStack = onPopBackStack,
-        callbacks = viewModel
+        callbacks = viewModel,
+        navigate = navigate
     )
 }
 
@@ -48,7 +52,8 @@ fun QuizResultsHistoryScreen(
 fun QuizResultsHistoryScreen(
     uiState: QuizResultsHistoryUiState,
     onPopBackStack: () -> Unit,
-    callbacks: QuizResultsHistoryCallbacks
+    callbacks: QuizResultsHistoryCallbacks,
+    navigate: (String, NavOptions?) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -94,7 +99,8 @@ fun QuizResultsHistoryScreen(
                         modifier = Modifier,
                         quizResult = result
                     ) {
-
+                        val json = Uri.encode(Gson().toJson(result))
+                        navigate(AppScreens.ReviewScreen.args(json), null)
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                 }
@@ -127,6 +133,6 @@ fun PreviewQuizResultsHistoryScreen() {
             ),
             callbacks = QuizResultsHistoryCallbacks.default(),
             onPopBackStack = {}
-        )
+        ) { _, _ -> }
     }
 }

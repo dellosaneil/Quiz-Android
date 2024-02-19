@@ -40,7 +40,7 @@ fun DashboardReviewItemContent(
             ),
             style = textStyle.poppins.copy(
                 color = percentageDisplay.textColor,
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.SemiBold,
                 fontSize = 26.sp,
                 textAlign = TextAlign.Center
             ),
