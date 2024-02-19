@@ -13,15 +13,17 @@ import com.thelazybattley.common.ui.theme.colors
 @Composable
 fun CommonLinearProgressIndicator(progress: Float) {
     LinearProgressIndicator(
-        strokeCap = StrokeCap.Round,
+        progress = {
+            progress
+        },
         modifier = Modifier
             .height(
                 height = 8.dp
             )
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
-        trackColor = colors.gray10,
         color = colors.purple40,
-        progress = progress
+        trackColor = colors.gray10,
+        strokeCap = StrokeCap.Round,
     )
 }

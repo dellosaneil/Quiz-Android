@@ -26,14 +26,18 @@ class ReviewQuizViewModel @Inject constructor(
                 savedStateHandle[AppScreens.QUIZ_RESULT_STATE] ?: return@launch
             updateState { state ->
                 val isAnswersCorrect =
-                    quizDetailsState.chosenAnswers.zip(quizDetailsState.answers).map {
-                        it.first == it.second
-                    }
+                    quizDetailsState
+                        .chosenAnswers
+                        .zip(quizDetailsState.answers)
+                        .map {
+                            it.first == it.second
+                        }
                 state.copy(
                     quizDetailsState = quizDetailsState.copy(
                         question = quizDetailsState.questions.first()
                     ),
-                    isAnswersCorrect = isAnswersCorrect
+                    isAnswersCorrect = isAnswersCorrect,
+                    progress = 1f / quizDetailsState.questions.size
                 )
             }
         }
@@ -41,7 +45,7 @@ class ReviewQuizViewModel @Inject constructor(
 
     override fun jumpToQuestion(index: Int) {
         updateState { state ->
-            val progress = index.toFloat() / state.quizDetailsState?.questions?.size!!
+            val progress = index.toFloat().inc() / state.quizDetailsState?.questions?.size!!
             state.copy(
                 currentIndex = index,
                 progress = progress,
@@ -49,7 +53,6 @@ class ReviewQuizViewModel @Inject constructor(
                     question = state.quizDetailsState.questions[index]
                 ),
                 reportAnswerState = ReportAnswerState()
-
             )
         }
     }

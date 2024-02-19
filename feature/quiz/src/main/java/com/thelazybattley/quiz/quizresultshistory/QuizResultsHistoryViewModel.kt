@@ -25,23 +25,24 @@ class QuizResultsHistoryViewModel @Inject constructor(
     }
 
     private fun getAllQuizResults() {
-        viewModelScope.launch(context = dispatcher) {
-            getAllQuizResultsUseCase()
-                .fold(
-                    onSuccess = { results ->
-                        updateState { state ->
-                            state.copy(
-                                filteredQuizResult = results,
-                                categories = results.map { it.category!! }.distinct(),
-                                completeQuizResult = results
-                            )
-                        }
-                    },
-                    onFailure = {
+        viewModelScope
+            .launch(context = dispatcher) {
+                getAllQuizResultsUseCase()
+                    .fold(
+                        onSuccess = { results ->
+                            updateState { state ->
+                                state.copy(
+                                    filteredQuizResult = results,
+                                    categories = results.map { it.category!! }.distinct(),
+                                    completeQuizResult = results
+                                )
+                            }
+                        },
+                        onFailure = {
 
-                    }
-                )
-        }
+                        }
+                    )
+            }
     }
 
     override fun onSelectCategory(category: QuestionCategory) {

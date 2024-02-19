@@ -57,7 +57,6 @@ fun ReviewQuizPicker(
                 )
             }
         }
-
         CommonLinearProgressIndicator(progress = animatedProgress)
     }
 }

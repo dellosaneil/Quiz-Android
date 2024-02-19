@@ -55,7 +55,8 @@ class QuizViewModel @Inject constructor(
                                     chosenAnswers = questions.map { null }
                                 ),
                                 currentIndex = 0,
-                                remainingTime = TIME_PER_QUESTION * questions.size
+                                remainingTime = TIME_PER_QUESTION * questions.size,
+                                progress = 1f / questions.size
                             )
                         }
                         observeTimer()
@@ -125,7 +126,7 @@ class QuizViewModel @Inject constructor(
         index: Int
     ) {
         updateState { state ->
-            val updatedProgress = (index.toFloat() / state.quizDetailsState.questions.size.dec())
+            val updatedProgress = (index.toFloat().inc() / state.quizDetailsState.questions.size)
             state.copy(
                 currentIndex = index,
                 progress = updatedProgress,
