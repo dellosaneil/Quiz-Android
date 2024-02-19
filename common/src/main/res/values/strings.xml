@@ -5,7 +5,6 @@
 
     <string name="x_percent">%1$d\%%</string>
     <string name="congratulations">Congratulations</string>
-    <string name="good_job">Good Job</string>
     <string name="study_to_get_a_better_result">Study to get a better result</string>
     <plurals name="questions">
         <item quantity="other">%1$d questions</item>

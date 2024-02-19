@@ -12,14 +12,9 @@ val Int.toPercentageDisplay
     @ReadOnlyComposable
     get() = run {
         when {
-            this >= 90 -> PercentageDisplay(
+            this >= 75 -> PercentageDisplay(
                 textColor = colors.green10,
                 text = stringResource(R.string.congratulations)
-            )
-
-            this >= 80 -> PercentageDisplay(
-                textColor = colors.black50,
-                text = stringResource(R.string.good_job)
             )
 
             else -> {
