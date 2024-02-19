@@ -33,6 +33,7 @@
     <string name="input_question_count">Input Question Count</string>
     <string name="choose_quiz_category">Choose Quiz Category</string>
     <string name="quiz_results_history">Quiz Results History</string>
+    <string name="your_score_was">Your Score was\n%1$s</string>
 
     <plurals name="x_question">
         <item quantity="one">%1$d question</item>
