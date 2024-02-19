@@ -14,8 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -55,7 +55,7 @@ fun DashboardItem(
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(space = 4.dp)
         ) {
-            Divider()
+            HorizontalDivider()
             Text(
                 text = title,
                 style = textStyle.poppins.copy(

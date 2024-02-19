@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
 import com.thelazybattley.common.components.CommonElevatedButton
+import com.thelazybattley.common.components.CommonFilterChip
 import com.thelazybattley.common.components.CommonTextField
 import com.thelazybattley.common.components.CommonTopBar
 import com.thelazybattley.common.enums.QuestionCategory
@@ -98,9 +99,9 @@ private fun QuizConfigScreen(
                     items = uiState.categories,
                     key = { it.category }
                 ) { category ->
-                    QuizConfigCategoryItem(
+                    CommonFilterChip(
                         modifier = Modifier,
-                        category = category.category.toString(),
+                        text = category.category.toString(),
                         isSelected = category.category.name == uiState.selectedCategory?.category?.name
                     ) {
                         callbacks.selectCategory(category = category)

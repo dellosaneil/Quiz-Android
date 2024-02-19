@@ -1,19 +1,33 @@
 package com.thelazybattley.quiz.quizresultshistory.ui
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavOptions
+import com.thelazybattley.common.components.CommonFilterChip
 import com.thelazybattley.common.components.CommonTopBar
+import com.thelazybattley.common.enums.QuestionCategory
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
+import com.thelazybattley.domain.model.QuizResult
 import com.thelazybattley.quiz.R
+import com.thelazybattley.quiz.quizresultshistory.QuizResultsHistoryCallbacks
 import com.thelazybattley.quiz.quizresultshistory.QuizResultsHistoryUiState
 import com.thelazybattley.quiz.quizresultshistory.QuizResultsHistoryViewModel
 
@@ -24,13 +38,17 @@ fun QuizResultsHistoryScreen(
     navigate: (String, NavOptions?) -> Unit
 ) {
     val uiState by viewModel.state.collectAsState()
-    QuizResultsHistoryScreen(uiState = uiState, onPopBackStack = onPopBackStack)
+    QuizResultsHistoryScreen(
+        uiState = uiState, onPopBackStack = onPopBackStack,
+        callbacks = viewModel
+    )
 }
 
 @Composable
 fun QuizResultsHistoryScreen(
     uiState: QuizResultsHistoryUiState,
-    onPopBackStack: () -> Unit
+    onPopBackStack: () -> Unit,
+    callbacks: QuizResultsHistoryCallbacks
 ) {
     Scaffold(
         topBar = {
@@ -42,15 +60,47 @@ fun QuizResultsHistoryScreen(
             }
         }
     ) { paddingValues ->
-        LazyVerticalGrid(
-            modifier = Modifier.fillMaxSize(),
-            columns = GridCells.Fixed(3),
-            contentPadding = paddingValues
-        ) {
 
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(all = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(space = 16.dp)
+        ) {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(3),
+                contentPadding = paddingValues,
+                userScrollEnabled = false
+            ) {
+                items(
+                    items = uiState.categories
+                ) { category ->
+                    CommonFilterChip(
+                        modifier = Modifier,
+                        text = category.toString(),
+                        onClick = {
+                            callbacks.onSelectCategory(category = category)
+                        },
+                        isSelected = category == uiState.selectedCategory
+                    )
+                }
+            }
+            HorizontalDivider()
+            LazyColumn {
+                items(
+                    items = uiState.filteredQuizResult
+                ) { result ->
+                    QuizResultHistoryItem(
+                        modifier = Modifier,
+                        quizResult = result
+                    ) {
+
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+            }
         }
     }
-
 }
 
 @Preview
@@ -58,9 +108,25 @@ fun QuizResultsHistoryScreen(
 fun PreviewQuizResultsHistoryScreen() {
     QuizAndroidTheme {
         QuizResultsHistoryScreen(
-            uiState = QuizResultsHistoryUiState()
-        ) {
+            uiState = QuizResultsHistoryUiState(
+                categories = listOf(
+                    QuestionCategory.RELATIONSHIP,
+                    QuestionCategory.DATES,
+                    QuestionCategory.PEOPLE,
+                    QuestionCategory.IMPORTANT_PLACES,
+                ),
+                filteredQuizResult = listOf(
+                    QuizResult().copy(
+                        percent = 50,
+                    ),
+                    QuizResult(percent = 70),
+                    QuizResult(percent = 81),
+                    QuizResult(percent = 90),
+                )
 
-        }
+            ),
+            callbacks = QuizResultsHistoryCallbacks.default(),
+            onPopBackStack = {}
+        )
     }
 }

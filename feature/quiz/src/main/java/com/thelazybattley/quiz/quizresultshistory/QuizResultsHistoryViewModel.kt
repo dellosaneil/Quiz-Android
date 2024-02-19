@@ -3,6 +3,7 @@ package com.thelazybattley.quiz.quizresultshistory
 import androidx.lifecycle.viewModelScope
 import com.thelazybattley.common.base.BaseViewModel
 import com.thelazybattley.common.di.IoDispatcher
+import com.thelazybattley.common.enums.QuestionCategory
 import com.thelazybattley.domain.local.GetAllQuizResultsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -13,7 +14,9 @@ import javax.inject.Inject
 class QuizResultsHistoryViewModel @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
     private val getAllQuizResultsUseCase: GetAllQuizResultsUseCase
-) : BaseViewModel<QuizResultsHistoryEvents, QuizResultsHistoryUiState>() {
+) : BaseViewModel<QuizResultsHistoryEvents, QuizResultsHistoryUiState>(),
+    QuizResultsHistoryCallbacks {
+
     override fun initialState() = QuizResultsHistoryUiState()
 
     init {
@@ -23,17 +26,31 @@ class QuizResultsHistoryViewModel @Inject constructor(
 
     private fun getAllQuizResults() {
         viewModelScope.launch(context = dispatcher) {
-            getAllQuizResultsUseCase().fold(
-                onSuccess = { results ->
-                    updateState { state ->
-                        state.copy(
-                            quizResult = results
-                        )
-                    }
-                },
-                onFailure = {
+            getAllQuizResultsUseCase()
+                .fold(
+                    onSuccess = { results ->
+                        updateState { state ->
+                            state.copy(
+                                filteredQuizResult = results,
+                                categories = results.map { it.category!! }.distinct(),
+                                completeQuizResult = results
+                            )
+                        }
+                    },
+                    onFailure = {
 
-                }
+                    }
+                )
+        }
+    }
+
+    override fun onSelectCategory(category: QuestionCategory) {
+        updateState { state ->
+            val updatedCategory = if (category == state.selectedCategory) null else category
+            val updatedFilteredQuizResults = if (updatedCategory == null) state.completeQuizResult else state.completeQuizResult.filter { it.category == category }
+            state.copy(
+                selectedCategory = updatedCategory,
+                filteredQuizResult = updatedFilteredQuizResults
             )
         }
     }

@@ -5,6 +5,8 @@ import com.thelazybattley.common.enums.QuestionCategory
 import com.thelazybattley.domain.model.QuizResult
 
 data class QuizResultsHistoryUiState(
-    val quizResult: List<QuizResult> = emptyList(),
-    val filterCategory: QuestionCategory? = null
+    val completeQuizResult: List<QuizResult> = emptyList(),
+    val filteredQuizResult: List<QuizResult> = emptyList(),
+    val selectedCategory: QuestionCategory? = null,
+    val categories: List<QuestionCategory> = emptyList()
 ) : BaseUiState

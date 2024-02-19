@@ -1,4 +1,4 @@
-package com.thelazybattley.quiz.quizconfig.ui
+package com.thelazybattley.common.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -10,7 +10,6 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -20,9 +19,9 @@ import com.thelazybattley.common.ui.theme.textStyle
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun QuizConfigCategoryItem(
+fun CommonFilterChip(
     modifier: Modifier,
-    category: String,
+    text: String,
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
@@ -46,17 +45,6 @@ fun QuizConfigCategoryItem(
         )
     }
 
-    val textStyle = if (isSelected) {
-        textStyle.poppins.copy(
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Medium
-        )
-    } else {
-        textStyle.poppins.copy(
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Normal
-        )
-    }
 
     FilterChip(
         modifier = modifier.padding(horizontal = 4.dp),
@@ -64,7 +52,7 @@ fun QuizConfigCategoryItem(
         onClick = { onClick() },
         label = {
             Text(
-                text = category,
+                text = text,
                 style = style,
                 maxLines = 1,
                 modifier = Modifier
@@ -83,19 +71,19 @@ fun QuizConfigCategoryItem(
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewQuizConfigCategoryItem() {
+fun PreviewCommonFilterChip() {
     QuizAndroidTheme {
         Column {
-            QuizConfigCategoryItem(
+            CommonFilterChip(
                 modifier = Modifier.padding(16.dp),
-                category = "People",
+                text = "People",
                 isSelected = true,
                 onClick = {}
             )
 
-            QuizConfigCategoryItem(
+            CommonFilterChip(
                 modifier = Modifier.padding(16.dp),
-                category = "People",
+                text = "People",
                 isSelected = false,
                 onClick = {}
             )
