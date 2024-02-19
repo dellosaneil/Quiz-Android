@@ -1,6 +1,7 @@
 package com.thelazybattley.data.network
 
 import com.thelazybattley.common.enums.QuestionCategory
+import com.thelazybattley.common.enums.toQuestionCategory
 import com.thelazybattley.common.model.Question
 import com.thelazybattley.common.model.QuizDetailsState
 import com.thelazybattley.data.local.dao.QuestionsDao
@@ -14,6 +15,7 @@ import com.thelazybattley.data.network.service.QuizService
 import com.thelazybattley.domain.model.QuizResult
 import com.thelazybattley.domain.network.QuizRepository
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 class QuizRepositoryImpl @Inject constructor(
     private val service: QuizService,
@@ -90,10 +92,21 @@ class QuizRepositoryImpl @Inject constructor(
     override suspend fun getAllQuizResult() = runCatching {
         quizResultDao
             .getAll().map { entity ->
+                val correctAnswers = entity
+                    .chosenAnswers
+                    .zip(entity.answers)
+                    .filter {
+                        it.first == it.second
+                    }.size
+                val percentage =
+                    (correctAnswers.toFloat() / entity.questions.size) * 100
+
                 QuizResult(
                     questions = entity.questions.map { it.toData },
                     answers = entity.answers,
-                    chosenAnswers = entity.chosenAnswers
+                    chosenAnswers = entity.chosenAnswers,
+                    category = entity.questions.first().category.toQuestionCategory,
+                    percent = percentage.roundToInt()
                 )
             }
             .asReversed()

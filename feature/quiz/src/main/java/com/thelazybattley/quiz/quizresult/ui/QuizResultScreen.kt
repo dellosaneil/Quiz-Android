@@ -108,7 +108,8 @@ fun QuizResultScreen(
                     text = stringResource(R.string.quiz_result),
                     style = textStyle.poppins.copy(
                         color = colors.blackOpacity50,
-                        fontSize = 16.sp
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Medium
                     )
                 )
                 Text(

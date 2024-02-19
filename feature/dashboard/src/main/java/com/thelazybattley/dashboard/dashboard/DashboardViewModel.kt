@@ -11,7 +11,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
@@ -49,28 +48,10 @@ class DashboardViewModel @Inject constructor(
         getAllQuizResultsUseCase()
             .fold(
                 onSuccess = { results ->
-                    val resultsWithPercent = results
-                        .take(3)
-                        .map { result ->
-                            val correctAnswers = result
-                                .chosenAnswers
-                                .zip(result.answers)
-                                .filter {
-                                    it.first == it.second
-                                }.size
-                            val percentage =
-                                (correctAnswers.toFloat() / result.questions.size) * 100
-
-                            result.copy(
-                                percent = percentage.roundToInt(),
-                                category = result.questions.first().category.toString()
-                            )
-                        }
-
                     updateState { state ->
                         state.copy(
-                            quizResults = resultsWithPercent,
-                            quizResultExceeding = results.size - resultsWithPercent.size
+                            quizResults = results.take(3),
+                            quizResultExceeding = results.size - 3
                         )
                     }
                 },

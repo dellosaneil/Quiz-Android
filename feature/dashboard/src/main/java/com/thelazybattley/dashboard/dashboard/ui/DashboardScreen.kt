@@ -189,7 +189,7 @@ fun DashboardScreen(
                     items(items = uiState.quizResults) { result ->
                         DashboardItem(
                             modifier = Modifier,
-                            title = result.category,
+                            title = result.category.toString(),
                             description = pluralStringResource(
                                 com.thelazybattley.common.R.plurals.questions,
                                 result.questions.size,

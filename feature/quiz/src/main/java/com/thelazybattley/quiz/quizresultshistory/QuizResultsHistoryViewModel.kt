@@ -8,7 +8,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
 @HiltViewModel
 class QuizResultsHistoryViewModel @Inject constructor(
@@ -26,27 +25,11 @@ class QuizResultsHistoryViewModel @Inject constructor(
         viewModelScope.launch(context = dispatcher) {
             getAllQuizResultsUseCase().fold(
                 onSuccess = { results ->
-                    val resultsWithPercentage = results.map { result ->
-                        val correctAnswers = result
-                            .chosenAnswers
-                            .zip(result.answers)
-                            .filter {
-                                it.first == it.second
-                            }.size
-                        val percentage =
-                            (correctAnswers.toFloat() / result.questions.size) * 100
-
-                        result.copy(
-                            percent = percentage.roundToInt(),
-                            category = result.questions.first().category.toString()
-                        )
-                    }
                     updateState { state ->
                         state.copy(
-                            quizResult = resultsWithPercentage
+                            quizResult = results
                         )
                     }
-
                 },
                 onFailure = {
 

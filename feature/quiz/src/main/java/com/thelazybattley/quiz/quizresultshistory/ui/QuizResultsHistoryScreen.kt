@@ -1,7 +1,8 @@
 package com.thelazybattley.quiz.quizresultshistory.ui
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -11,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavOptions
 import com.thelazybattley.common.components.CommonTopBar
+import com.thelazybattley.common.ui.theme.QuizAndroidTheme
 import com.thelazybattley.quiz.R
 import com.thelazybattley.quiz.quizresultshistory.QuizResultsHistoryUiState
 import com.thelazybattley.quiz.quizresultshistory.QuizResultsHistoryViewModel
@@ -21,11 +23,8 @@ fun QuizResultsHistoryScreen(
     onPopBackStack: () -> Unit,
     navigate: (String, NavOptions?) -> Unit
 ) {
-
     val uiState by viewModel.state.collectAsState()
-
     QuizResultsHistoryScreen(uiState = uiState, onPopBackStack = onPopBackStack)
-
 }
 
 @Composable
@@ -43,7 +42,13 @@ fun QuizResultsHistoryScreen(
             }
         }
     ) { paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues))
+        LazyVerticalGrid(
+            modifier = Modifier.fillMaxSize(),
+            columns = GridCells.Fixed(3),
+            contentPadding = paddingValues
+        ) {
+
+        }
     }
 
 }
@@ -51,9 +56,11 @@ fun QuizResultsHistoryScreen(
 @Preview
 @Composable
 fun PreviewQuizResultsHistoryScreen() {
-    QuizResultsHistoryScreen(
-        uiState = QuizResultsHistoryUiState()
-    ) {
+    QuizAndroidTheme {
+        QuizResultsHistoryScreen(
+            uiState = QuizResultsHistoryUiState()
+        ) {
 
+        }
     }
 }

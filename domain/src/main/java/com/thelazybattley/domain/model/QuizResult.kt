@@ -1,5 +1,6 @@
 package com.thelazybattley.domain.model
 
+import com.thelazybattley.common.enums.QuestionCategory
 import com.thelazybattley.common.model.Question
 
 data class QuizResult(
@@ -7,5 +8,5 @@ data class QuizResult(
     val chosenAnswers: List<String?> = emptyList(),
     val answers: List<String> = emptyList(),
     val percent: Int = 0,
-    val category: String = ""
+    val category: QuestionCategory? = null
 )
