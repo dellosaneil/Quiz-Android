@@ -44,7 +44,7 @@ fun QuizResultHistoryItem(
         onClick = { onClick() },
         shape = RoundedCornerShape(size = 8.dp),
         colors = CardDefaults.cardColors(
-            containerColor = colors.white50
+            containerColor = colors.white50,
         ),
         border = BorderStroke(width = 1.dp, color = percentageDisplay.textColor)
     ) {
@@ -91,7 +91,7 @@ fun QuizResultHistoryItem(
 private fun questionCountText(count: Int): AnnotatedString {
     return buildAnnotatedString {
         withStyle(style = SpanStyle()) {
-            append(stringResource(R.string.questions_count))
+            append(stringResource(R.string.questions))
         }
         withStyle(
             style = SpanStyle(
