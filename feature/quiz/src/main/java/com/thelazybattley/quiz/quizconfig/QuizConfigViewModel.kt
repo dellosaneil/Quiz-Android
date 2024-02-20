@@ -39,7 +39,8 @@ class QuizConfigViewModel @Inject constructor(
                         updateState { state ->
                             state.copy(
                                 selectedCategory = categoryDetail,
-                                categories = categories
+                                categories = categories,
+                                totalQuestions = categories.sumOf { it.count }
                             )
                         }
                     },
@@ -52,8 +53,9 @@ class QuizConfigViewModel @Inject constructor(
 
     override fun selectCategory(category: CategoryDetail) {
         updateState { state ->
+            val updatedCategory = if (category == state.selectedCategory) null else category
             state.copy(
-                selectedCategory = category,
+                selectedCategory = updatedCategory,
                 count = 0
             )
         }
@@ -68,10 +70,9 @@ class QuizConfigViewModel @Inject constructor(
     }
 
     override fun startQuiz() {
-        val selectedCategory = getCurrentState().selectedCategory ?: return
         emitEvent(
             event = QuizConfigEvents.StartQuiz(
-                category = selectedCategory.category.name,
+                category = getCurrentState().selectedCategory?.category?.name,
                 count = getCurrentState().count
             )
         )
@@ -79,8 +80,9 @@ class QuizConfigViewModel @Inject constructor(
 
     override fun updateCount(count: String) {
         val countNumber = count.toIntOrNull() ?: 0
-        val selectedCategory = getCurrentState().selectedCategory ?: return
-        val adjustedCount = countNumber.coerceAtMost(maximumValue = selectedCategory.count)
+        val totalCount =
+            getCurrentState().selectedCategory?.count ?: getCurrentState().totalQuestions
+        val adjustedCount = countNumber.coerceAtMost(maximumValue = totalCount)
         updateState { state ->
             state.copy(
                 count = adjustedCount

@@ -6,5 +6,6 @@ import com.thelazybattley.domain.model.CategoryDetail
 data class QuizConfigUiState(
     val selectedCategory: CategoryDetail? = null,
     val count: Int = 0,
-    val categories: List<CategoryDetail> = emptyList()
+    val categories: List<CategoryDetail> = emptyList(),
+    val totalQuestions: Int = 0
 ) : BaseUiState

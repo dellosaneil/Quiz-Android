@@ -33,6 +33,7 @@ fun AppNavHost() {
                 },
                 navArgument(name = QUIZ_CATEGORY) {
                     type = NavType.StringType
+                    nullable = true
                 }
             )
         ) {

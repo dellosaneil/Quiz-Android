@@ -25,7 +25,7 @@ interface QuizRepository {
 
     suspend fun fetchCategoriesDetails(): Result<List<CategoryDetail>>
 
-    suspend fun getAllQuestions(): Result<List<Question>>
+    suspend fun getAllQuestions(count: Int): Result<List<Question>>
 
     suspend fun insertAllQuestions(questions: List<Question>): Result<Unit>
 

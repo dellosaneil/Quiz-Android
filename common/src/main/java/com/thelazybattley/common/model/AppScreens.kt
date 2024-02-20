@@ -10,10 +10,10 @@ sealed class AppScreens(val route: String, val routeWithArgs: String = route) {
 
     data object QuizScreen : AppScreens(
         route = "quiz_screen",
-        routeWithArgs = "quiz_screen/{$QUIZ_CATEGORY}/{$QUESTIONS_COUNT}"
+        routeWithArgs = "quiz_screen/{$QUESTIONS_COUNT}?$QUIZ_CATEGORY={$QUIZ_CATEGORY}"
     ) {
-        fun args(category: String, count: Int): String {
-            return QuizScreen.route + "/$category/$count"
+        fun args(category: String?, count: Int): String {
+            return QuizScreen.route + "/$count?$QUIZ_CATEGORY=$category"
         }
     }
 

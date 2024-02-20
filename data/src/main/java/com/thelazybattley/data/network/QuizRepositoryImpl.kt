@@ -60,17 +60,24 @@ class QuizRepositoryImpl @Inject constructor(
     }
 
     override suspend fun fetchCategoriesDetails() = runCatching {
-        service.fetchCategoriesDetails().map { response ->
-            response.toData
-        }
+        service
+            .fetchCategoriesDetails()
+            .map { response ->
+                response.toData
+            }
     }
 
-    override suspend fun getAllQuestions() = runCatching {
-        questionsDao.getAll().map { entity ->
-            entity.toData.copy(
-                choices = entity.choices.shuffled()
-            )
-        }
+    override suspend fun getAllQuestions(count: Int) = runCatching {
+        questionsDao.getAll()
+            .shuffled()
+            .take(count)
+            .map { entity ->
+                entity
+                    .toData
+                    .copy(
+                        choices = entity.choices.shuffled()
+                    )
+            }
     }
 
     override suspend fun insertAllQuestions(questions: List<Question>) = runCatching {
@@ -79,7 +86,8 @@ class QuizRepositoryImpl @Inject constructor(
 
     override suspend fun getQuestionsByCategory(category: QuestionCategory, count: Int) =
         runCatching {
-            questionsDao.getQuestionsByCategory(category = category)
+            questionsDao
+                .getQuestionsByCategory(category = category)
                 .map { entity ->
                     entity.toData.copy(
                         choices = entity.choices.shuffled()
@@ -91,7 +99,8 @@ class QuizRepositoryImpl @Inject constructor(
 
     override suspend fun getAllQuizResult() = runCatching {
         quizResultDao
-            .getAll().map { entity ->
+            .getAll()
+            .map { entity ->
                 val correctAnswers = entity
                     .chosenAnswers
                     .zip(entity.answers)

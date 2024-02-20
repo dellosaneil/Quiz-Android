@@ -4,6 +4,6 @@ import com.thelazybattley.common.model.Question
 
 interface GetAllQuestionsUseCase {
 
-    suspend operator fun invoke() : Result<List<Question>>
+    suspend operator fun invoke(count: Int): Result<List<Question>>
 
 }

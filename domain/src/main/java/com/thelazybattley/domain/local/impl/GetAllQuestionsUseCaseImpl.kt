@@ -7,5 +7,5 @@ import javax.inject.Inject
 class GetAllQuestionsUseCaseImpl @Inject constructor(
     private val repository: QuizRepository
 ): GetAllQuestionsUseCase {
-    override suspend fun invoke() = repository.getAllQuestions()
+    override suspend fun invoke(count : Int) = repository.getAllQuestions(count = count)
 }

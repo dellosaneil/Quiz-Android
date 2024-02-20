@@ -33,9 +33,10 @@
     <string name="input_question_count">Input Question Count</string>
     <string name="choose_quiz_category">Choose Quiz Category</string>
     <string name="quiz_results_history">Quiz Results History</string>
-    <string name="your_score">Your Score:</string>
-    <string name="category">"Category: "</string>
+    <string name="your_score">Your Score</string>
+    <string name="category">"Category:"</string>
     <string name="questions_count">Questions Count:</string>
+    <string name="max_question_count">Max Question Count: %1$s</string>
 
     <plurals name="x_question">
         <item quantity="one">%1$d question</item>

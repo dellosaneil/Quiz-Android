@@ -108,36 +108,37 @@ private fun QuizConfigScreen(
                     }
                 }
             }
-            if (uiState.selectedCategory != null) {
-                Text(
-                    text = stringResource(R.string.input_question_count),
-                    style = textStyle.poppins.copy(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
+            Text(
+                text = stringResource(R.string.input_question_count),
+                style = textStyle.poppins.copy(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold
                 )
+            )
 
-                val count = if (uiState.count == 0) "" else uiState.count.toString()
-                CommonTextField(
-                    modifier = Modifier
-                        .padding(top = 8.dp)
-                        .align(alignment = Alignment.CenterHorizontally),
-                    text = count,
-                    singleLine = true,
-                    placeholderText = "Max Question Count: ${uiState.selectedCategory.count}",
-                    onValueChange = {
-                        callbacks.updateCount(it)
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number
-                    )
+            val count = if (uiState.count == 0) "" else uiState.count.toString()
+            CommonTextField(
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .align(alignment = Alignment.CenterHorizontally),
+                text = count,
+                singleLine = true,
+                placeholderText = stringResource(
+                    R.string.max_question_count,
+                    uiState.selectedCategory?.count ?: uiState.totalQuestions
+                ),
+                onValueChange = { newValue ->
+                    callbacks.updateCount(newValue)
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number
                 )
-            }
+            )
             Spacer(modifier = Modifier.weight(1f))
             CommonElevatedButton(
                 modifier = Modifier,
                 textRes = R.string.start_quiz,
-                isEnabled = uiState.selectedCategory != null && uiState.count != 0,
+                isEnabled = uiState.count != 0,
                 colors = ButtonDefaults.elevatedButtonColors(
                     containerColor = colors.purple50,
                     contentColor = colors.white20

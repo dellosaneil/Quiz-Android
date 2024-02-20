@@ -6,6 +6,7 @@ import com.thelazybattley.common.base.BaseViewModel
 import com.thelazybattley.common.di.IoDispatcher
 import com.thelazybattley.common.enums.toQuestionCategory
 import com.thelazybattley.common.model.AppScreens
+import com.thelazybattley.domain.local.GetAllQuestionsUseCase
 import com.thelazybattley.domain.local.GetQuestionsByCategory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -19,7 +20,8 @@ import javax.inject.Inject
 class QuizViewModel @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
     private val getQuestionsByCategory: GetQuestionsByCategory,
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
+    private val getAllQuestionsUseCase: GetAllQuestionsUseCase
 ) : BaseViewModel<QuizEvents, QuizUiState>(),
     QuizCallbacks {
 
@@ -38,13 +40,16 @@ class QuizViewModel @Inject constructor(
     }
 
     override fun fetchQuestions() {
-        val category: String = savedStateHandle[AppScreens.QUIZ_CATEGORY] ?: ""
-        val questionCategory = category.toQuestionCategory
+        val category: String? = savedStateHandle[AppScreens.QUIZ_CATEGORY]
+        val questionCategory = category?.toQuestionCategory
         val count: Int = savedStateHandle[AppScreens.QUESTIONS_COUNT] ?: DEFAULT_QUESTION_COUNT
 
         viewModelScope.launch(context = dispatcher) {
-            getQuestionsByCategory(category = questionCategory, count = count)
-                .fold(
+            if (questionCategory != null) {
+                getQuestionsByCategory(category = questionCategory, count = count)
+            } else {
+                getAllQuestionsUseCase(count = count)
+            }.fold(
                     onSuccess = { questions ->
                         updateState { state ->
                             state.copy(

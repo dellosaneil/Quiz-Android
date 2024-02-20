@@ -9,7 +9,7 @@ class GetCategoryDetailsUseCaseImpl @Inject constructor(
     private val repository: QuizRepository
 ) : GetCategoryDetailsUseCase {
     override suspend fun invoke() = run {
-        val localQuestions = repository.getAllQuestions()
+        val localQuestions = repository.getAllQuestions(count = Integer.MAX_VALUE)
         localQuestions.mapCatching { questions ->
             questions.groupBy { question -> question.category }
         }.map { categorizedQuestions ->
