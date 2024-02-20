@@ -7,7 +7,7 @@ import com.thelazybattley.common.di.IoDispatcher
 import com.thelazybattley.common.enums.toQuestionCategory
 import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.domain.local.GetAllQuestionsUseCase
-import com.thelazybattley.domain.local.GetQuestionsByCategory
+import com.thelazybattley.domain.local.GetQuestionsByCategoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class QuizViewModel @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
-    private val getQuestionsByCategory: GetQuestionsByCategory,
+    private val getQuestionsByCategoryUseCase: GetQuestionsByCategoryUseCase,
     private val savedStateHandle: SavedStateHandle,
     private val getAllQuestionsUseCase: GetAllQuestionsUseCase
 ) : BaseViewModel<QuizEvents, QuizUiState>(),
@@ -46,7 +46,7 @@ class QuizViewModel @Inject constructor(
 
         viewModelScope.launch(context = dispatcher) {
             if (questionCategory != null) {
-                getQuestionsByCategory(category = questionCategory, count = count)
+                getQuestionsByCategoryUseCase(category = questionCategory, count = count)
             } else {
                 getAllQuestionsUseCase(count = count)
             }.fold(

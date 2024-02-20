@@ -2,12 +2,12 @@ package com.thelazybattley.data.di
 
 import com.thelazybattley.domain.local.GetAllQuestionsUseCase
 import com.thelazybattley.domain.local.GetAllQuizResultsUseCase
-import com.thelazybattley.domain.local.GetQuestionsByCategory
+import com.thelazybattley.domain.local.GetQuestionsByCategoryUseCase
 import com.thelazybattley.domain.local.InsertAllQuestionsUseCase
 import com.thelazybattley.domain.local.InsertQuizResultUseCase
 import com.thelazybattley.domain.local.impl.GetAllQuestionsUseCaseImpl
 import com.thelazybattley.domain.local.impl.GetAllQuizResultsUseCaseImpl
-import com.thelazybattley.domain.local.impl.GetQuestionsByCategoryImpl
+import com.thelazybattley.domain.local.impl.GetQuestionsByCategoryUseCaseImpl
 import com.thelazybattley.domain.local.impl.InsertAllQuestionsUseCaseImpl
 import com.thelazybattley.domain.local.impl.InsertQuizResultUseCaseImpl
 import com.thelazybattley.domain.network.usecase.AddQuestionUseCase
@@ -47,7 +47,7 @@ abstract class UseCaseModule {
     abstract fun bindsInsertAllQuestionsUseCase(impl: InsertAllQuestionsUseCaseImpl): InsertAllQuestionsUseCase
 
     @Binds
-    abstract fun bindsGetQuestionsByCategory(impl: GetQuestionsByCategoryImpl): GetQuestionsByCategory
+    abstract fun bindsGetQuestionsByCategory(impl: GetQuestionsByCategoryUseCaseImpl): GetQuestionsByCategoryUseCase
 
     @Binds
     abstract fun bindsInsertQuizResultUseCase(impl: InsertQuizResultUseCaseImpl): InsertQuizResultUseCase
