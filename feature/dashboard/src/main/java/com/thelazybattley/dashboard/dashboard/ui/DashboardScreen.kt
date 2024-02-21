@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -18,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -27,7 +29,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavOptions
 import com.google.gson.Gson
 import com.thelazybattley.common.components.CommonTopBar
+import com.thelazybattley.common.enums.LifeOfRizalCategory
 import com.thelazybattley.common.enums.QuestionCategory
+import com.thelazybattley.common.ext.toLifeOfRizal
 import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.model.Question
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
@@ -77,7 +81,7 @@ fun DashboardScreen(
             item {
                 DashboardLabel(
                     modifier = Modifier,
-                    label = stringResource(R.string.take_quiz)
+                    label = stringResource(R.string.life_of_rizal_quiz)
                 ) {
                     navigate(AppScreens.QuizConfigScreen.args(category = null), null)
                 }
@@ -107,7 +111,7 @@ fun DashboardScreen(
                         ) {
                             navigate(
                                 AppScreens.QuizConfigScreen.args(
-                                    category = details.category.name
+                                    category = details.category.toLifeOfRizal.category.name
                                 ), null
                             )
                         }
@@ -145,6 +149,33 @@ fun DashboardScreen(
             item {
                 Spacer(modifier = Modifier.height(8.dp))
             }
+
+            item {
+                DashboardLabel(
+                    label = stringResource(R.string.noli_me_tangere_quiz)
+                ) {
+                }
+            }
+            item {
+                DashboardItem(
+                    modifier = Modifier,
+                    title = "Chapter 1",
+                    description = "4 questions",
+                    content = {
+                        Image(
+                            painter = painterResource(id = R.drawable.noli),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(vertical = 8.dp)
+                                .width(width = 56.dp)
+                                .align(alignment = Alignment.CenterHorizontally),
+                            contentScale = ContentScale.FillWidth
+                        )
+                    }
+                ) {
+
+                }
+            }
         }
     }
 }
@@ -156,10 +187,27 @@ private fun PreviewDashboardScreen() {
         DashboardScreen(
             uiState = DashboardUiState().copy(
                 categoriesDetails = listOf(
-                    CategoryDetail(count = 3, category = QuestionCategory.ADULTHOOD),
-                    CategoryDetail(count = 5, category = QuestionCategory.IMPORTANT_PLACES),
-                    CategoryDetail(count = 5, category = QuestionCategory.RELATIONSHIP),
-                    CategoryDetail(count = 5, category = QuestionCategory.PEOPLE),
+                    CategoryDetail(
+                        count = 3,
+                        category = QuestionCategory.LifeOfRizal(
+                            LifeOfRizalCategory.ADULTHOOD
+                        )
+                    ),
+                    CategoryDetail(
+                        count = 5, category = QuestionCategory.LifeOfRizal(
+                            LifeOfRizalCategory.DATES
+                        )
+                    ),
+                    CategoryDetail(
+                        count = 5, category = QuestionCategory.LifeOfRizal(
+                            LifeOfRizalCategory.RELATIONSHIP
+                        )
+                    ),
+                    CategoryDetail(
+                        count = 5, category = QuestionCategory.LifeOfRizal(
+                            LifeOfRizalCategory.PEOPLE
+                        )
+                    ),
                 ),
                 quizResults = listOf(
                     QuizResult(
@@ -169,21 +217,27 @@ private fun PreviewDashboardScreen() {
                                 question = "",
                                 answer = "",
                                 choices = emptyList(),
-                                category = QuestionCategory.PEOPLE
+                                category = QuestionCategory.LifeOfRizal(
+                                    LifeOfRizalCategory.ADULTHOOD
+                                )
                             ),
                             Question(
                                 id = 1,
                                 question = "",
                                 answer = "",
                                 choices = emptyList(),
-                                category = QuestionCategory.OTHERS
+                                category = QuestionCategory.LifeOfRizal(
+                                    LifeOfRizalCategory.ADULTHOOD
+                                )
                             ),
                             Question(
                                 id = 1,
                                 question = "",
                                 answer = "",
                                 choices = emptyList(),
-                                category = QuestionCategory.OTHERS
+                                category = QuestionCategory.LifeOfRizal(
+                                    LifeOfRizalCategory.ADULTHOOD
+                                )
                             ),
                         )
                     ),
@@ -194,14 +248,18 @@ private fun PreviewDashboardScreen() {
                                 question = "",
                                 answer = "",
                                 choices = emptyList(),
-                                category = QuestionCategory.RELATIONSHIP
+                                category = QuestionCategory.LifeOfRizal(
+                                    LifeOfRizalCategory.ADULTHOOD
+                                )
                             ),
                             Question(
                                 id = 1,
                                 question = "",
                                 answer = "",
                                 choices = emptyList(),
-                                category = QuestionCategory.OTHERS
+                                category = QuestionCategory.LifeOfRizal(
+                                    LifeOfRizalCategory.ADULTHOOD
+                                )
                             ),
                         )
                     )

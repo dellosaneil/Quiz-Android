@@ -64,7 +64,7 @@ fun DashboardLabel(
 @Composable
 private fun PreviewDashboardLabel() {
     DashboardLabel(
-        label = stringResource(R.string.take_quiz)
+        label = stringResource(R.string.life_of_rizal_quiz)
     ) {
 
     }
