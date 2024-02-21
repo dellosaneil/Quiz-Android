@@ -5,4 +5,6 @@
     <string name="review_previous_quiz_result">Review Previous Quiz Result</string>
     <string name="show_more">Show More\n+%1$d More</string>
     <string name="see_all">See All</string>
+    <string name="life_of_rizal_quiz">Life of Rizal Quiz</string>
+    <string name="noli_me_tangere_quiz">Noli me Tangere Quiz</string>
 </resources>

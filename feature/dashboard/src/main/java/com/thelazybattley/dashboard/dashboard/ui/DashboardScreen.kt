@@ -29,9 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavOptions
 import com.google.gson.Gson
 import com.thelazybattley.common.components.CommonTopBar
-import com.thelazybattley.common.enums.LifeOfRizalCategory
 import com.thelazybattley.common.enums.QuestionCategory
-import com.thelazybattley.common.ext.toLifeOfRizal
 import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.model.Question
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
@@ -111,7 +109,7 @@ fun DashboardScreen(
                         ) {
                             navigate(
                                 AppScreens.QuizConfigScreen.args(
-                                    category = details.category.toLifeOfRizal.category.name
+                                    category = details.category.name
                                 ), null
                             )
                         }
@@ -189,24 +187,8 @@ private fun PreviewDashboardScreen() {
                 categoriesDetails = listOf(
                     CategoryDetail(
                         count = 3,
-                        category = QuestionCategory.LifeOfRizal(
-                            LifeOfRizalCategory.ADULTHOOD
-                        )
-                    ),
-                    CategoryDetail(
-                        count = 5, category = QuestionCategory.LifeOfRizal(
-                            LifeOfRizalCategory.DATES
-                        )
-                    ),
-                    CategoryDetail(
-                        count = 5, category = QuestionCategory.LifeOfRizal(
-                            LifeOfRizalCategory.RELATIONSHIP
-                        )
-                    ),
-                    CategoryDetail(
-                        count = 5, category = QuestionCategory.LifeOfRizal(
-                            LifeOfRizalCategory.PEOPLE
-                        )
+                        category =
+                        QuestionCategory.ADULTHOOD
                     ),
                 ),
                 quizResults = listOf(
@@ -217,27 +199,7 @@ private fun PreviewDashboardScreen() {
                                 question = "",
                                 answer = "",
                                 choices = emptyList(),
-                                category = QuestionCategory.LifeOfRizal(
-                                    LifeOfRizalCategory.ADULTHOOD
-                                )
-                            ),
-                            Question(
-                                id = 1,
-                                question = "",
-                                answer = "",
-                                choices = emptyList(),
-                                category = QuestionCategory.LifeOfRizal(
-                                    LifeOfRizalCategory.ADULTHOOD
-                                )
-                            ),
-                            Question(
-                                id = 1,
-                                question = "",
-                                answer = "",
-                                choices = emptyList(),
-                                category = QuestionCategory.LifeOfRizal(
-                                    LifeOfRizalCategory.ADULTHOOD
-                                )
+                                category = QuestionCategory.ADULTHOOD
                             ),
                         )
                     ),
@@ -248,18 +210,14 @@ private fun PreviewDashboardScreen() {
                                 question = "",
                                 answer = "",
                                 choices = emptyList(),
-                                category = QuestionCategory.LifeOfRizal(
-                                    LifeOfRizalCategory.ADULTHOOD
-                                )
+                                category = QuestionCategory.ADULTHOOD
                             ),
                             Question(
                                 id = 1,
                                 question = "",
                                 answer = "",
                                 choices = emptyList(),
-                                category = QuestionCategory.LifeOfRizal(
-                                    LifeOfRizalCategory.ADULTHOOD
-                                )
+                                category = QuestionCategory.ADULTHOOD
                             ),
                         )
                     )
