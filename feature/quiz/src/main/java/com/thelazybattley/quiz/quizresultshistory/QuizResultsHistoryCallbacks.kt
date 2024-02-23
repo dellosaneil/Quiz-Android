@@ -1,14 +1,13 @@
 package com.thelazybattley.quiz.quizresultshistory
 
-import com.thelazybattley.common.enums.QuestionCategory
 
 interface QuizResultsHistoryCallbacks {
 
-    fun onSelectCategory(category: QuestionCategory)
+    fun onSelectCategory(category: String)
 
     companion object {
         fun default() = object  : QuizResultsHistoryCallbacks {
-            override fun onSelectCategory(category: QuestionCategory) {
+            override fun onSelectCategory(category: String) {
                 TODO("Not yet implemented")
             }
         }

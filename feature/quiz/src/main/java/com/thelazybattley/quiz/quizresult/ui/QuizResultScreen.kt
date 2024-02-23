@@ -161,7 +161,7 @@ fun QuizResultScreen(
             )
         }
     }
-    if (uiState.percentage >= 90) {
+    if (uiState.percentage >= 80) {
         KonfettiView(
             parties = KonfettiPreset.explode,
             modifier = Modifier.fillMaxSize()

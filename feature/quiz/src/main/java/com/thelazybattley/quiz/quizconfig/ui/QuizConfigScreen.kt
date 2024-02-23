@@ -31,7 +31,6 @@ import com.thelazybattley.common.components.CommonElevatedButton
 import com.thelazybattley.common.components.CommonFilterChip
 import com.thelazybattley.common.components.CommonTextField
 import com.thelazybattley.common.components.CommonTopBar
-import com.thelazybattley.common.enums.QuestionCategory
 import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
 import com.thelazybattley.common.ui.theme.colors
@@ -101,8 +100,8 @@ private fun QuizConfigScreen(
                 ) { category ->
                     CommonFilterChip(
                         modifier = Modifier,
-                        text = category.category.toString(),
-                        isSelected = category.category.name == uiState.selectedCategory?.category?.name
+                        text = category.category,
+                        isSelected = category.category == uiState.selectedCategory?.category
                     ) {
                         callbacks.selectCategory(category = category)
                     }
@@ -181,11 +180,12 @@ private fun PreviewQuizConfigScreen() {
         QuizConfigScreen(
             uiState = QuizConfigUiState(
                 categories = listOf(
-                    CategoryDetail(count = 1, category = QuestionCategory.PEOPLE),
-                    CategoryDetail(count = 1, category = QuestionCategory.RELATIONSHIP),
-                    CategoryDetail(count = 1, category = QuestionCategory.ADULTHOOD),
-                    CategoryDetail(count = 1, category = QuestionCategory.CHILDHOOD),
-                    CategoryDetail(count = 1, category = QuestionCategory.IMPORTANT_PLACES),
+                    CategoryDetail(count = 1, category = "People"),
+                    CategoryDetail(count = 1, category = "Relationship"),
+                    CategoryDetail(count = 1, category = "Adulthood"),
+                    CategoryDetail(count = 1, category = "Dates"),
+                    CategoryDetail(count = 1, category = "Places"),
+
                 )
             ),
             callbacks = QuizConfigCallbacks.default(),

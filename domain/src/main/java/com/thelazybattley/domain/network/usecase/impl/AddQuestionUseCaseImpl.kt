@@ -1,6 +1,5 @@
 package com.thelazybattley.domain.network.usecase.impl
 
-import com.thelazybattley.common.enums.QuestionCategory
 import com.thelazybattley.domain.network.QuizRepository
 import com.thelazybattley.domain.network.usecase.AddQuestionUseCase
 import javax.inject.Inject
@@ -12,11 +11,11 @@ class AddQuestionUseCaseImpl @Inject constructor(
         question: String,
         answer: String,
         choices: List<String>,
-        type: QuestionCategory
+        category: String
     ) = repository.addQuestion(
         question = question,
         answer = answer,
         choices = choices,
-        type = type
+        category = category
     )
 }

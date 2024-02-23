@@ -3,7 +3,6 @@ package com.thelazybattley.quiz.quizresultshistory
 import androidx.lifecycle.viewModelScope
 import com.thelazybattley.common.base.BaseViewModel
 import com.thelazybattley.common.di.IoDispatcher
-import com.thelazybattley.common.enums.QuestionCategory
 import com.thelazybattley.domain.local.GetAllQuizResultsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -45,7 +44,7 @@ class QuizResultsHistoryViewModel @Inject constructor(
             }
     }
 
-    override fun onSelectCategory(category: QuestionCategory) {
+    override fun onSelectCategory(category: String) {
         updateState { state ->
             val updatedCategory = if (category == state.selectedCategory) null else category
             val updatedFilteredQuizResults = if (updatedCategory == null) state.completeQuizResult else state.completeQuizResult.filter { it.category == category }

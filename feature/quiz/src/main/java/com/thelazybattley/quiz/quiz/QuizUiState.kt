@@ -1,7 +1,6 @@
 package com.thelazybattley.quiz.quiz
 
 import com.thelazybattley.common.base.BaseUiState
-import com.thelazybattley.common.enums.QuestionCategory
 import com.thelazybattley.common.model.QuizDetailsState
 
 data class QuizUiState(
@@ -13,6 +12,6 @@ data class QuizUiState(
     val isComplete: Boolean = false,
     val remainingTime: Int = 0,
     val showSubmitButtonDialog: Boolean = false,
-    val category: QuestionCategory? = null
+    val category: String? = null
 ) : BaseUiState
 

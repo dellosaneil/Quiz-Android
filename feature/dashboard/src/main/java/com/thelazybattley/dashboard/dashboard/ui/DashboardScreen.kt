@@ -29,7 +29,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavOptions
 import com.google.gson.Gson
 import com.thelazybattley.common.components.CommonTopBar
-import com.thelazybattley.common.enums.QuestionCategory
 import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.model.Question
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
@@ -90,7 +89,7 @@ fun DashboardScreen(
                     ) { details ->
                         DashboardItem(
                             modifier = Modifier,
-                            title = details.category.toString(),
+                            title = details.category,
                             description = pluralStringResource(
                                 com.thelazybattley.common.R.plurals.questions,
                                 details.count,
@@ -109,7 +108,7 @@ fun DashboardScreen(
                         ) {
                             navigate(
                                 AppScreens.QuizConfigScreen.args(
-                                    category = details.category.name
+                                    category = details.category
                                 ), null
                             )
                         }
@@ -187,8 +186,7 @@ private fun PreviewDashboardScreen() {
                 categoriesDetails = listOf(
                     CategoryDetail(
                         count = 3,
-                        category =
-                        QuestionCategory.ADULTHOOD
+                        category = "Adulthood"
                     ),
                 ),
                 quizResults = listOf(
@@ -199,7 +197,7 @@ private fun PreviewDashboardScreen() {
                                 question = "",
                                 answer = "",
                                 choices = emptyList(),
-                                category = QuestionCategory.ADULTHOOD
+                                category = "Adulthood"
                             ),
                         )
                     ),
@@ -210,14 +208,14 @@ private fun PreviewDashboardScreen() {
                                 question = "",
                                 answer = "",
                                 choices = emptyList(),
-                                category = QuestionCategory.ADULTHOOD
+                                category = "Adulthood"
                             ),
                             Question(
                                 id = 1,
                                 question = "",
                                 answer = "",
                                 choices = emptyList(),
-                                category = QuestionCategory.ADULTHOOD
+                                category = "Adulthood"
                             ),
                         )
                     )

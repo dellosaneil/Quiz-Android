@@ -8,7 +8,6 @@
     <string name="skipped">SKIPPED</string>
     <string name="incorrect">INCORRECT</string>
     <string name="close">Close</string>
-    <string name="congratulations_you_got">Congratulations! \n You got %1$d/%2$d</string>
     <string name="check_correct_answers">Check Correct Answers</string>
     <string name="review_questions">Review Questions</string>
     <string name="quiz">Quiz</string>

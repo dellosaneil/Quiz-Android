@@ -25,7 +25,6 @@ import androidx.navigation.NavOptions
 import com.google.gson.Gson
 import com.thelazybattley.common.components.CommonFilterChip
 import com.thelazybattley.common.components.CommonTopBar
-import com.thelazybattley.common.enums.QuestionCategory
 import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
 import com.thelazybattley.domain.model.QuizResult
@@ -116,10 +115,7 @@ fun PreviewQuizResultsHistoryScreen() {
         QuizResultsHistoryScreen(
             uiState = QuizResultsHistoryUiState(
                 categories = listOf(
-                    QuestionCategory.RELATIONSHIP,
-                    QuestionCategory.DATES,
-                    QuestionCategory.PEOPLE,
-                    QuestionCategory.IMPORTANT_PLACES,
+          "Relationship","Places","Dates"
                 ),
                 filteredQuizResult = listOf(
                     QuizResult().copy(

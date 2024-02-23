@@ -38,7 +38,7 @@ abstract class UseCaseModule {
     abstract fun bindsInsertReportedQuestion(impl: InsertReportedQuestionUseCaseImpl): InsertReportedQuestionUseCase
 
     @Binds
-    abstract fun bindsFetchCategoryDetails(impl: GetCategoryDetailsUseCaseImpl): GetCategoryDetailsUseCase
+    abstract fun bindsGetCategoryDetailsUseCase(impl: GetCategoryDetailsUseCaseImpl): GetCategoryDetailsUseCase
 
     @Binds
     abstract fun bindsLocalGetAllQuestionsUseCase(impl: GetAllQuestionsUseCaseImpl): GetAllQuestionsUseCase

@@ -1,9 +1,7 @@
 package com.thelazybattley.domain.network
 
-import com.thelazybattley.common.enums.QuestionCategory
 import com.thelazybattley.common.model.Question
 import com.thelazybattley.common.model.QuizDetailsState
-import com.thelazybattley.domain.model.CategoryDetail
 import com.thelazybattley.domain.model.QuizResult
 
 interface QuizRepository {
@@ -14,7 +12,7 @@ interface QuizRepository {
         question: String,
         answer: String,
         choices: List<String>,
-        type: QuestionCategory
+        category: String
     ): Result<Question>
 
     suspend fun insertReportedQuestion(
@@ -23,14 +21,12 @@ interface QuizRepository {
         question: String
     ): Result<Unit>
 
-    suspend fun fetchCategoriesDetails(): Result<List<CategoryDetail>>
-
     suspend fun getAllQuestions(count: Int): Result<List<Question>>
 
     suspend fun insertAllQuestions(questions: List<Question>): Result<Unit>
 
     suspend fun getQuestionsByCategory(
-        category: QuestionCategory,
+        category: String,
         count: Int
     ): Result<List<Question>>
 

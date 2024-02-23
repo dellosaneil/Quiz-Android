@@ -1,6 +1,6 @@
 package com.thelazybattley.data.mapper
 
-import com.thelazybattley.common.enums.toQuestionCategory
+import com.thelazybattley.common.ext.toTitleCase
 import com.thelazybattley.common.model.Question
 import com.thelazybattley.data.local.entity.QuestionEntity
 import com.thelazybattley.data.network.response.question.QuestionResponse
@@ -12,7 +12,7 @@ val QuestionEntity.toData
             question = question,
             answer = answer,
             choices = choices,
-            category = category.toQuestionCategory
+            category = category
         )
     }
 
@@ -23,7 +23,7 @@ val QuestionResponse.toData
             question = question,
             answer = answer,
             choices = choices,
-            category = category.toQuestionCategory
+            category = category.toTitleCase()
         )
     }
 
@@ -34,6 +34,6 @@ val Question.toEntity
             question = question,
             answer = answer,
             choices = choices,
-            category = category.name
+            category = category
         )
     }

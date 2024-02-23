@@ -23,7 +23,6 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.thelazybattley.common.enums.QuestionCategory
 import com.thelazybattley.common.ext.toPercentageDisplay
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
 import com.thelazybattley.common.ui.theme.colors
@@ -145,7 +144,7 @@ private fun PreviewQuizResultHistoryItem() {
             modifier = Modifier.padding(all = 16.dp),
             quizResult = QuizResult(
                 percent = 60,
-                category = QuestionCategory.IMPORTANT_PLACES
+                category = "Important Places"
             )
         ) {
 

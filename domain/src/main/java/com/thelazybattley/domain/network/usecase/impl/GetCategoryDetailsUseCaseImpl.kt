@@ -1,5 +1,6 @@
 package com.thelazybattley.domain.network.usecase.impl
 
+import com.thelazybattley.common.ext.toTitleCase
 import com.thelazybattley.domain.model.CategoryDetail
 import com.thelazybattley.domain.network.QuizRepository
 import com.thelazybattley.domain.network.usecase.GetCategoryDetailsUseCase
@@ -16,7 +17,7 @@ class GetCategoryDetailsUseCaseImpl @Inject constructor(
             categorizedQuestions.keys.map { category ->
                 CategoryDetail(
                     count = categorizedQuestions[category]?.size ?: 0,
-                    category = category
+                    category = category.toTitleCase()
                 )
             }
         }

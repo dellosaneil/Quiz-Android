@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.thelazybattley.common.base.BaseViewModel
 import com.thelazybattley.common.di.IoDispatcher
-import com.thelazybattley.common.enums.toQuestionCategory
 import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.domain.local.GetAllQuestionsUseCase
 import com.thelazybattley.domain.local.GetQuestionsByCategoryUseCase
@@ -30,7 +29,6 @@ class QuizViewModel @Inject constructor(
     companion object {
         const val TIME_PER_QUESTION = 60
         const val DEFAULT_QUESTION_COUNT = 10
-
     }
 
     override fun initialState() = QuizUiState()
@@ -41,12 +39,11 @@ class QuizViewModel @Inject constructor(
 
     override fun fetchQuestions() {
         val category: String? = savedStateHandle[AppScreens.QUIZ_CATEGORY]
-        val questionCategory = category?.toQuestionCategory
         val count: Int = savedStateHandle[AppScreens.QUESTIONS_COUNT] ?: DEFAULT_QUESTION_COUNT
 
         viewModelScope.launch(context = dispatcher) {
-            if (questionCategory != null) {
-                getQuestionsByCategoryUseCase(category = questionCategory, count = count)
+            if (category != null) {
+                getQuestionsByCategoryUseCase(category = category, count = count)
             } else {
                 getAllQuestionsUseCase(count = count)
             }.fold(

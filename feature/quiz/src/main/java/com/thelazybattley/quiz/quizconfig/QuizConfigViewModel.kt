@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.thelazybattley.common.base.BaseViewModel
 import com.thelazybattley.common.di.IoDispatcher
-import com.thelazybattley.common.enums.toQuestionCategory
 import com.thelazybattley.common.model.AppScreens.Companion.QUIZ_CATEGORY
 import com.thelazybattley.domain.model.CategoryDetail
 import com.thelazybattley.domain.network.usecase.GetCategoryDetailsUseCase
@@ -28,14 +27,13 @@ class QuizConfigViewModel @Inject constructor(
 
     private fun getCategoryDetails() {
         val category: String? = savedStateHandle[QUIZ_CATEGORY]
-        val questionCategory = category?.toQuestionCategory
 
         viewModelScope.launch(context = dispatcher) {
             getCategoryDetailsUseCase()
                 .fold(
                     onSuccess = { categories ->
                         val categoryDetail =
-                            categories.firstOrNull { it.category == questionCategory }
+                            categories.firstOrNull { it.category == category }
                         updateState { state ->
                             state.copy(
                                 selectedCategory = categoryDetail,
@@ -72,7 +70,7 @@ class QuizConfigViewModel @Inject constructor(
     override fun startQuiz() {
         emitEvent(
             event = QuizConfigEvents.StartQuiz(
-                category = getCurrentState().selectedCategory?.category?.name,
+                category = getCurrentState().selectedCategory?.category,
                 count = getCurrentState().count
             )
         )

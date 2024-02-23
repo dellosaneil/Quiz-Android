@@ -26,7 +26,6 @@ import androidx.navigation.navOptions
 import com.google.gson.Gson
 import com.thelazybattley.common.components.CommonElevatedButton
 import com.thelazybattley.common.components.CommonTopBar
-import com.thelazybattley.common.enums.QuestionCategory
 import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.model.Question
 import com.thelazybattley.common.model.QuizDetailsState
@@ -234,7 +233,7 @@ private fun PreviewQuizScreen() {
                             "Choice 4",
                         ),
                         answer = "Choice 3",
-                        category = QuestionCategory.RELATIONSHIP
+                        category = "Relationship"
                     ),
                     chosenAnswers = listOf(
                         null, "",

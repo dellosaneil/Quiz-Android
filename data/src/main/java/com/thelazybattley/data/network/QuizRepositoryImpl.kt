@@ -1,7 +1,6 @@
 package com.thelazybattley.data.network
 
-import com.thelazybattley.common.enums.QuestionCategory
-import com.thelazybattley.common.enums.toQuestionCategory
+import com.thelazybattley.common.ext.toTitleCase
 import com.thelazybattley.common.model.Question
 import com.thelazybattley.common.model.QuizDetailsState
 import com.thelazybattley.data.local.dao.QuestionsDao
@@ -33,14 +32,14 @@ class QuizRepositoryImpl @Inject constructor(
         question: String,
         answer: String,
         choices: List<String>,
-        type: QuestionCategory
+        category: String
     ) = runCatching {
         service.addQuestion(
             payload = QuestionPayload(
                 question = question,
                 answer = answer,
                 choices = choices,
-                category = type.name
+                category = category
             )
         ).toData
     }
@@ -57,14 +56,6 @@ class QuizRepositoryImpl @Inject constructor(
                 question = question
             )
         )
-    }
-
-    override suspend fun fetchCategoriesDetails() = runCatching {
-        service
-            .fetchCategoriesDetails()
-            .map { response ->
-                response.toData
-            }
     }
 
     override suspend fun getAllQuestions(count: Int) = runCatching {
@@ -84,7 +75,7 @@ class QuizRepositoryImpl @Inject constructor(
         questionsDao.insertAll(questions = questions.map { it.toEntity })
     }
 
-    override suspend fun getQuestionsByCategory(category: QuestionCategory, count: Int) =
+    override suspend fun getQuestionsByCategory(category: String, count: Int) =
         runCatching {
             questionsDao
                 .getQuestionsByCategory(category = category)
@@ -101,6 +92,13 @@ class QuizRepositoryImpl @Inject constructor(
         quizResultDao
             .getAll()
             .map { entity ->
+                val category =
+                    if (entity.questions.all { it.category == entity.questions.first().category }) {
+                        entity.questions.first().category.toTitleCase()
+                    } else {
+                        "All"
+                    }
+
                 val correctAnswers = entity
                     .chosenAnswers
                     .zip(entity.answers)
@@ -114,7 +112,7 @@ class QuizRepositoryImpl @Inject constructor(
                     questions = entity.questions.map { it.toData },
                     answers = entity.answers,
                     chosenAnswers = entity.chosenAnswers,
-                    category = entity.questions.first().category.toQuestionCategory,
+                    category = category,
                     percent = percentage.roundToInt()
                 )
             }
