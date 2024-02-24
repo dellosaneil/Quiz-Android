@@ -4,6 +4,7 @@ plugins {
     kotlin("kapt")
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.devtools.ksp)
+    alias(libs.plugins.google.services)
 }
 
 android {

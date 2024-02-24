@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "932137914712",
+    "project_id": "noli-me-tangere-reviewer",
+    "storage_bucket": "noli-me-tangere-reviewer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:932137914712:android:8d28475a978d7ce78ed52d",
+        "android_client_info": {
+          "package_name": "com.thelazybattley.joserizalquiz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "932137914712-l45tmnm4tv1vin81cmcr5opsm4v02g46.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE3oRn9TROQQPTMjt4N2oi1Vayti5mqX8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "932137914712-l45tmnm4tv1vin81cmcr5opsm4v02g46.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
