@@ -1,6 +1,6 @@
 package com.thelazybattley.domain.network.usecase
 
-import com.thelazybattley.common.model.Question
+import com.thelazybattley.common.enums.QuizType
 
 interface AddQuestionUseCase {
 
@@ -8,6 +8,7 @@ interface AddQuestionUseCase {
         question: String,
         answer: String,
         choices: List<String>,
-        category: String
-    ): Result<Question>
+        category: String,
+        quizType: QuizType
+    ): Result<Unit>
 }

@@ -3,6 +3,7 @@ package com.thelazybattley.dashboard.dashboard
 import androidx.lifecycle.viewModelScope
 import com.thelazybattley.common.base.BaseViewModel
 import com.thelazybattley.common.di.IoDispatcher
+import com.thelazybattley.common.enums.QuizType
 import com.thelazybattley.domain.local.GetAllQuizResultsUseCase
 import com.thelazybattley.domain.local.InsertAllQuestionsUseCase
 import com.thelazybattley.domain.network.usecase.FetchAllQuestionsUseCase
@@ -29,7 +30,9 @@ class DashboardViewModel @Inject constructor(
             if (isNotEmpty) {
                 return@launch
             }
-            fetchAllQuestionsUseCase().fold(
+            fetchAllQuestionsUseCase(
+                quizType = QuizType.LIFE_OF_RIZAL
+            ).fold(
                 onSuccess = { questions ->
                     insertAllQuestionsUseCase(questions = questions)
                     getCategoriesDetails()
@@ -62,7 +65,7 @@ class DashboardViewModel @Inject constructor(
     }
 
     private suspend fun getCategoriesDetails(): Boolean {
-        getCategoryDetailsUseCase().fold(
+        getCategoryDetailsUseCase(quizType = QuizType.LIFE_OF_RIZAL).fold(
             onSuccess = { categories ->
                 updateState { state ->
                     state.copy(

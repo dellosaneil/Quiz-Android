@@ -27,6 +27,7 @@ import androidx.navigation.NavOptions
 import com.thelazybattley.common.components.CommonBannerView
 import com.thelazybattley.common.components.CommonElevatedButton
 import com.thelazybattley.common.components.CommonTopBar
+import com.thelazybattley.common.enums.QuizType
 import com.thelazybattley.common.model.Question
 import com.thelazybattley.common.model.QuizDetailsState
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
@@ -242,13 +243,14 @@ private fun PreviewReviewQuizScreen() {
                 ),
                 quizDetailsState = QuizDetailsState(
                     question = Question(
-                        id = 1,
+                        questionId = 1,
                         question = "This is a question",
                         choices = listOf(
                             "1", "2", "3", "4"
                         ),
                         answer = "3",
-                        category = "Relationship"
+                        category = "Relationship",
+                        quizType = QuizType.LIFE_OF_RIZAL
                     ),
                     answers = listOf(
                         ""

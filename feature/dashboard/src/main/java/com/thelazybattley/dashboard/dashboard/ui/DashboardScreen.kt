@@ -29,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavOptions
 import com.google.gson.Gson
 import com.thelazybattley.common.components.CommonTopBar
+import com.thelazybattley.common.enums.QuizType
 import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.model.Question
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
@@ -193,29 +194,32 @@ private fun PreviewDashboardScreen() {
                     QuizResult(
                         questions = listOf(
                             Question(
-                                id = 1,
+                                questionId = 1,
                                 question = "",
                                 answer = "",
                                 choices = emptyList(),
-                                category = "Adulthood"
+                                category = "Adulthood",
+                                quizType = QuizType.LIFE_OF_RIZAL
                             ),
                         )
                     ),
                     QuizResult(
                         questions = listOf(
                             Question(
-                                id = 2,
+                                questionId = 2,
                                 question = "",
                                 answer = "",
                                 choices = emptyList(),
-                                category = "Adulthood"
+                                category = "Adulthood",
+                                quizType = QuizType.LIFE_OF_RIZAL
                             ),
                             Question(
-                                id = 1,
+                                questionId = 1,
                                 question = "",
                                 answer = "",
                                 choices = emptyList(),
-                                category = "Adulthood"
+                                category = "Adulthood",
+                                quizType = QuizType.LIFE_OF_RIZAL
                             ),
                         )
                     )

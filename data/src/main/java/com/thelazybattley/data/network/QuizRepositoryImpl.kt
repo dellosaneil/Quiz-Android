@@ -1,5 +1,7 @@
 package com.thelazybattley.data.network
 
+import com.google.firebase.firestore.FirebaseFirestore
+import com.thelazybattley.common.enums.QuizType
 import com.thelazybattley.common.ext.toTitleCase
 import com.thelazybattley.common.model.Question
 import com.thelazybattley.common.model.QuizDetailsState
@@ -8,40 +10,74 @@ import com.thelazybattley.data.local.dao.QuizResultDao
 import com.thelazybattley.data.local.entity.QuizResultEntity
 import com.thelazybattley.data.mapper.toData
 import com.thelazybattley.data.mapper.toEntity
-import com.thelazybattley.data.network.payload.QuestionPayload
-import com.thelazybattley.data.network.payload.ReportQuestionPayload
-import com.thelazybattley.data.network.service.QuizService
+import com.thelazybattley.data.mapper.toQuestion
 import com.thelazybattley.domain.model.QuizResult
 import com.thelazybattley.domain.network.QuizRepository
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 import kotlin.math.roundToInt
+import kotlin.random.Random
 
 class QuizRepositoryImpl @Inject constructor(
-    private val service: QuizService,
+    private val firestore: FirebaseFirestore,
     private val questionsDao: QuestionsDao,
     private val quizResultDao: QuizResultDao
 ) : QuizRepository {
 
-    override suspend fun fetchAllQuestions() = runCatching {
-        service.fetchQuestions().map { response ->
-            response.toData
+    override suspend fun fetchAllQuestions(
+        quizType: QuizType
+    ): Result<List<Question>> =
+        suspendCoroutine { continuation ->
+            firestore
+                .collection("quiz")
+                .document(quizType.type)
+                .get()
+                .addOnSuccessListener { documentSnapshot ->
+                    if (documentSnapshot.exists()) {
+                        continuation.resume(
+                            Result.success(
+                                value = documentSnapshot.toQuestion(
+                                    quizType = quizType
+                                )
+                            )
+                        )
+                    } else {
+                        continuation.resume(Result.failure(exception = Exception("list is empty")))
+                    }
+                }.addOnFailureListener { exception ->
+                    continuation.resume(Result.failure(exception = exception))
+                }
         }
-    }
 
     override suspend fun addQuestion(
         question: String,
         answer: String,
         choices: List<String>,
-        category: String
+        category: String,
+        quizType: QuizType
     ) = runCatching {
-        service.addQuestion(
-            payload = QuestionPayload(
-                question = question,
+        val updatedQuestions = fetchAllQuestions(quizType = quizType)
+            .getOrThrow()
+            .toMutableList()
+        updatedQuestions.add(
+            element = Question(
+                questionId = Random.nextInt(),
                 answer = answer,
+                category = category.toTitleCase(),
                 choices = choices,
-                category = category
+                question = question,
+                quizType = quizType
             )
-        ).toData
+        )
+        firestore
+            .collection("quiz")
+            .document(quizType.type)
+            .update(
+                mapOf("questions" to updatedQuestions)
+            )
+        Unit
+
     }
 
     override suspend fun insertReportedQuestion(
@@ -49,17 +85,18 @@ class QuizRepositoryImpl @Inject constructor(
         questionId: Int,
         question: String
     ) = runCatching {
-        service.insertReportedQuestion(
-            payload = ReportQuestionPayload(
-                questionId = questionId,
-                suggestedAnswer = suggestedAnswer,
-                question = question
-            )
-        )
+//        service.insertReportedQuestion(
+//            payload = ReportQuestionPayload(
+//                questionId = questionId,
+//                suggestedAnswer = suggestedAnswer,
+//                question = question
+//            )
+//        )
+        Unit
     }
 
-    override suspend fun getAllQuestions(count: Int) = runCatching {
-        questionsDao.getAll()
+    override suspend fun getAllQuestions(count: Int, quizType: QuizType) = runCatching {
+        questionsDao.getAll(quizType = quizType)
             .shuffled()
             .take(count)
             .map { entity ->

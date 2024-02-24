@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.thelazybattley.common.base.BaseViewModel
 import com.thelazybattley.common.di.IoDispatcher
+import com.thelazybattley.common.enums.QuizType
 import com.thelazybattley.common.model.AppScreens.Companion.QUIZ_CATEGORY
 import com.thelazybattley.domain.model.CategoryDetail
 import com.thelazybattley.domain.network.usecase.GetCategoryDetailsUseCase
@@ -29,7 +30,7 @@ class QuizConfigViewModel @Inject constructor(
         val category: String? = savedStateHandle[QUIZ_CATEGORY]
 
         viewModelScope.launch(context = dispatcher) {
-            getCategoryDetailsUseCase()
+            getCategoryDetailsUseCase(quizType = QuizType.LIFE_OF_RIZAL)
                 .fold(
                     onSuccess = { categories ->
                         val categoryDetail =

@@ -1,19 +1,23 @@
 package com.thelazybattley.domain.network
 
+import com.thelazybattley.common.enums.QuizType
 import com.thelazybattley.common.model.Question
 import com.thelazybattley.common.model.QuizDetailsState
 import com.thelazybattley.domain.model.QuizResult
 
 interface QuizRepository {
 
-    suspend fun fetchAllQuestions(): Result<List<Question>>
+    suspend fun fetchAllQuestions(
+        quizType: QuizType
+    ): Result<List<Question>>
 
     suspend fun addQuestion(
         question: String,
         answer: String,
         choices: List<String>,
-        category: String
-    ): Result<Question>
+        category: String,
+        quizType: QuizType
+    ): Result<Unit>
 
     suspend fun insertReportedQuestion(
         suggestedAnswer: String,
@@ -21,7 +25,7 @@ interface QuizRepository {
         question: String
     ): Result<Unit>
 
-    suspend fun getAllQuestions(count: Int): Result<List<Question>>
+    suspend fun getAllQuestions(count: Int, quizType: QuizType): Result<List<Question>>
 
     suspend fun insertAllQuestions(questions: List<Question>): Result<Unit>
 

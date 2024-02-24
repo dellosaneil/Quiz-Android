@@ -17,7 +17,18 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+//        lifecycleScope.launch(context = Dispatchers.IO) {
+//            useCase(
+//                question ="Is this a thing",
+//                answer = "it is",
+//                choices = listOf(
+//                    "it is",
+//                    "Am i dreaming"
+//                ),
+//                category = "Cat",
+//                quizType = QuizType.LIFE_OF_RIZAL
+//            )
+//        }
         setContent {
             QuizAndroidTheme {
                 AppNavHost()

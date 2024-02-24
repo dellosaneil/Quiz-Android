@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.thelazybattley.common.base.BaseViewModel
 import com.thelazybattley.common.di.IoDispatcher
+import com.thelazybattley.common.enums.QuizType
 import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.domain.local.GetAllQuestionsUseCase
 import com.thelazybattley.domain.local.GetQuestionsByCategoryUseCase
@@ -45,7 +46,7 @@ class QuizViewModel @Inject constructor(
             if (category != null) {
                 getQuestionsByCategoryUseCase(category = category, count = count)
             } else {
-                getAllQuestionsUseCase(count = count)
+                getAllQuestionsUseCase(count = count, quizType = QuizType.LIFE_OF_RIZAL)
             }.fold(
                     onSuccess = { questions ->
                         updateState { state ->

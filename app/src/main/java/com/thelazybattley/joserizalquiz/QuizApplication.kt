@@ -1,6 +1,7 @@
 package com.thelazybattley.joserizalquiz
 
 import android.app.Application
+import com.google.firebase.FirebaseApp
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -12,5 +13,6 @@ class QuizApplication : Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
+        FirebaseApp.initializeApp(this)
     }
 }

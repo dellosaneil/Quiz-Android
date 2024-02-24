@@ -26,6 +26,7 @@ import androidx.navigation.navOptions
 import com.google.gson.Gson
 import com.thelazybattley.common.components.CommonElevatedButton
 import com.thelazybattley.common.components.CommonTopBar
+import com.thelazybattley.common.enums.QuizType
 import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.model.Question
 import com.thelazybattley.common.model.QuizDetailsState
@@ -224,7 +225,7 @@ private fun PreviewQuizScreen() {
             uiState = QuizUiState(
                 quizDetailsState = QuizDetailsState(
                     question = Question(
-                        id = 1,
+                        questionId = 1,
                         question = "Which of the following are true for objects of Python’s set type:",
                         choices = listOf(
                             "Choice 1",
@@ -233,7 +234,8 @@ private fun PreviewQuizScreen() {
                             "Choice 4",
                         ),
                         answer = "Choice 3",
-                        category = "Relationship"
+                        category = "Relationship",
+                        quizType = QuizType.LIFE_OF_RIZAL
                     ),
                     chosenAnswers = listOf(
                         null, "",

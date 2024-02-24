@@ -82,7 +82,7 @@ class ReviewQuizViewModel @Inject constructor(
             val currentQuestion = getCurrentState().quizDetailsState?.question ?: return@launch
             insertReportedQuestionUseCase(
                 question = currentQuestion.question,
-                questionId = currentQuestion.id,
+                questionId = currentQuestion.questionId,
                 suggestedAnswer = getCurrentState().reportAnswerState.text
             ).fold(
                 onSuccess = {

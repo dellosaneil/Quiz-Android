@@ -1,5 +1,6 @@
 package com.thelazybattley.domain.network.usecase.impl
 
+import com.thelazybattley.common.enums.QuizType
 import com.thelazybattley.common.ext.toTitleCase
 import com.thelazybattley.domain.model.CategoryDetail
 import com.thelazybattley.domain.network.QuizRepository
@@ -9,8 +10,11 @@ import javax.inject.Inject
 class GetCategoryDetailsUseCaseImpl @Inject constructor(
     private val repository: QuizRepository
 ) : GetCategoryDetailsUseCase {
-    override suspend fun invoke() = run {
-        val localQuestions = repository.getAllQuestions(count = Integer.MAX_VALUE)
+    override suspend fun invoke(quizType: QuizType) = run {
+        val localQuestions = repository.getAllQuestions(
+            count = Integer.MAX_VALUE,
+            quizType = quizType
+        )
         localQuestions.mapCatching { questions ->
             questions.groupBy { question -> question.category }
         }.map { categorizedQuestions ->
