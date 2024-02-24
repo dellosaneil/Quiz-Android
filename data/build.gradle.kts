@@ -1,9 +1,9 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     kotlin("kapt")
-    id("com.google.dagger.hilt.android")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.devtools.ksp)
 }
 
 android {
@@ -38,6 +38,7 @@ android {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":common"))
+
     testImplementation(libs.junit)
     implementation(libs.retrofit)
     implementation(libs.gson)
@@ -49,6 +50,8 @@ dependencies {
     annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler)
     implementation(libs.room.ktx)
+    implementation(platform(libs.firestore.bom))
+    implementation(libs.firebase.firestore)
 }
 
 
