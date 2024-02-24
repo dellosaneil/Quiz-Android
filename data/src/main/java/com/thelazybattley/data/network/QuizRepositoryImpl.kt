@@ -11,7 +11,9 @@ import com.thelazybattley.data.local.entity.QuizResultEntity
 import com.thelazybattley.data.mapper.toData
 import com.thelazybattley.data.mapper.toEntity
 import com.thelazybattley.data.mapper.toQuestion
+import com.thelazybattley.data.mapper.toReportedQuestions
 import com.thelazybattley.domain.model.QuizResult
+import com.thelazybattley.domain.model.ReportedQuestion
 import com.thelazybattley.domain.network.QuizRepository
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -27,28 +29,27 @@ class QuizRepositoryImpl @Inject constructor(
 
     override suspend fun fetchAllQuestions(
         quizType: QuizType
-    ): Result<List<Question>> =
-        suspendCoroutine { continuation ->
-            firestore
-                .collection("quiz")
-                .document(quizType.type)
-                .get()
-                .addOnSuccessListener { documentSnapshot ->
-                    if (documentSnapshot.exists()) {
-                        continuation.resume(
-                            Result.success(
-                                value = documentSnapshot.toQuestion(
-                                    quizType = quizType
-                                )
+    ): Result<List<Question>> = suspendCoroutine { continuation ->
+        firestore
+            .collection("quiz")
+            .document(quizType.type)
+            .get()
+            .addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot.exists()) {
+                    continuation.resume(
+                        Result.success(
+                            value = documentSnapshot.toQuestion(
+                                quizType = quizType
                             )
                         )
-                    } else {
-                        continuation.resume(Result.failure(exception = Exception("list is empty")))
-                    }
-                }.addOnFailureListener { exception ->
-                    continuation.resume(Result.failure(exception = exception))
+                    )
+                } else {
+                    continuation.resume(Result.failure(exception = Exception("list is empty")))
                 }
-        }
+            }.addOnFailureListener { exception ->
+                continuation.resume(Result.failure(exception = exception))
+            }
+    }
 
     override suspend fun addQuestion(
         question: String,
@@ -60,6 +61,9 @@ class QuizRepositoryImpl @Inject constructor(
         val updatedQuestions = fetchAllQuestions(quizType = quizType)
             .getOrThrow()
             .toMutableList()
+        if (updatedQuestions.isEmpty()) {
+            return@runCatching
+        }
         updatedQuestions.add(
             element = Question(
                 questionId = Random.nextInt(),
@@ -77,23 +81,48 @@ class QuizRepositoryImpl @Inject constructor(
                 mapOf("questions" to updatedQuestions)
             )
         Unit
-
     }
 
     override suspend fun insertReportedQuestion(
         suggestedAnswer: String,
         questionId: Int,
-        question: String
+        question: String,
+        quizType: QuizType
     ) = runCatching {
-//        service.insertReportedQuestion(
-//            payload = ReportQuestionPayload(
-//                questionId = questionId,
-//                suggestedAnswer = suggestedAnswer,
-//                question = question
-//            )
-//        )
+        val updatedReportedQuestions = fetchReportedQuestions(quizType = quizType).getOrThrow().toMutableList()
+        val reportedQuestion = ReportedQuestion(
+            questionId = questionId,
+            question = question,
+            suggestedAnswer = suggestedAnswer
+        )
+        updatedReportedQuestions.add(reportedQuestion)
+        firestore
+            .collection("report")
+            .document(quizType.type)
+            .update(mapOf("questions" to updatedReportedQuestions))
         Unit
     }
+
+    override suspend fun fetchReportedQuestions(quizType: QuizType): Result<List<ReportedQuestion>> =
+        suspendCoroutine { continuation ->
+            firestore
+                .collection("report")
+                .document(quizType.type)
+                .get()
+                .addOnSuccessListener { documentSnapshot ->
+                    if (documentSnapshot.exists()) {
+                        continuation.resume(
+                            Result.success(
+                                value = documentSnapshot.toReportedQuestions
+                            )
+                        )
+                    } else {
+                        continuation.resume(Result.failure(exception = Exception("list is empty")))
+                    }
+                }.addOnFailureListener { exception ->
+                    continuation.resume(Result.failure(exception = exception))
+                }
+        }
 
     override suspend fun getAllQuestions(count: Int, quizType: QuizType) = runCatching {
         questionsDao.getAll(quizType = quizType)

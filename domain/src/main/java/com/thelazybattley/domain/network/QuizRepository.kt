@@ -4,6 +4,7 @@ import com.thelazybattley.common.enums.QuizType
 import com.thelazybattley.common.model.Question
 import com.thelazybattley.common.model.QuizDetailsState
 import com.thelazybattley.domain.model.QuizResult
+import com.thelazybattley.domain.model.ReportedQuestion
 
 interface QuizRepository {
 
@@ -22,8 +23,11 @@ interface QuizRepository {
     suspend fun insertReportedQuestion(
         suggestedAnswer: String,
         questionId: Int,
-        question: String
+        question: String,
+        quizType: QuizType
     ): Result<Unit>
+
+    suspend fun fetchReportedQuestions(quizType: QuizType) : Result<List<ReportedQuestion>>
 
     suspend fun getAllQuestions(count: Int, quizType: QuizType): Result<List<Question>>
 
