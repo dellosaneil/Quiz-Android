@@ -1,14 +1,11 @@
 package com.thelazybattley.dashboard.dashboard.ui
 
 import android.net.Uri
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -17,10 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,14 +42,15 @@ fun DashboardScreen(
 ) {
     val uiState by viewModel.state.collectAsState()
     LaunchedEffect(Unit) {
-        viewModel.initialize()
+        viewModel.initialize(quizType = QuizType.LIFE_OF_RIZAL)
+        viewModel.initialize(quizType = QuizType.EL_FILI)
+        viewModel.initialize(quizType = QuizType.NOLI_ME_TANGERE)
     }
     DashboardScreen(
         uiState = uiState,
         navigate = navigate,
     )
 }
-
 
 @Composable
 fun DashboardScreen(
@@ -81,39 +76,51 @@ fun DashboardScreen(
                     modifier = Modifier,
                     label = stringResource(R.string.life_of_rizal_quiz)
                 ) {
-                    navigate(AppScreens.QuizConfigScreen.args(category = null), null)
+                    navigate(
+                        AppScreens.QuizConfigScreen.args(
+                            category = null,
+                            type = QuizType.LIFE_OF_RIZAL.type
+                        ), null
+                    )
                 }
-                LazyRow {
-                    items(
-                        items = uiState.categoriesDetails,
-                        key = { it.category }
-                    ) { details ->
-                        DashboardItem(
-                            modifier = Modifier,
-                            title = details.category,
-                            description = pluralStringResource(
-                                com.thelazybattley.common.R.plurals.questions,
-                                details.count,
-                                details.count,
-                            ),
-                            content = {
-                                Image(
-                                    painter = painterResource(id = com.thelazybattley.common.R.drawable.img_timed_quiz),
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .padding(vertical = 8.dp)
-                                        .size(size = 56.dp)
-                                        .align(alignment = Alignment.CenterHorizontally)
-                                )
-                            }
-                        ) {
-                            navigate(
-                                AppScreens.QuizConfigScreen.args(
-                                    category = details.category
-                                ), null
-                            )
-                        }
-                    }
+                DashboardQuizItems(
+                    categories = uiState.lifeOfRizalCategories,
+                    drawRes = com.thelazybattley.common.R.drawable.img_timed_quiz
+                ) { category ->
+                    navigate(
+                        AppScreens.QuizConfigScreen.args(
+                            category = category,
+                            type = QuizType.LIFE_OF_RIZAL.type
+                        ), null
+                    )
+                }
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
+            item {
+                DashboardLabel(
+                    label = stringResource(R.string.noli_me_tangere_quiz)
+                ) {
+                    navigate(
+                        AppScreens.QuizConfigScreen.args(
+                            category = null,
+                            type = QuizType.NOLI_ME_TANGERE.type
+                        ), null
+                    )
+                }
+                DashboardQuizItems(
+                    categories = uiState.noliCategories,
+                    drawRes = R.drawable.noli
+                ) { category ->
+                    navigate(
+                        AppScreens.QuizConfigScreen.args(
+                            category = category,
+                            type = QuizType.NOLI_ME_TANGERE.type
+                        ), null
+                    )
                 }
             }
 
@@ -144,36 +151,6 @@ fun DashboardScreen(
                     }
                 }
             }
-            item {
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-
-            item {
-                DashboardLabel(
-                    label = stringResource(R.string.noli_me_tangere_quiz)
-                ) {
-                }
-            }
-            item {
-                DashboardItem(
-                    modifier = Modifier,
-                    title = "Chapter 1",
-                    description = "4 questions",
-                    content = {
-                        Image(
-                            painter = painterResource(id = R.drawable.noli),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(vertical = 8.dp)
-                                .width(width = 56.dp)
-                                .align(alignment = Alignment.CenterHorizontally),
-                            contentScale = ContentScale.FillWidth
-                        )
-                    }
-                ) {
-
-                }
-            }
         }
     }
 }
@@ -184,10 +161,22 @@ private fun PreviewDashboardScreen() {
     QuizAndroidTheme {
         DashboardScreen(
             uiState = DashboardUiState().copy(
-                categoriesDetails = listOf(
+                lifeOfRizalCategories = listOf(
                     CategoryDetail(
                         count = 3,
                         category = "Adulthood"
+                    ),
+                ),
+                noliCategories = listOf(
+                    CategoryDetail(
+                        count = 3,
+                        category = "Chapter 1"
+                    ),
+                ),
+                elFiliCategories = listOf(
+                    CategoryDetail(
+                        count = 3,
+                        category = "Chapter 1"
                     ),
                 ),
                 quizResults = listOf(

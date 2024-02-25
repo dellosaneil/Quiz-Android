@@ -6,6 +6,7 @@ import com.thelazybattley.common.base.BaseViewModel
 import com.thelazybattley.common.di.IoDispatcher
 import com.thelazybattley.common.enums.QuizType
 import com.thelazybattley.common.model.AppScreens.Companion.QUIZ_CATEGORY
+import com.thelazybattley.common.model.AppScreens.Companion.QUIZ_TYPE
 import com.thelazybattley.domain.model.CategoryDetail
 import com.thelazybattley.domain.network.usecase.GetCategoryDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,9 +29,10 @@ class QuizConfigViewModel @Inject constructor(
 
     private fun getCategoryDetails() {
         val category: String? = savedStateHandle[QUIZ_CATEGORY]
+        val quizType: String = savedStateHandle[QUIZ_TYPE] ?: QuizType.LIFE_OF_RIZAL.type
 
         viewModelScope.launch(context = dispatcher) {
-            getCategoryDetailsUseCase(quizType = QuizType.LIFE_OF_RIZAL)
+            getCategoryDetailsUseCase(quizType = QuizType.toQuizType(type = quizType))
                 .fold(
                     onSuccess = { categories ->
                         val categoryDetail =
@@ -69,10 +71,12 @@ class QuizConfigViewModel @Inject constructor(
     }
 
     override fun startQuiz() {
+        val quizType: String = savedStateHandle[QUIZ_TYPE] ?: QuizType.LIFE_OF_RIZAL.type
         emitEvent(
             event = QuizConfigEvents.StartQuiz(
                 category = getCurrentState().selectedCategory?.category,
-                count = getCurrentState().count
+                count = getCurrentState().count,
+                quizType = QuizType.toQuizType(type = quizType)
             )
         )
     }

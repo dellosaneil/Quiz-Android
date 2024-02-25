@@ -157,7 +157,8 @@ private fun HandleEvents(event: QuizConfigEvents?, navigate: (String, NavOptions
                 navigate(
                     AppScreens.QuizScreen.args(
                         category = event.category,
-                        count = event.count
+                        count = event.count,
+                        quizType = event.quizType.type
                     ),
                     navOptions {
 

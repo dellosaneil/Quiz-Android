@@ -6,14 +6,15 @@ sealed class AppScreens(val route: String, val routeWithArgs: String = route) {
         const val QUIZ_RESULT_STATE = "quiz-result"
         const val QUIZ_CATEGORY = "quiz-category"
         const val QUESTIONS_COUNT = "questions-count"
+        const val QUIZ_TYPE = "quiz-type"
     }
 
     data object QuizScreen : AppScreens(
         route = "quiz_screen",
-        routeWithArgs = "quiz_screen/{$QUESTIONS_COUNT}?$QUIZ_CATEGORY={$QUIZ_CATEGORY}"
+        routeWithArgs = "quiz_screen/{$QUIZ_TYPE}/{$QUESTIONS_COUNT}?$QUIZ_CATEGORY={$QUIZ_CATEGORY}"
     ) {
-        fun args(category: String?, count: Int): String {
-            return QuizScreen.route + "/$count?$QUIZ_CATEGORY=$category"
+        fun args(category: String?, count: Int, quizType: String): String {
+            return QuizScreen.route + "/$quizType/$count?$QUIZ_CATEGORY=$category"
         }
     }
 
@@ -39,10 +40,10 @@ sealed class AppScreens(val route: String, val routeWithArgs: String = route) {
 
     data object QuizConfigScreen : AppScreens(
         route = "quiz_config_screen",
-        routeWithArgs = "quiz_config_screen?$QUIZ_CATEGORY={$QUIZ_CATEGORY}"
+        routeWithArgs = "quiz_config_screen/{$QUIZ_TYPE}?$QUIZ_CATEGORY={$QUIZ_CATEGORY}"
     ) {
-        fun args(category: String?) : String {
-            return QuizConfigScreen.route + "?$QUIZ_CATEGORY=$category"
+        fun args(category: String?, type: String) : String {
+            return QuizConfigScreen.route + "/$type?$QUIZ_CATEGORY=$category"
         }
     }
 

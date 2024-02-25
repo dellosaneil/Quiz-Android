@@ -41,6 +41,7 @@ class QuizViewModel @Inject constructor(
     override fun fetchQuestions() {
         val category: String? = savedStateHandle[AppScreens.QUIZ_CATEGORY]
         val count: Int = savedStateHandle[AppScreens.QUESTIONS_COUNT] ?: DEFAULT_QUESTION_COUNT
+        val quizType: String? = savedStateHandle[AppScreens.QUIZ_TYPE] ?: return
 
         viewModelScope.launch(context = dispatcher) {
             if (category != null) {
@@ -48,30 +49,30 @@ class QuizViewModel @Inject constructor(
             } else {
                 getAllQuestionsUseCase(count = count, quizType = QuizType.LIFE_OF_RIZAL)
             }.fold(
-                    onSuccess = { questions ->
-                        updateState { state ->
-                            state.copy(
-                                quizDetailsState = state.quizDetailsState.copy(
-                                    questions = questions,
-                                    question = questions.first(),
-                                    answers = questions.map { it.answer },
-                                    chosenAnswers = questions.map { null }
-                                ),
-                                currentIndex = 0,
-                                remainingTime = TIME_PER_QUESTION * questions.size,
-                                progress = 1f / questions.size
-                            )
-                        }
-                        observeTimer()
-                    },
-                    onFailure = { throwable ->
-                        updateState { state ->
-                            state.copy(
-                                throwable = throwable
-                            )
-                        }
+                onSuccess = { questions ->
+                    updateState { state ->
+                        state.copy(
+                            quizDetailsState = state.quizDetailsState.copy(
+                                questions = questions,
+                                question = questions.first(),
+                                answers = questions.map { it.answer },
+                                chosenAnswers = questions.map { null }
+                            ),
+                            currentIndex = 0,
+                            remainingTime = TIME_PER_QUESTION * questions.size,
+                            progress = 1f / questions.size
+                        )
                     }
-                )
+                    observeTimer()
+                },
+                onFailure = { throwable ->
+                    updateState { state ->
+                        state.copy(
+                            throwable = throwable
+                        )
+                    }
+                }
+            )
             updateState { state ->
                 state.copy(
                     isLoading = false

@@ -6,7 +6,9 @@ import com.thelazybattley.domain.model.QuizResult
 
 data class DashboardUiState(
     val throwable: Throwable? = null,
-    val categoriesDetails: List<CategoryDetail> = emptyList(),
-    val quizResults: List<QuizResult> = emptyList(),
-    val quizResultExceeding: Int = 0
+    val lifeOfRizalCategories: List<CategoryDetail> = emptyList(),
+    val noliCategories: List<CategoryDetail> = emptyList(),
+    val elFiliCategories: List<CategoryDetail> = emptyList(),
+    val quizResultExceeding: Int = 0,
+    val quizResults: List<QuizResult> = emptyList()
 ) : BaseUiState

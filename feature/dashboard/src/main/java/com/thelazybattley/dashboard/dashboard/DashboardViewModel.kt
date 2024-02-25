@@ -24,18 +24,22 @@ class DashboardViewModel @Inject constructor(
 
     override fun initialState() = DashboardUiState()
 
-    override fun initialize() {
+    override fun initialize(quizType: QuizType) {
         viewModelScope.launch(context = dispatcher) {
-            val isNotEmpty = getCategoriesDetails()
+            val isNotEmpty = getCategoriesDetails(
+                quizType = quizType
+            )
             if (isNotEmpty) {
                 return@launch
             }
             fetchAllQuestionsUseCase(
-                quizType = QuizType.LIFE_OF_RIZAL
+                quizType = quizType
             ).fold(
                 onSuccess = { questions ->
                     insertAllQuestionsUseCase(questions = questions)
-                    getCategoriesDetails()
+                    getCategoriesDetails(
+                        quizType = quizType
+                    )
                 },
                 onFailure = {
 
@@ -53,8 +57,7 @@ class DashboardViewModel @Inject constructor(
                 onSuccess = { results ->
                     updateState { state ->
                         state.copy(
-                            quizResults = results.take(3),
-                            quizResultExceeding = results.size - 3
+                            quizResults = results
                         )
                     }
                 },
@@ -64,20 +67,40 @@ class DashboardViewModel @Inject constructor(
             )
     }
 
-    private suspend fun getCategoriesDetails(): Boolean {
-        getCategoryDetailsUseCase(quizType = QuizType.LIFE_OF_RIZAL).fold(
+    private suspend fun getCategoriesDetails(
+        quizType: QuizType
+    ): Boolean {
+        getCategoryDetailsUseCase(quizType = quizType).fold(
             onSuccess = { categories ->
                 updateState { state ->
-                    state.copy(
-                        categoriesDetails = categories.take(n = 3)
-                    )
+                    when (quizType) {
+                        QuizType.NOLI_ME_TANGERE -> {
+                            state.copy(
+                                noliCategories = categories.take(n = 3)
+                            )
+                        }
+                        QuizType.EL_FILI -> {
+                            state.copy(
+                                elFiliCategories = categories.take(n = 3)
+                            )
+                        }
+                        QuizType.LIFE_OF_RIZAL -> {
+                            state.copy(
+                                lifeOfRizalCategories = categories.take(n = 3)
+                            )
+                        }
+                    }
                 }
             },
             onFailure = { _ ->
                 // do nothing
             }
         )
-        return getCurrentState().categoriesDetails.isNotEmpty()
+        return when(quizType) {
+            QuizType.NOLI_ME_TANGERE ->getCurrentState().noliCategories.isNotEmpty()
+            QuizType.EL_FILI -> getCurrentState().elFiliCategories.isNotEmpty()
+            QuizType.LIFE_OF_RIZAL -> getCurrentState().lifeOfRizalCategories.isNotEmpty()
+        }
     }
 
 }
