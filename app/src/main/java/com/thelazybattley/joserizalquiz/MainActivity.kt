@@ -20,15 +20,15 @@ class MainActivity : ComponentActivity() {
 //        lifecycleScope.launch(context = Dispatchers.IO) {
 //            Timber.d("Test: ")
 //            useCase(
-//                question ="This is a NOLI",
-//                answer = "35",
+//                question ="This is a NOLI Chapter 2",
+//                answer = "2",
 //                choices = listOf(
 //                    "26",
 //                    "36",
-//                    "45",
+//                    "2",
 //                    "35",
 //                ),
-//                category = "Chapter 1",
+//                category = "Chapter 2",
 //                quizType = QuizType.NOLI_ME_TANGERE
 //            ).also {
 //                Timber.d("Test: $it")

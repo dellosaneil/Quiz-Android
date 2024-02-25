@@ -125,6 +125,38 @@ fun DashboardScreen(
             }
 
             item {
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
+            item {
+                DashboardLabel(
+                    label = stringResource(R.string.el_filibusterismo_quiz)
+                ) {
+                    navigate(
+                        AppScreens.QuizConfigScreen.args(
+                            category = null,
+                            type = QuizType.EL_FILI.type
+                        ), null
+                    )
+                }
+                DashboardQuizItems(
+                    categories = uiState.elFiliCategories,
+                    drawRes = com.thelazybattley.common.R.drawable.img_el_fili
+                ) { category ->
+                    navigate(
+                        AppScreens.QuizConfigScreen.args(
+                            category = category,
+                            type = QuizType.EL_FILI.type
+                        ), null
+                    )
+                }
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
+            item {
                 DashboardLabel(label = stringResource(R.string.review_previous_quiz_result)) {
                     navigate(AppScreens.QuizResultsHistoryScreen.route, null)
                 }
