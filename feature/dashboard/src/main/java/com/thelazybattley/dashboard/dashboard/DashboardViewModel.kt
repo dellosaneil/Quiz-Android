@@ -70,34 +70,37 @@ class DashboardViewModel @Inject constructor(
     private suspend fun getCategoriesDetails(
         quizType: QuizType
     ): Boolean {
-        getCategoryDetailsUseCase(quizType = quizType).fold(
-            onSuccess = { categories ->
-                updateState { state ->
-                    when (quizType) {
-                        QuizType.NOLI_ME_TANGERE -> {
-                            state.copy(
-                                noliCategories = categories.take(n = 3)
-                            )
-                        }
-                        QuizType.EL_FILI -> {
-                            state.copy(
-                                elFiliCategories = categories.take(n = 3)
-                            )
-                        }
-                        QuizType.LIFE_OF_RIZAL -> {
-                            state.copy(
-                                lifeOfRizalCategories = categories.take(n = 3)
-                            )
+        getCategoryDetailsUseCase(quizType = quizType)
+            .fold(
+                onSuccess = { categories ->
+                    updateState { state ->
+                        when (quizType) {
+                            QuizType.NOLI_ME_TANGERE -> {
+                                state.copy(
+                                    noliCategories = categories.take(n = 3)
+                                )
+                            }
+
+                            QuizType.EL_FILI -> {
+                                state.copy(
+                                    elFiliCategories = categories.take(n = 3)
+                                )
+                            }
+
+                            QuizType.LIFE_OF_RIZAL -> {
+                                state.copy(
+                                    lifeOfRizalCategories = categories.take(n = 3)
+                                )
+                            }
                         }
                     }
+                },
+                onFailure = { _ ->
+                    // do nothing
                 }
-            },
-            onFailure = { _ ->
-                // do nothing
-            }
-        )
-        return when(quizType) {
-            QuizType.NOLI_ME_TANGERE ->getCurrentState().noliCategories.isNotEmpty()
+            )
+        return when (quizType) {
+            QuizType.NOLI_ME_TANGERE -> getCurrentState().noliCategories.isNotEmpty()
             QuizType.EL_FILI -> getCurrentState().elFiliCategories.isNotEmpty()
             QuizType.LIFE_OF_RIZAL -> getCurrentState().lifeOfRizalCategories.isNotEmpty()
         }

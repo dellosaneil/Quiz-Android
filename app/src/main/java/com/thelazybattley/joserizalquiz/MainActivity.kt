@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
 //        lifecycleScope.launch(context = Dispatchers.IO) {
 //            Timber.d("Test: ")
 //            useCase(
-//                question ="This is a NOLI Chapter 2",
+//                question ="This is a ELFILI Chapter 2",
 //                answer = "2",
 //                choices = listOf(
 //                    "26",
@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
 //                    "35",
 //                ),
 //                category = "Chapter 2",
-//                quizType = QuizType.NOLI_ME_TANGERE
+//                quizType = QuizType.EL_FILI
 //            ).also {
 //                Timber.d("Test: $it")
 //            }

@@ -41,13 +41,13 @@ class QuizViewModel @Inject constructor(
     override fun fetchQuestions() {
         val category: String? = savedStateHandle[AppScreens.QUIZ_CATEGORY]
         val count: Int = savedStateHandle[AppScreens.QUESTIONS_COUNT] ?: DEFAULT_QUESTION_COUNT
-        val quizType: String? = savedStateHandle[AppScreens.QUIZ_TYPE] ?: return
+        val quizType: String = savedStateHandle[AppScreens.QUIZ_TYPE] ?: return
 
         viewModelScope.launch(context = dispatcher) {
             if (category != null) {
                 getQuestionsByCategoryUseCase(category = category, count = count)
             } else {
-                getAllQuestionsUseCase(count = count, quizType = QuizType.LIFE_OF_RIZAL)
+                getAllQuestionsUseCase(count = count, quizType = QuizType.toQuizType(type = quizType))
             }.fold(
                 onSuccess = { questions ->
                     updateState { state ->

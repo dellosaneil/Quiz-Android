@@ -15,40 +15,26 @@ import com.thelazybattley.data.mapper.toReportedQuestions
 import com.thelazybattley.domain.model.QuizResult
 import com.thelazybattley.domain.model.ReportedQuestion
 import com.thelazybattley.domain.network.QuizRepository
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
 class QuizRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
     private val questionsDao: QuestionsDao,
-    private val quizResultDao: QuizResultDao
+    private val quizResultDao: QuizResultDao,
 ) : QuizRepository {
 
     override suspend fun fetchAllQuestions(
         quizType: QuizType
-    ): Result<List<Question>> = suspendCoroutine { continuation ->
+    ) = runCatching {
         firestore
             .collection("quiz")
             .document(quizType.type)
             .get()
-            .addOnSuccessListener { documentSnapshot ->
-                if (documentSnapshot.exists()) {
-                    continuation.resume(
-                        Result.success(
-                            value = documentSnapshot.toQuestion(
-                                quizType = quizType
-                            )
-                        )
-                    )
-                } else {
-                    continuation.resume(Result.failure(exception = Exception("list is empty")))
-                }
-            }.addOnFailureListener { exception ->
-                continuation.resume(Result.failure(exception = exception))
-            }
+            .await()
+            .toQuestion(quizType = quizType)
     }
 
     override suspend fun addQuestion(
@@ -57,12 +43,12 @@ class QuizRepositoryImpl @Inject constructor(
         choices: List<String>,
         category: String,
         quizType: QuizType
-    ) = runCatching {
+    ): Result<Unit> = runCatching {
         val updatedQuestions = fetchAllQuestions(quizType = quizType)
             .getOrThrow()
             .toMutableList()
         if (updatedQuestions.isEmpty()) {
-            return@runCatching
+            return Result.failure(exception = Exception("List is Empty"))
         }
         updatedQuestions.add(
             element = Question(
@@ -80,7 +66,8 @@ class QuizRepositoryImpl @Inject constructor(
             .update(
                 mapOf("questions" to updatedQuestions)
             )
-        Unit
+            .await()
+
     }
 
     override suspend fun insertReportedQuestion(
@@ -89,7 +76,8 @@ class QuizRepositoryImpl @Inject constructor(
         question: String,
         quizType: QuizType
     ) = runCatching {
-        val updatedReportedQuestions = fetchReportedQuestions(quizType = quizType).getOrThrow().toMutableList()
+        val updatedReportedQuestions =
+            fetchReportedQuestions(quizType = quizType).getOrThrow().toMutableList()
         val reportedQuestion = ReportedQuestion(
             questionId = questionId,
             question = question,
@@ -100,28 +88,18 @@ class QuizRepositoryImpl @Inject constructor(
             .collection("report")
             .document(quizType.type)
             .update(mapOf("questions" to updatedReportedQuestions))
+            .await()
         Unit
     }
 
-    override suspend fun fetchReportedQuestions(quizType: QuizType): Result<List<ReportedQuestion>> =
-        suspendCoroutine { continuation ->
+    override suspend fun fetchReportedQuestions(quizType: QuizType) =
+        runCatching {
             firestore
                 .collection("report")
                 .document(quizType.type)
                 .get()
-                .addOnSuccessListener { documentSnapshot ->
-                    if (documentSnapshot.exists()) {
-                        continuation.resume(
-                            Result.success(
-                                value = documentSnapshot.toReportedQuestions
-                            )
-                        )
-                    } else {
-                        continuation.resume(Result.failure(exception = Exception("list is empty")))
-                    }
-                }.addOnFailureListener { exception ->
-                    continuation.resume(Result.failure(exception = exception))
-                }
+                .await()
+                .toReportedQuestions
         }
 
     override suspend fun getAllQuestions(count: Int, quizType: QuizType) = runCatching {
