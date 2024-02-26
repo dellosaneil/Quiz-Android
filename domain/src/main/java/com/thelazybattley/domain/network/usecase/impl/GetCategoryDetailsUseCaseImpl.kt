@@ -13,7 +13,8 @@ class GetCategoryDetailsUseCaseImpl @Inject constructor(
     override suspend fun invoke(quizType: QuizType) = run {
         val localQuestions = repository.getAllQuestions(
             count = Integer.MAX_VALUE,
-            quizType = quizType
+            quizType = quizType,
+            filtered = false
         )
         localQuestions.mapCatching { questions ->
             questions

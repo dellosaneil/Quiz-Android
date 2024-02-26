@@ -29,7 +29,7 @@ interface QuizRepository {
 
     suspend fun fetchReportedQuestions(quizType: QuizType): Result<List<ReportedQuestion>>
 
-    suspend fun getAllQuestions(count: Int, quizType: QuizType): Result<List<Question>>
+    suspend fun getAllQuestions(count: Int, quizType: QuizType, filtered: Boolean): Result<List<Question>>
 
     suspend fun insertAllQuestions(questions: List<Question>): Result<Unit>
 

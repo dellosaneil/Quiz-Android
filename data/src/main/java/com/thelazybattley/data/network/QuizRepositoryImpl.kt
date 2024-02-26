@@ -103,9 +103,21 @@ class QuizRepositoryImpl @Inject constructor(
                 .toReportedQuestions
         }
 
-    override suspend fun getAllQuestions(count: Int, quizType: QuizType) = runCatching {
+    override suspend fun getAllQuestions(
+        count: Int,
+        quizType: QuizType,
+        filtered: Boolean
+    ): Result<List<Question>> = runCatching {
+        val answeredQuestions = getAllAnsweredQuestions()
         questionsDao.getAllQuestions(quizType = quizType)
             .shuffled()
+            .filterNot {
+                if (filtered) {
+                    answeredQuestions.contains(it.id)
+                } else {
+                    false
+                }
+            }
             .take(count)
             .map { entity ->
                 entity
