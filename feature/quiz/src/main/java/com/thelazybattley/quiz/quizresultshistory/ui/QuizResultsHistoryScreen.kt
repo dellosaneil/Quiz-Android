@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -57,7 +58,7 @@ fun QuizResultsHistoryScreen(
     Scaffold(
         topBar = {
             CommonTopBar(
-                titleRes = R.string.quiz_results_history,
+                title = stringResource(id = R.string.quiz_results_history),
                 navigationIconRes = com.thelazybattley.common.R.drawable.ic_back_arrow
             ) {
                 onPopBackStack()

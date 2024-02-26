@@ -68,7 +68,7 @@ private fun QuizConfigScreen(
     Scaffold(
         topBar = {
             CommonTopBar(
-                titleRes = R.string.quiz_configuration,
+                title = stringResource(id = R.string.quiz_configuration),
                 navigationIconRes = com.thelazybattley.common.R.drawable.ic_back_arrow
             ) {
                 onPopBackStack()

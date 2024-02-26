@@ -19,6 +19,7 @@
     <string name="congratulations">Congratulations</string>
     <string name="you_have_answered">You have answered</string>
     <string name="questions_correctly">questions correctly</string>
+    <string name="review_quiz_x">Review Quiz (%1$s)</string>
     <string name="review_quiz">Review Quiz</string>
     <string name="wrap_up_quiz">Wrap up Quiz</string>
     <string name="report_incorrect_answer">Report Incorrect Answer</string>

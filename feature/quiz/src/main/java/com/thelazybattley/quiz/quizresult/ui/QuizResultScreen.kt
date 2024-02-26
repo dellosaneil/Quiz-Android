@@ -76,7 +76,7 @@ fun QuizResultScreen(
         containerColor = colors.white50,
         topBar = {
             CommonTopBar(
-                titleRes = R.string.show_result,
+                title = stringResource(id = R.string.show_result),
                 navigationIconRes = com.thelazybattley.common.R.drawable.ic_back_arrow
             ) {
                 onPopBackStack()

@@ -1,7 +1,6 @@
 package com.thelazybattley.common.components
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -18,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,7 +31,7 @@ fun CommonTopBar(
     modifier: Modifier = Modifier,
     @DrawableRes navigationIconRes: Int? = null,
     actions: @Composable (() -> Unit)? = null,
-    @StringRes titleRes: Int,
+    title: String,
     background: Color = colors.transparent,
     onNavClick: (() -> Unit)? = null
 ) {
@@ -44,7 +42,7 @@ fun CommonTopBar(
             title = {
                 Text(
                     modifier = Modifier,
-                    text = stringResource(id = titleRes),
+                    text = title,
                     style = textStyle.poppins.copy(
                         color = colors.black30,
                         fontWeight = FontWeight.SemiBold,
@@ -90,7 +88,7 @@ fun CommonTopBar(
 @Composable
 fun PreviewCommonTopBar() {
     CommonTopBar(
-        titleRes = R.string.quiz,
+        title = "Quiz",
         navigationIconRes = R.drawable.ic_back_arrow
     ) {
 

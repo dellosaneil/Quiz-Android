@@ -76,12 +76,8 @@ fun AppNavHost() {
                 }
             )
         ) {
-            ReviewQuizScreen(
-                onPopBackStack = {
-                    navController.popBackStack()
-                }
-            ) { route, navOptions ->
-                navController.navigate(route = route, navOptions = navOptions)
+            ReviewQuizScreen {
+                navController.popBackStack()
             }
         }
 

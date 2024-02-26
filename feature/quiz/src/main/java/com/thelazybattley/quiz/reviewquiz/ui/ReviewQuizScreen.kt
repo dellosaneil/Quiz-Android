@@ -23,7 +23,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavOptions
 import com.thelazybattley.common.components.CommonBannerView
 import com.thelazybattley.common.components.CommonElevatedButton
 import com.thelazybattley.common.components.CommonTopBar
@@ -44,7 +43,6 @@ import com.thelazybattley.quiz.reviewquiz.ReviewQuizViewModel
 fun ReviewQuizScreen(
     viewModel: ReviewQuizViewModel = hiltViewModel(),
     onPopBackStack: () -> Unit,
-    navigate: (String, NavOptions?) -> Unit,
 ) {
 
     val uiState by viewModel.state.collectAsState()
@@ -71,7 +69,7 @@ private fun ReviewQuizScreen(
         containerColor = colors.white50,
         topBar = {
             CommonTopBar(
-                titleRes = R.string.review_quiz,
+                title = stringResource(id = R.string.review_quiz_x, uiState.quizDetailsState?.question?.category ?: ""),
                 actions = {
                     Button(
                         onClick = { onPopBackStack() },
