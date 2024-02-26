@@ -16,7 +16,9 @@ class GetCategoryDetailsUseCaseImpl @Inject constructor(
             quizType = quizType
         )
         localQuestions.mapCatching { questions ->
-            questions.groupBy { question -> question.category }
+            questions
+                .sortedBy { it.category }
+                .groupBy { question -> question.category }
         }.map { categorizedQuestions ->
             categorizedQuestions.keys.map { category ->
                 CategoryDetail(
