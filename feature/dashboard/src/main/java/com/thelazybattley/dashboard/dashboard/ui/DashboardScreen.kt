@@ -220,9 +220,14 @@ private fun PreviewDashboardScreen() {
                                 answer = "",
                                 choices = emptyList(),
                                 category = "Adulthood",
-                                quizType = QuizType.LIFE_OF_RIZAL
+                                quizType = QuizType.LIFE_OF_RIZAL,
                             ),
-                        )
+                        ),
+                        chosenAnswers = listOf(""),
+                        answers = listOf(""),
+                        type = QuizType.NOLI_ME_TANGERE,
+                        category = "Chapter 2",
+                        percent = 99
                     ),
                     QuizResult(
                         questions = listOf(
@@ -242,7 +247,12 @@ private fun PreviewDashboardScreen() {
                                 category = "Adulthood",
                                 quizType = QuizType.LIFE_OF_RIZAL
                             ),
-                        )
+                        ),
+                        chosenAnswers = listOf(""),
+                        answers = listOf(""),
+                        type = QuizType.NOLI_ME_TANGERE,
+                        category = "Chapter 2",
+                        percent = 99
                     )
                 )
             )

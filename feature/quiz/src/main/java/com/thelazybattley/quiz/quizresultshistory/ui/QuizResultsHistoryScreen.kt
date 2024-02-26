@@ -26,6 +26,7 @@ import androidx.navigation.NavOptions
 import com.google.gson.Gson
 import com.thelazybattley.common.components.CommonFilterChip
 import com.thelazybattley.common.components.CommonTopBar
+import com.thelazybattley.common.enums.QuizType
 import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
 import com.thelazybattley.domain.model.QuizResult
@@ -65,7 +66,6 @@ fun QuizResultsHistoryScreen(
             }
         }
     ) { paddingValues ->
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -82,7 +82,7 @@ fun QuizResultsHistoryScreen(
                 ) { category ->
                     CommonFilterChip(
                         modifier = Modifier,
-                        text = category.toString(),
+                        text = category,
                         onClick = {
                             callbacks.onSelectCategory(category = category)
                         },
@@ -116,15 +116,43 @@ fun PreviewQuizResultsHistoryScreen() {
         QuizResultsHistoryScreen(
             uiState = QuizResultsHistoryUiState(
                 categories = listOf(
-          "Relationship","Places","Dates"
+                    "Relationship", "Places", "Dates"
                 ),
                 filteredQuizResult = listOf(
-                    QuizResult().copy(
+                    QuizResult(
+                        chosenAnswers = listOf(""),
+                        answers = listOf(""),
+                        type = QuizType.NOLI_ME_TANGERE,
+                        category = "Chapter 2",
+                        percent = 99,
+                        questions = listOf(),
+                    ).copy(
                         percent = 50,
                     ),
-                    QuizResult(percent = 70),
-                    QuizResult(percent = 81),
-                    QuizResult(percent = 90),
+                    QuizResult(
+                        chosenAnswers = listOf(""),
+                        answers = listOf(""),
+                        type = QuizType.NOLI_ME_TANGERE,
+                        category = "Chapter 2",
+                        percent = 12,
+                        questions = listOf(),
+                    ),
+                    QuizResult(
+                        chosenAnswers = listOf(""),
+                        answers = listOf(""),
+                        type = QuizType.NOLI_ME_TANGERE,
+                        category = "Chapter 2",
+                        percent = 80,
+                        questions = listOf(),
+                    ),
+                    QuizResult(
+                        chosenAnswers = listOf(""),
+                        answers = listOf(""),
+                        type = QuizType.NOLI_ME_TANGERE,
+                        category = "Chapter 2",
+                        percent = 50,
+                        questions = listOf(),
+                    ),
                 )
 
             ),

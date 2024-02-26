@@ -1,11 +1,13 @@
 package com.thelazybattley.domain.model
 
+import com.thelazybattley.common.enums.QuizType
 import com.thelazybattley.common.model.Question
 
 data class QuizResult(
-    val questions: List<Question> = emptyList(),
-    val chosenAnswers: List<String?> = emptyList(),
-    val answers: List<String> = emptyList(),
-    val percent: Int = 0,
-    val category: String? = null
+    val questions: List<Question>,
+    val chosenAnswers: List<String?>,
+    val answers: List<String>,
+    val percent: Int,
+    val category: String,
+    val type: QuizType
 )

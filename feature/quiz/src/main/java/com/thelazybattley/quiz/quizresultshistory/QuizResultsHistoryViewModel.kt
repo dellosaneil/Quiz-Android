@@ -32,7 +32,7 @@ class QuizResultsHistoryViewModel @Inject constructor(
                             updateState { state ->
                                 state.copy(
                                     filteredQuizResult = results,
-                                    categories = results.map { it.category!! }.distinct(),
+                                    categories = results.map { it.category }.distinct(),
                                     completeQuizResult = results
                                 )
                             }
@@ -47,7 +47,8 @@ class QuizResultsHistoryViewModel @Inject constructor(
     override fun onSelectCategory(category: String) {
         updateState { state ->
             val updatedCategory = if (category == state.selectedCategory) null else category
-            val updatedFilteredQuizResults = if (updatedCategory == null) state.completeQuizResult else state.completeQuizResult.filter { it.category == category }
+            val updatedFilteredQuizResults =
+                if (updatedCategory == null) state.completeQuizResult else state.completeQuizResult.filter { it.category == category }
             state.copy(
                 selectedCategory = updatedCategory,
                 filteredQuizResult = updatedFilteredQuizResults

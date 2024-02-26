@@ -157,7 +157,8 @@ class QuizRepositoryImpl @Inject constructor(
                     answers = entity.answers,
                     chosenAnswers = entity.chosenAnswers,
                     category = category,
-                    percent = percentage.roundToInt()
+                    percent = percentage.roundToInt(),
+                    type = entity.questions.first().quizType
                 )
             }
             .asReversed()

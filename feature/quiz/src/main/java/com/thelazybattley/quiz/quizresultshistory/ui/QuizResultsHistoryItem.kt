@@ -23,6 +23,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.thelazybattley.common.enums.QuizType
 import com.thelazybattley.common.ext.toPercentageDisplay
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
 import com.thelazybattley.common.ui.theme.colors
@@ -67,7 +68,7 @@ fun QuizResultHistoryItem(
                 verticalArrangement = Arrangement.spacedBy(space = 4.dp),
             ) {
                 Text(
-                    text = categoryText(category = quizResult.category.toString()),
+                    text = categoryText(category = "${quizResult.category} (${quizResult.type.shortName})"),
                     style = textStyle.poppins.copy(
                         color = colors.black50,
                         fontSize = 12.sp
@@ -144,7 +145,11 @@ private fun PreviewQuizResultHistoryItem() {
             modifier = Modifier.padding(all = 16.dp),
             quizResult = QuizResult(
                 percent = 60,
-                category = "Important Places"
+                category = "Important Places",
+                chosenAnswers = listOf(""),
+                answers = listOf(""),
+                type = QuizType.NOLI_ME_TANGERE,
+                questions = listOf()
             )
         ) {
 
