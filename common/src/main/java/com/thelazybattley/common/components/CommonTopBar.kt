@@ -32,7 +32,7 @@ fun CommonTopBar(
     @DrawableRes navigationIconRes: Int? = null,
     actions: @Composable (() -> Unit)? = null,
     title: String,
-    background: Color = colors.transparent,
+    background: Color = colors.white50,
     onNavClick: (() -> Unit)? = null
 ) {
 

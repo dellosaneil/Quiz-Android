@@ -61,8 +61,7 @@ fun DashboardScreen(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             CommonTopBar(
-                title = stringResource(id = R.string.home),
-                background = colors.white50
+                title = stringResource(id = R.string.home)
             )
         },
         containerColor = colors.white60
