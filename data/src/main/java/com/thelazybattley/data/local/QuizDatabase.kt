@@ -8,11 +8,12 @@ import com.thelazybattley.data.local.converters.QuestionEntityConverter
 import com.thelazybattley.data.local.converters.StringListConverter
 import com.thelazybattley.data.local.dao.QuestionsDao
 import com.thelazybattley.data.local.dao.QuizResultDao
+import com.thelazybattley.data.local.entity.AnsweredQuestionEntity
 import com.thelazybattley.data.local.entity.QuestionEntity
 import com.thelazybattley.data.local.entity.QuizResultEntity
 
 @Database(
-    entities = [QuestionEntity::class, QuizResultEntity::class],
+    entities = [QuestionEntity::class, QuizResultEntity::class, AnsweredQuestionEntity::class],
     version = 1
 )
 @TypeConverters(

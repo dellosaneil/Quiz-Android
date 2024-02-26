@@ -7,6 +7,7 @@ import com.thelazybattley.common.model.Question
 import com.thelazybattley.common.model.QuizDetailsState
 import com.thelazybattley.data.local.dao.QuestionsDao
 import com.thelazybattley.data.local.dao.QuizResultDao
+import com.thelazybattley.data.local.entity.AnsweredQuestionEntity
 import com.thelazybattley.data.local.entity.QuizResultEntity
 import com.thelazybattley.data.mapper.toData
 import com.thelazybattley.data.mapper.toEntity
@@ -23,7 +24,7 @@ import kotlin.random.Random
 class QuizRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
     private val questionsDao: QuestionsDao,
-    private val quizResultDao: QuizResultDao,
+    private val quizResultDao: QuizResultDao
 ) : QuizRepository {
 
     override suspend fun fetchAllQuestions(
@@ -103,7 +104,7 @@ class QuizRepositoryImpl @Inject constructor(
         }
 
     override suspend fun getAllQuestions(count: Int, quizType: QuizType) = runCatching {
-        questionsDao.getAll(quizType = quizType)
+        questionsDao.getAllQuestions(quizType = quizType)
             .shuffled()
             .take(count)
             .map { entity ->
@@ -116,19 +117,21 @@ class QuizRepositoryImpl @Inject constructor(
     }
 
     override suspend fun insertAllQuestions(questions: List<Question>) = runCatching {
-        questionsDao.insertAll(questions = questions.map { it.toEntity })
+        questionsDao.insertQuestions(questions = questions.map { it.toEntity })
     }
 
-    override suspend fun getQuestionsByCategory(category: String, count: Int) =
+    override suspend fun getQuestionsByCategory(category: String, count: Int, quizType: QuizType) =
         runCatching {
+            val answeredQuestions = getAllAnsweredQuestions()
             questionsDao
-                .getQuestionsByCategory(category = category)
+                .getQuestionsByCategory(category = category, quizType = quizType)
                 .map { entity ->
                     entity.toData.copy(
                         choices = entity.choices.shuffled()
                     )
                 }
                 .shuffled()
+                .filterNot { answeredQuestions.contains(it.questionId) }
                 .take(count)
         }
 
@@ -179,4 +182,16 @@ class QuizRepositoryImpl @Inject constructor(
             )
         )
     }
+
+    override suspend fun insertAnsweredQuestion(questionIds: List<Int>) = runCatching {
+        questionIds.forEach { questionId ->
+            questionsDao.insertAnsweredQuestion(
+                answeredQuestionEntity = AnsweredQuestionEntity(questionId = questionId)
+            )
+        }
+    }
+
+    override suspend fun getAllAnsweredQuestions() =
+        questionsDao.getAllAnsweredQuestions().map { it.questionId }
+
 }

@@ -6,6 +6,7 @@ import com.thelazybattley.common.base.BaseViewModel
 import com.thelazybattley.common.di.IoDispatcher
 import com.thelazybattley.common.model.AppScreens.Companion.QUIZ_RESULT_STATE
 import com.thelazybattley.common.model.QuizDetailsState
+import com.thelazybattley.domain.local.InsertCorrectAnsweredQuestionsUseCase
 import com.thelazybattley.domain.local.InsertQuizResultUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -18,6 +19,7 @@ class QuizResultViewModel @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
     savedStateHandle: SavedStateHandle,
     private val insertQuizResultUseCase: InsertQuizResultUseCase,
+    private val insertCorrectAnsweredQuestionsUseCase: InsertCorrectAnsweredQuestionsUseCase
 ) : BaseViewModel<QuizResultEvents, QuizResultUiState>(), QuizResultCallbacks {
 
     override fun initialState() = QuizResultUiState()
@@ -51,6 +53,7 @@ class QuizResultViewModel @Inject constructor(
                 return@launch
             }
             insertQuizResultUseCase(quizDetailsState = quizDetailsState)
+            insertCorrectAnsweredQuestionsUseCase(quizDetailsState = quizDetailsState)
         }
     }
 

@@ -4,11 +4,13 @@ import com.thelazybattley.domain.local.GetAllQuestionsUseCase
 import com.thelazybattley.domain.local.GetAllQuizResultsUseCase
 import com.thelazybattley.domain.local.GetQuestionsByCategoryUseCase
 import com.thelazybattley.domain.local.InsertAllQuestionsUseCase
+import com.thelazybattley.domain.local.InsertCorrectAnsweredQuestionsUseCase
 import com.thelazybattley.domain.local.InsertQuizResultUseCase
 import com.thelazybattley.domain.local.impl.GetAllQuestionsUseCaseImpl
 import com.thelazybattley.domain.local.impl.GetAllQuizResultsUseCaseImpl
 import com.thelazybattley.domain.local.impl.GetQuestionsByCategoryUseCaseImpl
 import com.thelazybattley.domain.local.impl.InsertAllQuestionsUseCaseImpl
+import com.thelazybattley.domain.local.impl.InsertCorrectAnsweredQuestionsUseCaseImpl
 import com.thelazybattley.domain.local.impl.InsertQuizResultUseCaseImpl
 import com.thelazybattley.domain.network.usecase.AddQuestionUseCase
 import com.thelazybattley.domain.network.usecase.FetchAllQuestionsUseCase
@@ -54,4 +56,7 @@ abstract class UseCaseModule {
 
     @Binds
     abstract fun bindsGetAllQuizResults(impl: GetAllQuizResultsUseCaseImpl): GetAllQuizResultsUseCase
+
+    @Binds
+    abstract fun bindsInsertCorrectAnsweredQuestionsUseCase(impl: InsertCorrectAnsweredQuestionsUseCaseImpl) : InsertCorrectAnsweredQuestionsUseCase
 }

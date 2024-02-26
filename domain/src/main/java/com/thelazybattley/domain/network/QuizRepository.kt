@@ -27,7 +27,7 @@ interface QuizRepository {
         quizType: QuizType
     ): Result<Unit>
 
-    suspend fun fetchReportedQuestions(quizType: QuizType) : Result<List<ReportedQuestion>>
+    suspend fun fetchReportedQuestions(quizType: QuizType): Result<List<ReportedQuestion>>
 
     suspend fun getAllQuestions(count: Int, quizType: QuizType): Result<List<Question>>
 
@@ -35,14 +35,19 @@ interface QuizRepository {
 
     suspend fun getQuestionsByCategory(
         category: String,
-        count: Int
+        count: Int,
+        quizType: QuizType
     ): Result<List<Question>>
 
-    suspend fun getAllQuizResult() : Result<List<QuizResult>>
+    suspend fun getAllQuizResult(): Result<List<QuizResult>>
 
-    suspend fun clearAllQuizResult() : Result<Unit>
+    suspend fun clearAllQuizResult(): Result<Unit>
 
     suspend fun insertQuizResult(
         quizDetailsState: QuizDetailsState
-    ) : Result<Unit>
+    ): Result<Unit>
+
+    suspend fun insertAnsweredQuestion(questionIds: List<Int>): Result<Unit>
+
+    suspend fun getAllAnsweredQuestions(): List<Int>
 }

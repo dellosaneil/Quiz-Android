@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class InsertQuizResultUseCaseImpl @Inject constructor(
     private val repository: QuizRepository
-): InsertQuizResultUseCase {
+) : InsertQuizResultUseCase {
 
     override suspend fun invoke(quizDetailsState: QuizDetailsState) = repository.insertQuizResult(quizDetailsState = quizDetailsState)
 }
