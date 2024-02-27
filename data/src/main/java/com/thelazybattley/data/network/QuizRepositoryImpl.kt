@@ -135,48 +135,51 @@ class QuizRepositoryImpl @Inject constructor(
     override suspend fun getQuestionsByCategory(category: String, count: Int, quizType: QuizType) =
         runCatching {
             val answeredQuestions = getAllAnsweredQuestions()
-            questionsDao
-                .getQuestionsByCategory(category = category, quizType = quizType)
-                .map { entity ->
-                    entity.toData.copy(
-                        choices = entity.choices.shuffled()
-                    )
-                }
-                .shuffled()
-                .filterNot { answeredQuestions.contains(it.questionId) }
-                .take(count)
+            val allQuestions =
+                questionsDao
+                    .getQuestionsByCategory(category = category, quizType = quizType)
+                    .map { entity ->
+                        entity.toData.copy(
+                            choices = entity.choices.shuffled()
+                        )
+                    }.shuffled()
+
+            val filteredQuestions = allQuestions
+                    .filterNot { answeredQuestions.contains(element = it.questionId) }
+                    .take(n = count)
+                    .toMutableList()
+
+            if (filteredQuestions.size == count) {
+                return@runCatching filteredQuestions
+            }
+            deleteAnsweredQuestions(questionIds = allQuestions.map { it.questionId })
+            filteredQuestions.addAll(allQuestions)
+            filteredQuestions.distinct().take(n = count)
         }
 
     override suspend fun getAllQuizResult() = runCatching {
-        quizResultDao
-            .getAll()
-            .map { entity ->
-                val category =
-                    if (entity.questions.all { it.category == entity.questions.first().category }) {
-                        entity.questions.first().category.toTitleCase()
-                    } else {
-                        "All"
-                    }
+        quizResultDao.getAll().map { entity ->
+            val category =
+                if (entity.questions.all { it.category == entity.questions.first().category }) {
+                    entity.questions.first().category.toTitleCase()
+                } else {
+                    "All"
+                }
 
-                val correctAnswers = entity
-                    .chosenAnswers
-                    .zip(entity.answers)
-                    .filter {
-                        it.first == it.second
-                    }.size
-                val percentage =
-                    (correctAnswers.toFloat() / entity.questions.size) * 100
+            val correctAnswers = entity.chosenAnswers.zip(entity.answers).filter {
+                it.first == it.second
+            }.size
+            val percentage = (correctAnswers.toFloat() / entity.questions.size) * 100
 
-                QuizResult(
-                    questions = entity.questions.map { it.toData },
-                    answers = entity.answers,
-                    chosenAnswers = entity.chosenAnswers,
-                    category = category,
-                    percent = percentage.roundToInt(),
-                    type = entity.questions.first().quizType
-                )
-            }
-            .asReversed()
+            QuizResult(
+                questions = entity.questions.map { it.toData },
+                answers = entity.answers,
+                chosenAnswers = entity.chosenAnswers,
+                category = category,
+                percent = percentage.roundToInt(),
+                type = entity.questions.first().quizType
+            )
+        }.asReversed()
     }
 
     override suspend fun clearAllQuizResult() = runCatching {
@@ -205,5 +208,8 @@ class QuizRepositoryImpl @Inject constructor(
 
     override suspend fun getAllAnsweredQuestions() =
         questionsDao.getAllAnsweredQuestions().map { it.questionId }
+
+    override suspend fun deleteAnsweredQuestions(questionIds: List<Int>) =
+        questionsDao.deleteAnsweredQuestions(questionIds = questionIds)
 
 }

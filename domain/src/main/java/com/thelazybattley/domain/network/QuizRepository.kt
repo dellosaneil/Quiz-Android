@@ -50,4 +50,6 @@ interface QuizRepository {
     suspend fun insertAnsweredQuestion(questionIds: List<Int>): Result<Unit>
 
     suspend fun getAllAnsweredQuestions(): List<Int>
+
+    suspend fun deleteAnsweredQuestions(questionIds: List<Int>)
 }
