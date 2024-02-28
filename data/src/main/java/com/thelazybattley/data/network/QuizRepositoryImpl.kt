@@ -7,8 +7,9 @@ import com.thelazybattley.common.model.Question
 import com.thelazybattley.common.model.QuizDetailsState
 import com.thelazybattley.data.local.dao.QuestionsDao
 import com.thelazybattley.data.local.dao.QuizResultDao
-import com.thelazybattley.data.local.entity.AnsweredQuestionEntity
+import com.thelazybattley.data.local.entity.PermanentAnsweredQuestionEntity
 import com.thelazybattley.data.local.entity.QuizResultEntity
+import com.thelazybattley.data.local.entity.TempAnsweredQuestionEntity
 import com.thelazybattley.data.mapper.toData
 import com.thelazybattley.data.mapper.toEntity
 import com.thelazybattley.data.mapper.toQuestion
@@ -109,16 +110,8 @@ class QuizRepositoryImpl @Inject constructor(
         filtered: Boolean
     ): Result<List<Question>> = runCatching {
         val answeredQuestions = getAllAnsweredQuestions()
-        questionsDao.getAllQuestions(quizType = quizType)
-            .shuffled()
-            .filterNot {
-                if (filtered) {
-                    answeredQuestions.contains(it.id)
-                } else {
-                    false
-                }
-            }
-            .take(count)
+        val allQuestions = questionsDao
+            .getAllQuestions(quizType = quizType)
             .map { entity ->
                 entity
                     .toData
@@ -126,6 +119,26 @@ class QuizRepositoryImpl @Inject constructor(
                         choices = entity.choices.shuffled()
                     )
             }
+            .shuffled()
+
+        val filteredQuestions = allQuestions
+            .filterNot {
+                if (filtered) {
+                    answeredQuestions.contains(it.questionId)
+                } else {
+                    false
+                }
+            }
+            .take(count)
+            .toMutableList()
+
+        if (filteredQuestions.size == count || !filtered) {
+            return@runCatching filteredQuestions
+        }
+        deleteAnsweredQuestions(questionIds = allQuestions.map { it.questionId })
+        filteredQuestions.addAll(allQuestions)
+
+        filteredQuestions.distinct().take(n = count)
     }
 
     override suspend fun insertAllQuestions(questions: List<Question>) = runCatching {
@@ -145,9 +158,9 @@ class QuizRepositoryImpl @Inject constructor(
                     }.shuffled()
 
             val filteredQuestions = allQuestions
-                    .filterNot { answeredQuestions.contains(element = it.questionId) }
-                    .take(n = count)
-                    .toMutableList()
+                .filterNot { answeredQuestions.contains(element = it.questionId) }
+                .take(n = count)
+                .toMutableList()
 
             if (filteredQuestions.size == count) {
                 return@runCatching filteredQuestions
@@ -200,16 +213,19 @@ class QuizRepositoryImpl @Inject constructor(
 
     override suspend fun insertAnsweredQuestion(questionIds: List<Int>) = runCatching {
         questionIds.forEach { questionId ->
-            questionsDao.insertAnsweredQuestion(
-                answeredQuestionEntity = AnsweredQuestionEntity(id = questionId)
+            questionsDao.insertTempAnsweredQuestion(
+                tempAnsweredQuestionEntity = TempAnsweredQuestionEntity(id = questionId)
+            )
+            questionsDao.insertPermanentAnsweredQuestion(
+                entity = PermanentAnsweredQuestionEntity(id = questionId)
             )
         }
     }
 
     override suspend fun getAllAnsweredQuestions() =
-        questionsDao.getAllAnsweredQuestions().map { it.id }
+        questionsDao.getAllPermanentAnsweredQuestions().map { it.id }
 
     override suspend fun deleteAnsweredQuestions(questionIds: List<Int>) =
-        questionsDao.deleteAnsweredQuestions(questionIds = questionIds)
+        questionsDao.deleteTempAnsweredQuestions(questionIds = questionIds)
 
 }

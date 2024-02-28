@@ -4,6 +4,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class AnsweredQuestionEntity(
+data class TempAnsweredQuestionEntity(
     @PrimaryKey val id : Int
 )

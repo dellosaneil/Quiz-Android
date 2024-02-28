@@ -5,8 +5,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.thelazybattley.common.enums.QuizType
-import com.thelazybattley.data.local.entity.AnsweredQuestionEntity
+import com.thelazybattley.data.local.entity.PermanentAnsweredQuestionEntity
 import com.thelazybattley.data.local.entity.QuestionEntity
+import com.thelazybattley.data.local.entity.TempAnsweredQuestionEntity
 
 @Dao
 interface QuestionsDao {
@@ -23,11 +24,14 @@ interface QuestionsDao {
     fun clearQuestions()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAnsweredQuestion(answeredQuestionEntity: AnsweredQuestionEntity)
+    fun insertTempAnsweredQuestion(tempAnsweredQuestionEntity: TempAnsweredQuestionEntity)
 
-    @Query("SELECT * FROM answeredquestionentity")
-    fun getAllAnsweredQuestions() : List<AnsweredQuestionEntity>
+    @Query("DELETE FROM tempansweredquestionentity WHERE id in (:questionIds)")
+    fun deleteTempAnsweredQuestions(questionIds: List<Int>)
 
-    @Query("DELETE FROM answeredquestionentity WHERE id in (:questionIds)")
-    fun deleteAnsweredQuestions(questionIds: List<Int>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertPermanentAnsweredQuestion(entity: PermanentAnsweredQuestionEntity)
+
+    @Query("SELECT * FROM permanentansweredquestionentity")
+    fun getAllPermanentAnsweredQuestions() : List<PermanentAnsweredQuestionEntity>
 }
