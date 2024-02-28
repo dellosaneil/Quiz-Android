@@ -31,6 +31,7 @@ import androidx.navigation.navOptions
 import com.google.gson.Gson
 import com.thelazybattley.common.components.CommonElevatedButton
 import com.thelazybattley.common.components.CommonTopBar
+import com.thelazybattley.common.ext.KONFETTI_PERCENT_TRIGGER
 import com.thelazybattley.common.ext.toPercentageDisplay
 import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.model.PercentageDisplay
@@ -161,7 +162,7 @@ fun QuizResultScreen(
             )
         }
     }
-    if (uiState.percentage >= 80) {
+    if (uiState.percentage >= KONFETTI_PERCENT_TRIGGER) {
         KonfettiView(
             parties = KonfettiPreset.explode,
             modifier = Modifier.fillMaxSize()

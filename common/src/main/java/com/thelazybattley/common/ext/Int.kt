@@ -7,12 +7,14 @@ import com.thelazybattley.common.R
 import com.thelazybattley.common.model.PercentageDisplay
 import com.thelazybattley.common.ui.theme.colors
 
+const val KONFETTI_PERCENT_TRIGGER = 80f
+
 val Int.toPercentageDisplay
     @Composable
     @ReadOnlyComposable
     get() = run {
         when {
-            this >= 75 -> PercentageDisplay(
+            this >= KONFETTI_PERCENT_TRIGGER -> PercentageDisplay(
                 textColor = colors.green10,
                 text = stringResource(R.string.congratulations)
             )

@@ -91,7 +91,7 @@ fun QuizResultHistoryItem(
 private fun questionCountText(count: Int): AnnotatedString {
     return buildAnnotatedString {
         withStyle(style = SpanStyle()) {
-            append(stringResource(R.string.questions))
+            append(stringResource(R.string.question_count))
         }
         withStyle(
             style = SpanStyle(
@@ -115,7 +115,7 @@ private fun scoreText(score: Int): AnnotatedString {
             )
         ) {
             append("\n")
-            append(score.toString())
+            append("${score}%")
         }
     }
 }
