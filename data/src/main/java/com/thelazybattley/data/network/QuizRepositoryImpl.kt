@@ -201,13 +201,13 @@ class QuizRepositoryImpl @Inject constructor(
     override suspend fun insertAnsweredQuestion(questionIds: List<Int>) = runCatching {
         questionIds.forEach { questionId ->
             questionsDao.insertAnsweredQuestion(
-                answeredQuestionEntity = AnsweredQuestionEntity(questionId = questionId)
+                answeredQuestionEntity = AnsweredQuestionEntity(id = questionId)
             )
         }
     }
 
     override suspend fun getAllAnsweredQuestions() =
-        questionsDao.getAllAnsweredQuestions().map { it.questionId }
+        questionsDao.getAllAnsweredQuestions().map { it.id }
 
     override suspend fun deleteAnsweredQuestions(questionIds: List<Int>) =
         questionsDao.deleteAnsweredQuestions(questionIds = questionIds)

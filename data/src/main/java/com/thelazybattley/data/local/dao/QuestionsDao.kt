@@ -28,6 +28,6 @@ interface QuestionsDao {
     @Query("SELECT * FROM answeredquestionentity")
     fun getAllAnsweredQuestions() : List<AnsweredQuestionEntity>
 
-    @Query("DELETE FROM answeredquestionentity WHERE questionId in (:questionIds)")
+    @Query("DELETE FROM answeredquestionentity WHERE id in (:questionIds)")
     fun deleteAnsweredQuestions(questionIds: List<Int>)
 }
