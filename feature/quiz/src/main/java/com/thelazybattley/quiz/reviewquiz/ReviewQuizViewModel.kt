@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.thelazybattley.common.base.BaseViewModel
 import com.thelazybattley.common.di.IoDispatcher
-import com.thelazybattley.common.enums.QuizType
 import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.model.QuizDetailsState
 import com.thelazybattley.domain.network.usecase.InsertReportedQuestionUseCase
@@ -85,7 +84,7 @@ class ReviewQuizViewModel @Inject constructor(
                 question = currentQuestion.question,
                 questionId = currentQuestion.questionId,
                 suggestedAnswer = getCurrentState().reportAnswerState.text,
-                quizType = QuizType.LIFE_OF_RIZAL
+                quizType = currentQuestion.quizType
             ).fold(
                 onSuccess = {
                     updateState { state ->

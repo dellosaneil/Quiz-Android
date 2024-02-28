@@ -1,6 +1,6 @@
 package com.thelazybattley.data.network
 
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.DocumentReference
 import com.thelazybattley.common.enums.QuizType
 import com.thelazybattley.common.ext.toTitleCase
 import com.thelazybattley.common.model.Question
@@ -23,7 +23,7 @@ import kotlin.math.roundToInt
 import kotlin.random.Random
 
 class QuizRepositoryImpl @Inject constructor(
-    private val firestore: FirebaseFirestore,
+    private val document: DocumentReference,
     private val questionsDao: QuestionsDao,
     private val quizResultDao: QuizResultDao
 ) : QuizRepository {
@@ -31,7 +31,7 @@ class QuizRepositoryImpl @Inject constructor(
     override suspend fun fetchAllQuestions(
         quizType: QuizType
     ) = runCatching {
-        firestore
+        document
             .collection("quiz")
             .document(quizType.type)
             .get()
@@ -62,14 +62,13 @@ class QuizRepositoryImpl @Inject constructor(
                 quizType = quizType
             )
         )
-        firestore
+        document
             .collection("quiz")
             .document(quizType.type)
             .update(
                 mapOf("questions" to updatedQuestions)
             )
             .await()
-
     }
 
     override suspend fun insertReportedQuestion(
@@ -77,7 +76,7 @@ class QuizRepositoryImpl @Inject constructor(
         questionId: Int,
         question: String,
         quizType: QuizType
-    ) = runCatching {
+    ): Result<Unit> = runCatching {
         val updatedReportedQuestions =
             fetchReportedQuestions(quizType = quizType).getOrThrow().toMutableList()
         val reportedQuestion = ReportedQuestion(
@@ -86,17 +85,16 @@ class QuizRepositoryImpl @Inject constructor(
             suggestedAnswer = suggestedAnswer
         )
         updatedReportedQuestions.add(reportedQuestion)
-        firestore
+        document
             .collection("report")
             .document(quizType.type)
             .update(mapOf("questions" to updatedReportedQuestions))
             .await()
-        Unit
     }
 
     override suspend fun fetchReportedQuestions(quizType: QuizType) =
         runCatching {
-            firestore
+            document
                 .collection("report")
                 .document(quizType.type)
                 .get()

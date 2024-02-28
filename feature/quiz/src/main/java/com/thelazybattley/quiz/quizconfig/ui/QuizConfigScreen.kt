@@ -104,9 +104,8 @@ private fun QuizConfigScreen(
                     key = { it.category }
                 ) { category ->
                     Column {
-
                         val density = LocalDensity.current
-                        val height = 10.dp
+                        val height = 12.dp
                         val textSize = density.run { height.toSp() }
                         CommonFilterChip(
                             modifier = Modifier.fillMaxWidth(),
