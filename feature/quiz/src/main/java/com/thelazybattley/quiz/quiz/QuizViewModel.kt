@@ -45,9 +45,17 @@ class QuizViewModel @Inject constructor(
 
         viewModelScope.launch(context = dispatcher) {
             if (category != null) {
-                getQuestionsByCategoryUseCase(category = category, count = count, quizType = QuizType.toQuizType(type = quizType))
+                getQuestionsByCategoryUseCase(
+                    category = category,
+                    count = count,
+                    quizType = QuizType.toQuizType(type = quizType)
+                )
             } else {
-                getAllQuestionsUseCase(count = count, quizType = QuizType.toQuizType(type = quizType))
+                getAllQuestionsUseCase(
+                    count = count,
+                    quizType = QuizType.toQuizType(type = quizType),
+                    filtered = true
+                )
             }.fold(
                 onSuccess = { questions ->
                     updateState { state ->

@@ -195,19 +195,25 @@ private fun PreviewDashboardScreen() {
                 lifeOfRizalCategories = listOf(
                     CategoryDetail(
                         count = 3,
-                        category = "Adulthood"
+                        category = "Adulthood",
+                        answeredCount = 3,
+                        progress = 1f
                     ),
                 ),
                 noliCategories = listOf(
                     CategoryDetail(
                         count = 3,
-                        category = "Chapter 1"
+                        category = "Chapter 1",
+                        answeredCount = 3,
+                        progress = 1f
                     ),
                 ),
                 elFiliCategories = listOf(
                     CategoryDetail(
                         count = 3,
-                        category = "Chapter 1"
+                        category = "Chapter 1",
+                        answeredCount = 3,
+                        progress = 1f
                     ),
                 ),
                 quizResults = listOf(

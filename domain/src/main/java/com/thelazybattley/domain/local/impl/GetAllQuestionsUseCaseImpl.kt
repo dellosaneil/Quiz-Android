@@ -8,6 +8,6 @@ import javax.inject.Inject
 class GetAllQuestionsUseCaseImpl @Inject constructor(
     private val repository: QuizRepository
 ) : GetAllQuestionsUseCase {
-    override suspend fun invoke(count: Int, quizType: QuizType) =
-        repository.getAllQuestions(count = count, quizType = quizType, filtered = true)
+    override suspend fun invoke(count: Int, quizType: QuizType, filtered: Boolean) =
+        repository.getAllQuestions(count = count, quizType = quizType, filtered = filtered)
 }

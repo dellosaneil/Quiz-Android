@@ -60,15 +60,21 @@ private fun PreviewDashboardQuizItems() {
         categories = listOf(
             CategoryDetail(
                 count = 10,
-                category = "People"
+                category = "People",
+                answeredCount = 3,
+                progress = 0.33f
             ),
             CategoryDetail(
-                count = 1,
-                category = "Places"
+                count = 7,
+                category = "Places",
+                answeredCount = 3,
+                progress = 0.275f
             ),
             CategoryDetail(
                 count = 3,
-                category = "Relationship"
+                category = "Relationship",
+                answeredCount = 3,
+                progress = 1f
             )
         ),
         drawRes = com.thelazybattley.common.R.drawable.img_timed_quiz

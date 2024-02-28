@@ -1,5 +1,6 @@
 package com.thelazybattley.quiz.quizconfig.ui
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -29,6 +31,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
 import com.thelazybattley.common.components.CommonElevatedButton
 import com.thelazybattley.common.components.CommonFilterChip
+import com.thelazybattley.common.components.CommonLinearProgressIndicator
 import com.thelazybattley.common.components.CommonTextField
 import com.thelazybattley.common.components.CommonTopBar
 import com.thelazybattley.common.model.AppScreens
@@ -98,12 +101,31 @@ private fun QuizConfigScreen(
                     items = uiState.categories,
                     key = { it.category }
                 ) { category ->
-                    CommonFilterChip(
-                        modifier = Modifier,
-                        text = category.category,
-                        isSelected = category.category == uiState.selectedCategory?.category
-                    ) {
-                        callbacks.selectCategory(category = category)
+                    Column {
+                        CommonFilterChip(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = category.category,
+                            isSelected = category.category == uiState.selectedCategory?.category
+                        ) {
+                            callbacks.selectCategory(category = category)
+                        }
+                        Box(contentAlignment = Alignment.Center) {
+                            val density = LocalDensity.current
+                            val height = 10.dp
+                            val textSize = density.run { height.toSp() }
+                            CommonLinearProgressIndicator(
+                                progress = category.progress,
+                                height = height,
+                                paddingValues = PaddingValues(horizontal = 4.dp)
+                            )
+                            Text(
+                                text = "${category.answeredCount}/${category.count}",
+                                style = textStyle.poppins.copy(
+                                    fontSize = textSize,
+                                    color = colors.black50
+                                )
+                            )
+                        }
                     }
                 }
             }
@@ -181,12 +203,31 @@ private fun PreviewQuizConfigScreen() {
         QuizConfigScreen(
             uiState = QuizConfigUiState(
                 categories = listOf(
-                    CategoryDetail(count = 1, category = "People"),
-                    CategoryDetail(count = 1, category = "Relationship"),
-                    CategoryDetail(count = 1, category = "Adulthood"),
-                    CategoryDetail(count = 1, category = "Dates"),
-                    CategoryDetail(count = 1, category = "Places"),
-
+                    CategoryDetail(
+                        count = 11, category = "People",
+                        answeredCount = 7,
+                        progress = 0.8f,
+                    ),
+                    CategoryDetail(
+                        count = 13, category = "Relationship",
+                        answeredCount = 5,
+                        progress = 0.7f
+                    ),
+                    CategoryDetail(
+                        count = 12, category = "Adulthood",
+                        answeredCount = 12,
+                        progress = 1f
+                    ),
+                    CategoryDetail(
+                        count = 8, category = "Dates",
+                        answeredCount = 4,
+                        progress = 0.5f
+                    ),
+                    CategoryDetail(
+                        count = 2, category = "Places",
+                        answeredCount = 1,
+                        progress = 0.5f
+                    )
                 )
             ),
             callbacks = QuizConfigCallbacks.default(),

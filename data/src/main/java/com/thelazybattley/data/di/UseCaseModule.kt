@@ -1,11 +1,13 @@
 package com.thelazybattley.data.di
 
+import com.thelazybattley.domain.local.GetAllAnsweredQuestionsUseCase
 import com.thelazybattley.domain.local.GetAllQuestionsUseCase
 import com.thelazybattley.domain.local.GetAllQuizResultsUseCase
 import com.thelazybattley.domain.local.GetQuestionsByCategoryUseCase
 import com.thelazybattley.domain.local.InsertAllQuestionsUseCase
 import com.thelazybattley.domain.local.InsertCorrectAnsweredQuestionsUseCase
 import com.thelazybattley.domain.local.InsertQuizResultUseCase
+import com.thelazybattley.domain.local.impl.GetAllAnsweredQuestionsUseCaseImpl
 import com.thelazybattley.domain.local.impl.GetAllQuestionsUseCaseImpl
 import com.thelazybattley.domain.local.impl.GetAllQuizResultsUseCaseImpl
 import com.thelazybattley.domain.local.impl.GetQuestionsByCategoryUseCaseImpl
@@ -59,4 +61,7 @@ abstract class UseCaseModule {
 
     @Binds
     abstract fun bindsInsertCorrectAnsweredQuestionsUseCase(impl: InsertCorrectAnsweredQuestionsUseCaseImpl) : InsertCorrectAnsweredQuestionsUseCase
+
+    @Binds
+    abstract fun bindsGetAllAnsweredQuestionsUseCase(impl: GetAllAnsweredQuestionsUseCaseImpl) : GetAllAnsweredQuestionsUseCase
 }
