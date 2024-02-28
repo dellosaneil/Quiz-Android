@@ -1,6 +1,5 @@
 package com.thelazybattley.quiz.quizconfig.ui
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -19,10 +18,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -102,6 +104,10 @@ private fun QuizConfigScreen(
                     key = { it.category }
                 ) { category ->
                     Column {
+
+                        val density = LocalDensity.current
+                        val height = 10.dp
+                        val textSize = density.run { height.toSp() }
                         CommonFilterChip(
                             modifier = Modifier.fillMaxWidth(),
                             text = category.category,
@@ -109,23 +115,30 @@ private fun QuizConfigScreen(
                         ) {
                             callbacks.selectCategory(category = category)
                         }
-                        Box(contentAlignment = Alignment.Center) {
-                            val density = LocalDensity.current
-                            val height = 10.dp
-                            val textSize = density.run { height.toSp() }
-                            CommonLinearProgressIndicator(
-                                progress = category.progress,
-                                height = height,
-                                paddingValues = PaddingValues(horizontal = 4.dp)
-                            )
-                            Text(
+                        val textMeasurer = rememberTextMeasurer()
+                        val textLayoutResult =
+                            textMeasurer.measure(
                                 text = "${category.answeredCount}/${category.count}",
                                 style = textStyle.poppins.copy(
                                     fontSize = textSize,
                                     color = colors.black50
                                 )
                             )
-                        }
+                        CommonLinearProgressIndicator(
+                            progress = category.progress,
+                            height = height,
+                            paddingValues = PaddingValues(horizontal = 4.dp),
+                            modifier = Modifier.drawWithContent {
+                                drawContent()
+                                drawText(
+                                    textLayoutResult = textLayoutResult,
+                                    topLeft = androidx.compose.ui.geometry.Offset(
+                                        x = (size.width / 2f) - (textLayoutResult.size.width / 2f),
+                                        y = (size.height / 2f) - (textLayoutResult.size.height / 2f)
+                                    )
+                                )
+                            }
+                        )
                     }
                 }
             }
