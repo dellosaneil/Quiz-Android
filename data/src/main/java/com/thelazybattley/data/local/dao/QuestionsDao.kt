@@ -34,4 +34,5 @@ interface QuestionsDao {
 
     @Query("SELECT * FROM permanentansweredquestionentity")
     fun getAllPermanentAnsweredQuestions() : List<PermanentAnsweredQuestionEntity>
+
 }
