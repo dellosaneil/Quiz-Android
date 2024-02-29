@@ -8,4 +8,7 @@
     <string name="life_of_rizal_quiz">Life of Rizal Quiz</string>
     <string name="noli_me_tangere_quiz">Noli me Tangere Quiz</string>
     <string name="el_filibusterismo_quiz">El Filibusterismo Quiz</string>
+    <string name="feedback">Feedback</string>
+    <string name="input_a_question">Input a Question</string>
+    <string name="suggest_a_question">Suggest a Question</string>
 </resources>

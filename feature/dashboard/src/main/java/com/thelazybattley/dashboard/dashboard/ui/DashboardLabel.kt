@@ -24,7 +24,7 @@ import com.thelazybattley.dashboard.R
 fun DashboardLabel(
     modifier: Modifier = Modifier,
     label: String,
-    onClick: () -> Unit
+    onClick: (() -> Unit)? = null
 ) {
     Row(
         modifier = modifier
@@ -45,18 +45,20 @@ fun DashboardLabel(
                 .height(16.dp)
                 .weight(1f)
         )
-        Text(
-            text = stringResource(R.string.see_all),
-            style = textStyle.poppins.copy(
-                fontSize = 14.sp
-            ),
-            modifier = Modifier
-                .clip(shape = RoundedCornerShape(size = 8.dp))
-                .clickable {
-                    onClick()
-                }
-                .padding(all = 8.dp)
-        )
+        if(onClick != null) {
+            Text(
+                text = stringResource(R.string.see_all),
+                style = textStyle.poppins.copy(
+                    fontSize = 14.sp
+                ),
+                modifier = Modifier
+                    .clip(shape = RoundedCornerShape(size = 8.dp))
+                    .clickable {
+                        onClick()
+                    }
+                    .padding(all = 8.dp)
+            )
+        }
     }
 }
 

@@ -1,6 +1,7 @@
 package com.thelazybattley.dashboard.dashboard.ui
 
 import android.net.Uri
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -20,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -126,7 +129,7 @@ fun DashboardScreen(
                 }
                 DashboardQuizItems(
                     categories = uiState.noliCategories,
-                    drawRes = R.drawable.noli
+                    drawRes = R.drawable.img_noli
                 ) { category ->
                     navigate(
                         AppScreens.QuizConfigScreen.args(
@@ -186,6 +189,30 @@ fun DashboardScreen(
                         }
                     }
                 }
+                Spacer(modifier = Modifier.height(8.dp))
+
+                DashboardLabel(label = stringResource(R.string.feedback))
+                LazyRow {
+                    item {
+                        DashboardItem(
+                            modifier = Modifier,
+                            title = stringResource(R.string.suggest_a_question),
+                            description = stringResource(R.string.input_a_question),
+                            content = {
+                                Image(
+                                    painter = painterResource(id = R.drawable.ic_light_bulb),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .padding(vertical = 8.dp)
+                                        .width(width = 56.dp)
+                                        .align(alignment = Alignment.CenterHorizontally)
+                                )
+                            }
+                        ) {
+
+                        }
+                    }
+                }
             }
         }
     }
@@ -197,7 +224,7 @@ private fun PreviewDashboardScreen() {
     QuizAndroidTheme {
         DashboardScreen(
             uiState = DashboardUiState().copy(
-                isLoading = true,
+                isLoading = false,
                 lifeOfRizalCategories = listOf(
                     CategoryDetail(
                         count = 3,
