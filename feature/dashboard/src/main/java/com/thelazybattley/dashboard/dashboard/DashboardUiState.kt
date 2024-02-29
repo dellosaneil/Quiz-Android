@@ -9,7 +9,6 @@ data class DashboardUiState(
     val lifeOfRizalCategories: List<CategoryDetail> = emptyList(),
     val noliCategories: List<CategoryDetail> = emptyList(),
     val elFiliCategories: List<CategoryDetail> = emptyList(),
-    val quizResultExceeding: Int = 0,
     val quizResults: List<QuizResult> = emptyList(),
     val isLoading: Boolean = true
 ) : BaseUiState
