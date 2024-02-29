@@ -78,7 +78,8 @@ private fun QuizConfigScreen(
             ) {
                 onPopBackStack()
             }
-        }
+        },
+        containerColor = colors.white50
     ) { paddingValues ->
         Column(
             modifier = Modifier
