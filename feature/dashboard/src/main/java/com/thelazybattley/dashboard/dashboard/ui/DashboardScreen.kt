@@ -93,13 +93,7 @@ fun DashboardScreen(
                         ), null
                     )
                 }
-            }
-
-            item {
                 Spacer(modifier = Modifier.height(8.dp))
-            }
-
-            item {
                 DashboardLabel(
                     label = stringResource(R.string.noli_me_tangere_quiz)
                 ) {
@@ -121,13 +115,7 @@ fun DashboardScreen(
                         ), null
                     )
                 }
-            }
-
-            item {
                 Spacer(modifier = Modifier.height(8.dp))
-            }
-
-            item {
                 DashboardLabel(
                     label = stringResource(R.string.el_filibusterismo_quiz)
                 ) {
@@ -149,13 +137,8 @@ fun DashboardScreen(
                         ), null
                     )
                 }
-            }
-
-            item {
                 Spacer(modifier = Modifier.height(8.dp))
-            }
 
-            item {
                 DashboardLabel(label = stringResource(R.string.review_previous_quiz_result)) {
                     navigate(AppScreens.QuizResultsHistoryScreen.route, null)
                 }
@@ -163,7 +146,7 @@ fun DashboardScreen(
                     items(items = uiState.quizResults) { result ->
                         DashboardItem(
                             modifier = Modifier,
-                            title = result.category.toString(),
+                            title = result.category,
                             description = pluralStringResource(
                                 com.thelazybattley.common.R.plurals.questions,
                                 result.questions.size,
@@ -261,7 +244,7 @@ private fun PreviewDashboardScreen() {
                     )
                 )
             )
-        ) { route, options ->
+        ) { _, _ ->
 
         }
     }
