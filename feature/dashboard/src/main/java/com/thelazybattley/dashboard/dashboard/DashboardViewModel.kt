@@ -94,6 +94,7 @@ class DashboardViewModel @Inject constructor(
                             }
                         }
                     }
+                    isFinishedLoading()
                 },
                 onFailure = { _ ->
                     // do nothing
@@ -106,4 +107,13 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    private fun isFinishedLoading() = run {
+        updateState { state ->
+            with(getCurrentState()) {
+                state.copy(
+                    isLoading = noliCategories.isEmpty() || elFiliCategories.isEmpty() || lifeOfRizalCategories.isEmpty()
+                )
+            }
+        }
+    }
 }

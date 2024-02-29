@@ -1,20 +1,25 @@
 package com.thelazybattley.dashboard.dashboard.ui
 
 import android.net.Uri
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -70,7 +75,22 @@ fun DashboardScreen(
             modifier = Modifier.padding(paddingValues),
             contentPadding = PaddingValues(all = 16.dp)
         ) {
+
             item {
+                if (uiState.isLoading) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        CircularProgressIndicator(
+                            color = colors.purple50,
+                            strokeWidth = 4.dp,
+                            strokeCap = StrokeCap.Round
+                        )
+                    }
+                    return@item
+                }
+
                 DashboardLabel(
                     modifier = Modifier,
                     label = stringResource(R.string.life_of_rizal_quiz)
@@ -139,28 +159,30 @@ fun DashboardScreen(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
 
-                DashboardLabel(label = stringResource(R.string.review_previous_quiz_result)) {
-                    navigate(AppScreens.QuizResultsHistoryScreen.route, null)
-                }
-                LazyRow {
-                    items(items = uiState.quizResults) { result ->
-                        DashboardItem(
-                            modifier = Modifier,
-                            title = result.category,
-                            description = pluralStringResource(
-                                com.thelazybattley.common.R.plurals.questions,
-                                result.questions.size,
-                                result.questions.size,
-                            ),
-                            content = {
-                                DashboardReviewItemContent(
-                                    modifier = Modifier.padding(vertical = 8.dp),
-                                    percentage = result.percent
-                                )
+                if (uiState.quizResults.isNotEmpty()) {
+                    DashboardLabel(label = stringResource(R.string.review_previous_quiz_result)) {
+                        navigate(AppScreens.QuizResultsHistoryScreen.route, null)
+                    }
+                    LazyRow {
+                        items(items = uiState.quizResults) { result ->
+                            DashboardItem(
+                                modifier = Modifier,
+                                title = result.category,
+                                description = pluralStringResource(
+                                    com.thelazybattley.common.R.plurals.questions,
+                                    result.questions.size,
+                                    result.questions.size,
+                                ),
+                                content = {
+                                    DashboardReviewItemContent(
+                                        modifier = Modifier.padding(vertical = 8.dp),
+                                        percentage = result.percent
+                                    )
+                                }
+                            ) {
+                                val json = Uri.encode(Gson().toJson(result.toQuizDetailsState))
+                                navigate(AppScreens.ReviewScreen.args(json = json), null)
                             }
-                        ) {
-                            val json = Uri.encode(Gson().toJson(result.toQuizDetailsState))
-                            navigate(AppScreens.ReviewScreen.args(json = json), null)
                         }
                     }
                 }
@@ -175,6 +197,7 @@ private fun PreviewDashboardScreen() {
     QuizAndroidTheme {
         DashboardScreen(
             uiState = DashboardUiState().copy(
+                isLoading = true,
                 lifeOfRizalCategories = listOf(
                     CategoryDetail(
                         count = 3,
