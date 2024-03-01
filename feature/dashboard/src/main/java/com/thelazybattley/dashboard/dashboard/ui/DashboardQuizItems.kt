@@ -9,10 +9,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.thelazybattley.common.ui.theme.QuizAndroidTheme
+import com.thelazybattley.dashboard.R
 import com.thelazybattley.domain.model.CategoryDetail
 
 @Composable
@@ -42,7 +45,8 @@ fun DashboardQuizItems(
                         modifier = Modifier
                             .padding(vertical = 8.dp)
                             .width(width = 56.dp)
-                            .align(alignment = Alignment.CenterHorizontally)
+                            .align(alignment = Alignment.CenterHorizontally),
+                        contentScale = ContentScale.FillWidth
                     )
                 }
             ) {
@@ -55,30 +59,32 @@ fun DashboardQuizItems(
 @Preview
 @Composable
 private fun PreviewDashboardQuizItems() {
-    DashboardQuizItems(
-        modifier = Modifier.padding(all = 16.dp),
-        categories = listOf(
-            CategoryDetail(
-                count = 10,
-                category = "People",
-                answeredCount = 3,
-                progress = 0.33f
+    QuizAndroidTheme {
+        DashboardQuizItems(
+            modifier = Modifier.padding(all = 16.dp),
+            categories = listOf(
+                CategoryDetail(
+                    count = 10,
+                    category = "People",
+                    answeredCount = 3,
+                    progress = 0.33f
+                ),
+                CategoryDetail(
+                    count = 7,
+                    category = "Places",
+                    answeredCount = 3,
+                    progress = 0.275f
+                ),
+                CategoryDetail(
+                    count = 3,
+                    category = "Relationship",
+                    answeredCount = 3,
+                    progress = 1f
+                )
             ),
-            CategoryDetail(
-                count = 7,
-                category = "Places",
-                answeredCount = 3,
-                progress = 0.275f
-            ),
-            CategoryDetail(
-                count = 3,
-                category = "Relationship",
-                answeredCount = 3,
-                progress = 1f
-            )
-        ),
-        drawRes = com.thelazybattley.common.R.drawable.img_timed_quiz
-    ) {
+            drawRes = R.drawable.ic_quiz
+        ) {
 
+        }
     }
 }

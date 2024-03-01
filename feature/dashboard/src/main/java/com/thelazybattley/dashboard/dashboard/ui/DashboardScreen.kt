@@ -107,7 +107,7 @@ fun DashboardScreen(
                 }
                 DashboardQuizItems(
                     categories = uiState.lifeOfRizalCategories,
-                    drawRes = com.thelazybattley.common.R.drawable.img_timed_quiz
+                    drawRes = R.drawable.ic_quiz
                 ) { category ->
                     navigate(
                         AppScreens.QuizConfigScreen.args(
