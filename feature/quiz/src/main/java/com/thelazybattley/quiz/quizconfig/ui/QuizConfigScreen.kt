@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -97,7 +98,7 @@ private fun QuizConfigScreen(
             LazyVerticalGrid(
                 modifier = Modifier
                     .fillMaxWidth(),
-                columns = GridCells.Fixed(count = 2),
+                columns = GridCells.Fixed(count = 3),
                 contentPadding = PaddingValues(all = 8.dp)
             ) {
                 items(
@@ -142,6 +143,11 @@ private fun QuizConfigScreen(
                     }
                 }
             }
+
+            HorizontalDivider(
+                modifier = Modifier.padding(vertical = 16.dp)
+            )
+
             Text(
                 text = stringResource(R.string.input_question_count),
                 style = textStyle.poppins.copy(
