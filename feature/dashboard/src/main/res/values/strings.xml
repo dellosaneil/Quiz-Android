@@ -10,5 +10,6 @@
     <string name="el_filibusterismo_quiz">El Filibusterismo Quiz</string>
     <string name="feedback">Feedback</string>
     <string name="input_a_question">Input a Question</string>
-    <string name="suggest_a_question">Suggest a Question</string>
+    <string name="add_new_question">Add new Question</string>
+    <string name="admin">Admin</string>
 </resources>

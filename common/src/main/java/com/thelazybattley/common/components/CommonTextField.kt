@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -21,10 +22,11 @@ import com.thelazybattley.common.ui.theme.textStyle
 
 @Composable
 fun CommonTextField(
+    keyboardActions: KeyboardActions =  KeyboardActions.Default,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     modifier: Modifier,
     text: String,
     singleLine: Boolean,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     placeholderText: String,
     onValueChange: (String) -> Unit,
 ) {
@@ -61,6 +63,7 @@ fun CommonTextField(
             )
         },
         keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions
     )
 }
 

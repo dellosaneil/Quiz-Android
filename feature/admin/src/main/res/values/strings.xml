@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_new_question">Create New Question</string>
+    <string name="input_question_here">Input Question Here</string>
+    <string name="input_correct_answer">Input Correct Answer</string>
+    <string name="input_choice">Input Choice</string>
+    <string name="submit">Submit</string>
+    <string name="choices">Choices</string>
+    <string name="category">Category</string>
+    <string name="input_category">Input Category</string>
+</resources>

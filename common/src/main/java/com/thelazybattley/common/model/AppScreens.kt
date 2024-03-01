@@ -52,4 +52,5 @@ sealed class AppScreens(val route: String, val routeWithArgs: String = route) {
     )
 
     data object CreateQuestionScreen : AppScreens(route = "create_question_screen")
+
 }

@@ -36,6 +36,7 @@ import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.model.Question
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
 import com.thelazybattley.common.ui.theme.colors
+import com.thelazybattley.dashboard.BuildConfig
 import com.thelazybattley.dashboard.R
 import com.thelazybattley.dashboard.dashboard.DashboardUiState
 import com.thelazybattley.dashboard.dashboard.DashboardViewModel
@@ -191,25 +192,27 @@ fun DashboardScreen(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
 
-                DashboardLabel(label = stringResource(R.string.feedback))
-                LazyRow {
-                    item {
-                        DashboardItem(
-                            modifier = Modifier,
-                            title = stringResource(R.string.suggest_a_question),
-                            description = stringResource(R.string.input_a_question),
-                            content = {
-                                Image(
-                                    painter = painterResource(id = R.drawable.ic_light_bulb),
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .padding(vertical = 8.dp)
-                                        .width(width = 56.dp)
-                                        .align(alignment = Alignment.CenterHorizontally)
-                                )
+                if (BuildConfig.DEBUG) {
+                    DashboardLabel(label = stringResource(R.string.admin))
+                    LazyRow {
+                        item {
+                            DashboardItem(
+                                modifier = Modifier,
+                                title = stringResource(R.string.add_new_question),
+                                description = stringResource(R.string.input_a_question),
+                                content = {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.ic_light_bulb),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .padding(vertical = 8.dp)
+                                            .width(width = 56.dp)
+                                            .align(alignment = Alignment.CenterHorizontally)
+                                    )
+                                }
+                            ) {
+                                navigate(AppScreens.CreateQuestionScreen.route, null)
                             }
-                        ) {
-                            navigate(AppScreens.CreateQuestionScreen.route, null)
                         }
                     }
                 }
