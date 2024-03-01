@@ -112,7 +112,7 @@ fun AppNavHost() {
 
         composable(route = AppScreens.CreateQuestionScreen.route) {
             CreateQuestionScreen {
-
+                navController.popBackStack()
             }
         }
     }
