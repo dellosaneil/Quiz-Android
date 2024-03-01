@@ -1,7 +1,9 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    kotlin("kapt")
+    alias(libs.plugins.dagger.hilt.android)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -31,14 +33,34 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        compose = true
+        buildConfig = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.9"
+    }
 }
 
 dependencies {
+
+    implementation(project(":common"))
+    implementation(project(":domain"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.espresso.core)
+
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.bundles.compose)
+    debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.hilt.navigation)
+    debugImplementation(libs.timber)
+    implementation(libs.gson)
 }

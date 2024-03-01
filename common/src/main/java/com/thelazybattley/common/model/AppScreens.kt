@@ -42,7 +42,7 @@ sealed class AppScreens(val route: String, val routeWithArgs: String = route) {
         route = "quiz_config_screen",
         routeWithArgs = "quiz_config_screen/{$QUIZ_TYPE}?$QUIZ_CATEGORY={$QUIZ_CATEGORY}"
     ) {
-        fun args(category: String?, type: String) : String {
+        fun args(category: String?, type: String): String {
             return QuizConfigScreen.route + "/$type?$QUIZ_CATEGORY=$category"
         }
     }
@@ -50,4 +50,6 @@ sealed class AppScreens(val route: String, val routeWithArgs: String = route) {
     data object QuizResultsHistoryScreen : AppScreens(
         route = "quiz_results_history_screen"
     )
+
+    data object CreateQuestionScreen : AppScreens(route = "create_question_screen")
 }

@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/dashboard" />
+            <option value="$PROJECT_DIR$/feature/feedback" />
             <option value="$PROJECT_DIR$/feature/quiz" />
           </set>
         </option>

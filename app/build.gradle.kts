@@ -59,6 +59,7 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":feature:quiz"))
     implementation(project(":feature:dashboard"))
+    implementation(project(":feature:feedback"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -209,7 +209,7 @@ fun DashboardScreen(
                                 )
                             }
                         ) {
-
+                            navigate(AppScreens.CreateQuestionScreen.route, null)
                         }
                     }
                 }

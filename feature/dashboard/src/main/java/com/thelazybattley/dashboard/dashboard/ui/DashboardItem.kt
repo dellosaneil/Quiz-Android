@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
 import com.thelazybattley.common.ui.theme.colors
 import com.thelazybattley.common.ui.theme.textStyle
+import com.thelazybattley.dashboard.R
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -98,7 +99,7 @@ fun PreviewDashboardItem() {
             },
             content = {
                 Image(
-                    painter = painterResource(id = com.thelazybattley.common.R.drawable.img_timed_quiz),
+                    painter = painterResource(id = R.drawable.ic_light_bulb),
                     contentDescription = null,
                     modifier = Modifier
                         .padding(bottom = 16.dp)
