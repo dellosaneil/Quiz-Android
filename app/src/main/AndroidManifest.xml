@@ -19,6 +19,7 @@
         <activity
             android:name="com.thelazybattley.joserizalquiz.MainActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.QuizAndroid">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
