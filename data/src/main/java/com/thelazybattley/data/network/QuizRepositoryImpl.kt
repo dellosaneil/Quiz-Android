@@ -65,7 +65,7 @@ class QuizRepositoryImpl @Inject constructor(
         document
             .collection("quiz")
             .document(quizType.type)
-            .update(
+            .set(
                 mapOf("questions" to updatedQuestions)
             )
             .await()
