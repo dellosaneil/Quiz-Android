@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -16,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,6 +42,8 @@ import com.thelazybattley.quiz.quiz.QuizCallbacks
 import com.thelazybattley.quiz.quiz.QuizEvents
 import com.thelazybattley.quiz.quiz.QuizUiState
 import com.thelazybattley.quiz.quiz.QuizViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
@@ -65,7 +70,8 @@ private fun QuizScreen(
     callbacks: QuizCallbacks,
     onPopBackStack: () -> Unit
 ) {
-
+    val scrollState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
@@ -100,7 +106,8 @@ private fun QuizScreen(
                 onQuestionSelected = { index ->
                     callbacks.goToQuestion(index = index)
                 },
-                progress = uiState.progress
+                progress = uiState.progress,
+                scrollState = scrollState
             )
             if (uiState.quizDetailsState.question != null) {
                 Text(
@@ -162,7 +169,13 @@ private fun QuizScreen(
                         contentColor = colors.purple50
                     ),
                     onClick = {
-                        callbacks.goToQuestion(index = uiState.currentIndex.dec())
+                        val updatedIndex = uiState.currentIndex.dec()
+                        callbacks.goToQuestion(index = updatedIndex)
+                        scrollToQuestionNumber(
+                            coroutineScope = coroutineScope,
+                            updatedIndex = updatedIndex,
+                            scrollState = scrollState
+                        )
                     }
                 )
 
@@ -183,7 +196,13 @@ private fun QuizScreen(
                         if (uiState.isComplete) {
                             callbacks.updateSubmitDialog(showDialog = true)
                         } else {
-                            callbacks.goToQuestion(index = uiState.currentIndex.inc())
+                            val updatedIndex = uiState.currentIndex.inc()
+                            callbacks.goToQuestion(index = updatedIndex)
+                            scrollToQuestionNumber(
+                                coroutineScope = coroutineScope,
+                                updatedIndex = updatedIndex,
+                                scrollState = scrollState
+                            )
                         }
                     },
                     isEnabled = uiState.currentIndex != uiState.quizDetailsState.questions.size.dec() || uiState.isComplete
@@ -196,6 +215,21 @@ private fun QuizScreen(
                     callbacks.updateSubmitDialog(showDialog = false)
                 }
             )
+        }
+    }
+}
+
+private fun scrollToQuestionNumber(
+    coroutineScope: CoroutineScope,
+    updatedIndex: Int,
+    scrollState: LazyListState
+) {
+    val visibleItemsSize = scrollState.layoutInfo.visibleItemsInfo.size
+    val firstVisibleItemIndex = scrollState.firstVisibleItemIndex
+    val range = firstVisibleItemIndex until  visibleItemsSize + firstVisibleItemIndex
+    if (!range.contains(updatedIndex)) {
+        coroutineScope.launch {
+            scrollState.animateScrollToItem(index = updatedIndex)
         }
     }
 }

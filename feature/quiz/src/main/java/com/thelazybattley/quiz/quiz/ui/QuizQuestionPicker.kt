@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,6 +37,7 @@ fun QuizQuestionPicker(
     currentIndex: Int,
     chosenAnswers: List<String?>,
     progress: Float,
+    scrollState: LazyListState,
     onQuestionSelected: (Int) -> Unit
 ) {
     val animatedProgress by animateFloatAsState(targetValue = progress, label = "")
@@ -44,7 +47,7 @@ fun QuizQuestionPicker(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(space = 16.dp)
     ) {
-        LazyRow {
+        LazyRow(state = scrollState) {
             itemsIndexed(items = chosenAnswers) { index, answer ->
                 val isFocused = currentIndex == index
                 val hasAnswer = answer != null
@@ -127,7 +130,8 @@ fun PreviewQuizQuestionPicker() {
             chosenAnswers = listOf(
                 "", "", null, null, ""
             ),
-            progress = 50f
+            progress = 50f,
+            scrollState = rememberLazyListState()
         ) {
 
         }
