@@ -24,47 +24,50 @@ class DashboardViewModel @Inject constructor(
 
     override fun initialState() = DashboardUiState()
 
-    override fun initialize(quizType: QuizType) {
-        viewModelScope.launch(context = dispatcher) {
-            val isNotEmpty = getCategoriesDetails(
-                quizType = quizType
-            )
-            if (isNotEmpty) {
-                return@launch
-            }
-            fetchAllQuestionsUseCase(
-                quizType = quizType
-            ).fold(
-                onSuccess = { questions ->
-                    insertAllQuestionsUseCase(questions = questions)
-                    getCategoriesDetails(
-                        quizType = quizType
-                    )
-                },
-                onFailure = {
-
+    init {
+        QuizType.entries.forEach { quizType ->
+            viewModelScope.launch(context = dispatcher) {
+                val isNotEmpty = getCategoriesDetails(
+                    quizType = quizType
+                )
+                if (isNotEmpty) {
+                    return@launch
                 }
-            )
-        }
-        viewModelScope.launch(context = dispatcher) {
-            getAllQuizResults()
+                fetchAllQuestionsUseCase(
+                    quizType = quizType
+                ).fold(
+                    onSuccess = { questions ->
+                        insertAllQuestionsUseCase(questions = questions)
+                        getCategoriesDetails(
+                            quizType = quizType
+                        )
+                    },
+                    onFailure = {
+                        getCategoriesDetails(
+                            quizType = quizType
+                        )
+                    }
+                )
+            }
         }
     }
 
-    private suspend fun getAllQuizResults() {
-        getAllQuizResultsUseCase()
-            .fold(
-                onSuccess = { results ->
-                    updateState { state ->
-                        state.copy(
-                            quizResults = results
-                        )
-                    }
-                },
-                onFailure = {
+    override fun getAllQuizResults() {
+        viewModelScope.launch(context = dispatcher) {
+            getAllQuizResultsUseCase()
+                .fold(
+                    onSuccess = { results ->
+                        updateState { state ->
+                            state.copy(
+                                quizResults = results
+                            )
+                        }
+                    },
+                    onFailure = {
 
-                }
-            )
+                    }
+                )
+        }
     }
 
     private suspend fun getCategoriesDetails(
@@ -111,7 +114,7 @@ class DashboardViewModel @Inject constructor(
         updateState { state ->
             with(getCurrentState()) {
                 state.copy(
-                    isLoading = noliCategories.isEmpty() || elFiliCategories.isEmpty() || lifeOfRizalCategories.isEmpty()
+                    isLoading = lifeOfRizalCategories.isEmpty()
                 )
             }
         }

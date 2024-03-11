@@ -51,9 +51,7 @@ fun DashboardScreen(
 ) {
     val uiState by viewModel.state.collectAsState()
     LaunchedEffect(Unit) {
-        viewModel.initialize(quizType = QuizType.LIFE_OF_RIZAL)
-        viewModel.initialize(quizType = QuizType.EL_FILI)
-        viewModel.initialize(quizType = QuizType.NOLI_ME_TANGERE)
+        viewModel.getAllQuizResults()
     }
     DashboardScreen(
         uiState = uiState,
@@ -128,16 +126,18 @@ fun DashboardScreen(
                         ), null
                     )
                 }
-                DashboardQuizItems(
-                    categories = uiState.noliCategories,
-                    drawRes = R.drawable.img_noli
-                ) { category ->
-                    navigate(
-                        AppScreens.QuizConfigScreen.args(
-                            category = category,
-                            type = QuizType.NOLI_ME_TANGERE.type
-                        ), null
-                    )
+                if (uiState.noliCategories.isNotEmpty()) {
+                    DashboardQuizItems(
+                        categories = uiState.noliCategories,
+                        drawRes = R.drawable.img_noli
+                    ) { category ->
+                        navigate(
+                            AppScreens.QuizConfigScreen.args(
+                                category = category,
+                                type = QuizType.NOLI_ME_TANGERE.type
+                            ), null
+                        )
+                    }
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 DashboardLabel(
@@ -150,18 +150,20 @@ fun DashboardScreen(
                         ), null
                     )
                 }
-                DashboardQuizItems(
-                    categories = uiState.elFiliCategories,
-                    drawRes = com.thelazybattley.common.R.drawable.img_el_fili
-                ) { category ->
-                    navigate(
-                        AppScreens.QuizConfigScreen.args(
-                            category = category,
-                            type = QuizType.EL_FILI.type
-                        ), null
-                    )
+                if (uiState.elFiliCategories.isNotEmpty()) {
+                    DashboardQuizItems(
+                        categories = uiState.elFiliCategories,
+                        drawRes = com.thelazybattley.common.R.drawable.img_el_fili
+                    ) { category ->
+                        navigate(
+                            AppScreens.QuizConfigScreen.args(
+                                category = category,
+                                type = QuizType.EL_FILI.type
+                            ), null
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
-                Spacer(modifier = Modifier.height(8.dp))
 
                 if (uiState.quizResults.isNotEmpty()) {
                     DashboardLabel(label = stringResource(R.string.review_previous_quiz_result)) {
