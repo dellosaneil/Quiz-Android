@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -50,9 +49,6 @@ fun DashboardScreen(
     navigate: (String, NavOptions?) -> Unit
 ) {
     val uiState by viewModel.state.collectAsState()
-    LaunchedEffect(Unit) {
-        viewModel.getAllQuizResults()
-    }
     DashboardScreen(
         uiState = uiState,
         navigate = navigate,

@@ -27,20 +27,23 @@ class QuizResultsHistoryViewModel @Inject constructor(
         viewModelScope
             .launch(context = dispatcher) {
                 getAllQuizResultsUseCase()
-                    .fold(
-                        onSuccess = { results ->
-                            updateState { state ->
-                                state.copy(
-                                    filteredQuizResult = results,
-                                    categories = results.map { it.category }.distinct(),
-                                    completeQuizResult = results
-                                )
-                            }
-                        },
-                        onFailure = {
+                    .collect{result ->
+                        result.fold(
+                            onSuccess = { results ->
+                                updateState { state ->
+                                    state.copy(
+                                        filteredQuizResult = results,
+                                        categories = results.map { it.category }.distinct(),
+                                        completeQuizResult = results
+                                    )
+                                }
+                            },
+                            onFailure = {
 
-                        }
-                    )
+                            }
+                        )
+                    }
+
             }
     }
 

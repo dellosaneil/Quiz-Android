@@ -17,6 +17,8 @@ import com.thelazybattley.data.mapper.toReportedQuestions
 import com.thelazybattley.domain.model.QuizResult
 import com.thelazybattley.domain.model.ReportedQuestion
 import com.thelazybattley.domain.network.QuizRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -168,29 +170,35 @@ class QuizRepositoryImpl @Inject constructor(
             filteredQuestions.distinct().take(n = count)
         }
 
-    override suspend fun getAllQuizResult() = runCatching {
-        quizResultDao.getAll().map { entity ->
-            val category =
-                if (entity.questions.all { it.category == entity.questions.first().category }) {
-                    entity.questions.first().category.toTitleCase()
-                } else {
-                    "All"
+    override suspend fun getAllQuizResult(): Flow<Result<List<QuizResult>>> = run {
+        quizResultDao
+            .getAll()
+            .map { entity: List<QuizResultEntity> ->
+                entity.map { result ->
+                    val category =
+                        if (result.questions.all { it.category == result.questions.first().category }) {
+                            result.questions.first().category.toTitleCase()
+                        } else {
+                            "All"
+                        }
+
+                    val correctAnswers = result.chosenAnswers.zip(result.answers).filter {
+                        it.first == it.second
+                    }.size
+                    val percentage = (correctAnswers.toFloat() / result.questions.size) * 100
+
+                    QuizResult(
+                        questions = result.questions.map { it.toData },
+                        answers = result.answers,
+                        chosenAnswers = result.chosenAnswers,
+                        category = category,
+                        percent = percentage.roundToInt(),
+                        type = result.questions.first().quizType
+                    )
                 }
+            }
+            .map { Result.success(it.asReversed()) }
 
-            val correctAnswers = entity.chosenAnswers.zip(entity.answers).filter {
-                it.first == it.second
-            }.size
-            val percentage = (correctAnswers.toFloat() / entity.questions.size) * 100
-
-            QuizResult(
-                questions = entity.questions.map { it.toData },
-                answers = entity.answers,
-                chosenAnswers = entity.chosenAnswers,
-                category = category,
-                percent = percentage.roundToInt(),
-                type = entity.questions.first().quizType
-            )
-        }.asReversed()
     }
 
     override suspend fun clearAllQuizResult() = runCatching {

@@ -1,8 +1,9 @@
 package com.thelazybattley.domain.local
 
 import com.thelazybattley.domain.model.QuizResult
+import kotlinx.coroutines.flow.Flow
 
 interface GetAllQuizResultsUseCase {
 
-    suspend operator fun invoke() : Result<List<QuizResult>>
+    suspend operator fun invoke() : Flow<Result<List<QuizResult>>>
 }

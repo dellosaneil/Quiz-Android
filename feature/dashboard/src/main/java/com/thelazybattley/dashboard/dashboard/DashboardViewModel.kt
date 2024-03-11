@@ -25,14 +25,13 @@ class DashboardViewModel @Inject constructor(
     override fun initialState() = DashboardUiState()
 
     init {
+        getAllQuizCategories()
+        getAllQuizResults()
+    }
+
+    private fun getAllQuizCategories() {
         QuizType.entries.forEach { quizType ->
             viewModelScope.launch(context = dispatcher) {
-                val isNotEmpty = getCategoriesDetails(
-                    quizType = quizType
-                )
-                if (isNotEmpty) {
-                    return@launch
-                }
                 fetchAllQuestionsUseCase(
                     quizType = quizType
                 ).fold(
@@ -52,21 +51,23 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    override fun getAllQuizResults() {
+    private fun getAllQuizResults() {
         viewModelScope.launch(context = dispatcher) {
             getAllQuizResultsUseCase()
-                .fold(
-                    onSuccess = { results ->
-                        updateState { state ->
-                            state.copy(
-                                quizResults = results
-                            )
-                        }
-                    },
-                    onFailure = {
+                .collect { result ->
+                    result.fold(
+                        onSuccess = { results ->
+                            updateState { state ->
+                                state.copy(
+                                    quizResults = results
+                                )
+                            }
+                        },
+                        onFailure = {
 
-                    }
-                )
+                        }
+                    )
+                }
         }
     }
 

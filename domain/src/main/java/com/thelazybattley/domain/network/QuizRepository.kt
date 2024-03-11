@@ -5,6 +5,7 @@ import com.thelazybattley.common.model.Question
 import com.thelazybattley.common.model.QuizDetailsState
 import com.thelazybattley.domain.model.QuizResult
 import com.thelazybattley.domain.model.ReportedQuestion
+import kotlinx.coroutines.flow.Flow
 
 interface QuizRepository {
 
@@ -39,7 +40,7 @@ interface QuizRepository {
         quizType: QuizType
     ): Result<List<Question>>
 
-    suspend fun getAllQuizResult(): Result<List<QuizResult>>
+    suspend fun getAllQuizResult(): Flow<Result<List<QuizResult>>>
 
     suspend fun clearAllQuizResult(): Result<Unit>
 
