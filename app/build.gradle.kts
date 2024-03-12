@@ -6,6 +6,20 @@ plugins {
     kotlin("kapt")
 }
 
+
+val versionMajor = 1
+val versionMinor = 0
+val versionPatch = 0
+
+fun versionNameGradle(): String {
+    return "${versionMajor}.${versionMinor}.${versionPatch}"
+}
+
+fun versionCodeGradle(): Int {
+    return versionMajor * 10000 + versionMinor * 100 + versionPatch
+}
+
+
 android {
     namespace = "com.thelazybattley.joserizalquiz"
     compileSdk = 34
@@ -14,8 +28,8 @@ android {
         applicationId = "com.thelazybattley.joserizalquiz"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = versionCodeGradle()
+        versionName = versionNameGradle()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
