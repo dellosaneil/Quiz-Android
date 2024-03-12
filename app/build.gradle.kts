@@ -75,6 +75,8 @@ dependencies {
     implementation(libs.gson)
     implementation(platform(libs.firestore.bom))
     implementation(libs.firebase.firestore)
+    implementation(libs.app.update)
+    implementation(libs.app.update.ktx)
 
 }
 
