@@ -70,6 +70,9 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    packaging {
+        resources.merges.add("/META-INF/*.kotlin_module")
+    }
 }
 
 dependencies {
@@ -90,7 +93,7 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.navigation.compose)
-    debugImplementation(libs.timber)
+    implementation(libs.timber)
     implementation(libs.gson)
     implementation(platform(libs.firestore.bom))
     implementation(libs.firebase.firestore)

@@ -90,7 +90,7 @@ class QuizRepositoryImpl @Inject constructor(
         document
             .collection("report")
             .document(quizType.type)
-            .update(mapOf("questions" to updatedReportedQuestions))
+            .set(mapOf("questions" to updatedReportedQuestions))
             .await()
     }
 
@@ -173,7 +173,7 @@ class QuizRepositoryImpl @Inject constructor(
     override suspend fun getAllQuizResult(): Flow<Result<List<QuizResult>>> = run {
         quizResultDao
             .getAll()
-            .map { entity: List<QuizResultEntity> ->
+            .map { entity ->
                 entity.map { result ->
                     val category =
                         if (result.questions.all { it.category == result.questions.first().category }) {

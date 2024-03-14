@@ -61,6 +61,6 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.navigation)
-    debugImplementation(libs.timber)
+    implementation(libs.timber)
     implementation(libs.gson)
 }

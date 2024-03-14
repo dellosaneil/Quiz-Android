@@ -30,24 +30,23 @@ class DashboardViewModel @Inject constructor(
     }
 
     private fun getAllQuizCategories() {
-        QuizType.entries.forEach { quizType ->
-            viewModelScope.launch(context = dispatcher) {
-                fetchAllQuestionsUseCase(
-                    quizType = quizType
-                ).fold(
-                    onSuccess = { questions ->
-                        insertAllQuestionsUseCase(questions = questions)
-                        getCategoriesDetails(
-                            quizType = quizType
-                        )
-                    },
-                    onFailure = {
-                        getCategoriesDetails(
-                            quizType = quizType
-                        )
-                    }
-                )
-            }
+        val quizType = QuizType.LIFE_OF_RIZAL
+        viewModelScope.launch(context = dispatcher) {
+            fetchAllQuestionsUseCase(
+                quizType = quizType
+            ).fold(
+                onSuccess = { questions ->
+                    insertAllQuestionsUseCase(questions = questions)
+                    getCategoriesDetails(
+                        quizType = quizType
+                    )
+                },
+                onFailure = {
+                    getCategoriesDetails(
+                        quizType = quizType
+                    )
+                }
+            )
         }
     }
 
@@ -56,10 +55,10 @@ class DashboardViewModel @Inject constructor(
             getAllQuizResultsUseCase()
                 .collect { result ->
                     result.fold(
-                        onSuccess = { results ->
+                        onSuccess = { quizResults ->
                             updateState { state ->
                                 state.copy(
-                                    quizResults = results
+                                    quizResults = quizResults
                                 )
                             }
                         },
