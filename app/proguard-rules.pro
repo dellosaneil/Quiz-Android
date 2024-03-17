@@ -54,4 +54,4 @@
 
 ##---------------End: proguard configuration for Gson  ----------
 
--keep class com.thelazybattley.domain.model.ReportedQuestion
+-keep class com.thelazybattley.domain.model.ReportedQuestion { *; }

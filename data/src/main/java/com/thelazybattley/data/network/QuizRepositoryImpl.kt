@@ -80,7 +80,9 @@ class QuizRepositoryImpl @Inject constructor(
         quizType: QuizType
     ): Result<Unit> = runCatching {
         val updatedReportedQuestions =
-            fetchReportedQuestions(quizType = quizType).getOrThrow().toMutableList()
+            fetchReportedQuestions(quizType = quizType)
+                .getOrThrow()
+                .toMutableList()
         val reportedQuestion = ReportedQuestion(
             questionId = questionId,
             question = question,
