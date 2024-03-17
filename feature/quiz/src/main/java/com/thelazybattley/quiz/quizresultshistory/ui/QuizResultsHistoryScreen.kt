@@ -29,6 +29,7 @@ import com.thelazybattley.common.components.CommonTopBar
 import com.thelazybattley.common.enums.QuizType
 import com.thelazybattley.common.model.AppScreens
 import com.thelazybattley.common.ui.theme.QuizAndroidTheme
+import com.thelazybattley.domain.mapper.toQuizDetailsState
 import com.thelazybattley.domain.model.QuizResult
 import com.thelazybattley.quiz.R
 import com.thelazybattley.quiz.quizresultshistory.QuizResultsHistoryCallbacks
@@ -99,7 +100,7 @@ fun QuizResultsHistoryScreen(
                         modifier = Modifier,
                         quizResult = result
                     ) {
-                        val json = Uri.encode(Gson().toJson(result))
+                        val json = Uri.encode(Gson().toJson(result.toQuizDetailsState))
                         navigate(AppScreens.ReviewScreen.args(json), null)
                     }
                     Spacer(modifier = Modifier.height(8.dp))
