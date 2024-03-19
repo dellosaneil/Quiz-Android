@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface GetAllQuizResultsUseCase {
 
-    suspend operator fun invoke() : Flow<Result<List<QuizResult>>>
+    suspend operator fun invoke() : Result<Flow<List<QuizResult>>>
 }

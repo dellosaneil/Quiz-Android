@@ -53,20 +53,20 @@ class DashboardViewModel @Inject constructor(
     private fun getAllQuizResults() {
         viewModelScope.launch(context = dispatcher) {
             getAllQuizResultsUseCase()
-                .collect { result ->
-                    result.fold(
-                        onSuccess = { quizResults ->
+                .fold(
+                    onSuccess = { flow ->
+                        flow.collect { quizResults ->
                             updateState { state ->
                                 state.copy(
                                     quizResults = quizResults
                                 )
                             }
-                        },
-                        onFailure = {
-
                         }
-                    )
-                }
+                    },
+                    onFailure = {
+
+                    }
+                )
         }
     }
 

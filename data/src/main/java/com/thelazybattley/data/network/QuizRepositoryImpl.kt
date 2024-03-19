@@ -172,7 +172,7 @@ class QuizRepositoryImpl @Inject constructor(
             filteredQuestions.distinct().take(n = count)
         }
 
-    override suspend fun getAllQuizResult(): Flow<Result<List<QuizResult>>> = run {
+    override suspend fun getAllQuizResult(): Result<Flow<List<QuizResult>>> = runCatching {
         quizResultDao
             .getAll()
             .map { entity ->
@@ -199,7 +199,7 @@ class QuizRepositoryImpl @Inject constructor(
                     )
                 }
             }
-            .map { Result.success(it.asReversed()) }
+            .map { it.asReversed() }
 
     }
 
