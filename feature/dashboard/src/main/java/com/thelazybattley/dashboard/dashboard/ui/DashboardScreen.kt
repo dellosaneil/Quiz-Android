@@ -91,7 +91,8 @@ fun DashboardScreen(
 
                 DashboardLabel(
                     modifier = Modifier,
-                    label = stringResource(R.string.life_of_rizal_quiz)
+                    label = stringResource(R.string.life_of_rizal_quiz),
+                    showSeeAll = uiState.lifeOfRizalCategories.isNotEmpty()
                 ) {
                     navigate(
                         AppScreens.QuizConfigScreen.args(
@@ -113,7 +114,8 @@ fun DashboardScreen(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 DashboardLabel(
-                    label = stringResource(R.string.noli_me_tangere_quiz)
+                    label = stringResource(R.string.noli_me_tangere_quiz),
+                    showSeeAll = uiState.noliCategories.isNotEmpty()
                 ) {
                     navigate(
                         AppScreens.QuizConfigScreen.args(
@@ -137,15 +139,17 @@ fun DashboardScreen(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 DashboardLabel(
-                    label = stringResource(R.string.el_filibusterismo_quiz)
-                ) {
-                    navigate(
-                        AppScreens.QuizConfigScreen.args(
-                            category = null,
-                            type = QuizType.EL_FILI.type
-                        ), null
-                    )
-                }
+                    label = stringResource(R.string.el_filibusterismo_quiz),
+                    showSeeAll = uiState.elFiliCategories.isNotEmpty(),
+                    onClick = {
+                        navigate(
+                            AppScreens.QuizConfigScreen.args(
+                                category = null,
+                                type = QuizType.EL_FILI.type
+                            ), null
+                        )
+                    }
+                )
                 if (uiState.elFiliCategories.isNotEmpty()) {
                     DashboardQuizItems(
                         categories = uiState.elFiliCategories,
@@ -162,9 +166,13 @@ fun DashboardScreen(
                 }
 
                 if (uiState.quizResults.isNotEmpty()) {
-                    DashboardLabel(label = stringResource(R.string.review_previous_quiz_result)) {
-                        navigate(AppScreens.QuizResultsHistoryScreen.route, null)
-                    }
+                    DashboardLabel(
+                        showSeeAll = true,
+                        label = stringResource(R.string.review_previous_quiz_result),
+                        onClick = {
+                            navigate(AppScreens.QuizResultsHistoryScreen.route, null)
+                        }
+                    )
                     LazyRow {
                         items(items = uiState.quizResults) { result ->
                             DashboardItem(
@@ -191,7 +199,10 @@ fun DashboardScreen(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 if (BuildConfig.DEBUG) {
-                    DashboardLabel(label = stringResource(R.string.admin))
+                    DashboardLabel(
+                        label = stringResource(R.string.admin),
+                        showSeeAll = false
+                    )
                     LazyRow {
                         item {
                             DashboardItem(

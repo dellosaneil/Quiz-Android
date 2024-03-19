@@ -24,6 +24,7 @@ import com.thelazybattley.dashboard.R
 fun DashboardLabel(
     modifier: Modifier = Modifier,
     label: String,
+    showSeeAll: Boolean,
     onClick: (() -> Unit)? = null
 ) {
     Row(
@@ -45,7 +46,7 @@ fun DashboardLabel(
                 .height(16.dp)
                 .weight(1f)
         )
-        if(onClick != null) {
+        if(onClick != null && showSeeAll) {
             Text(
                 text = stringResource(R.string.see_all),
                 style = textStyle.poppins.copy(
@@ -66,8 +67,10 @@ fun DashboardLabel(
 @Composable
 private fun PreviewDashboardLabel() {
     DashboardLabel(
-        label = stringResource(R.string.life_of_rizal_quiz)
-    ) {
+        label = stringResource(R.string.life_of_rizal_quiz),
+        onClick = {
 
-    }
+        },
+        showSeeAll = true
+    )
 }
