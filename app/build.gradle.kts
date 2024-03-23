@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.google.services)
+    id("com.google.firebase.crashlytics")
     kotlin("kapt")
 }
 
@@ -96,8 +97,8 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.gson)
     implementation(platform(libs.firestore.bom))
-    implementation(libs.firebase.firestore)
     implementation(libs.app.update)
+    implementation(libs.bundles.firebase)
     implementation(libs.app.update.ktx)
 
 }
